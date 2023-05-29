@@ -1,0 +1,9 @@
+.about-project__container {
+    margin-top: 70px;
+    margin-bottom: 110px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 26px;
+    column-gap: 40px;
+}

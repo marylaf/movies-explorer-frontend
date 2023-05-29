@@ -1,0 +1,12 @@
+.portfolio__title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: #A0A0A0;
+    mix-blend-mode: normal;
+    margin: 0;
+    padding-top: 101px;
+    padding-bottom: 50px;
+}

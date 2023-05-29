@@ -1,0 +1,6 @@
+.about-project__table {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: repeat(2, 1fr);;
+    row-gap: 14px;
+}

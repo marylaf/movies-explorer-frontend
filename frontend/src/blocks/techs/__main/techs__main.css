@@ -1,0 +1,13 @@
+.techs__main {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #000000;
+    margin: 0;
+    padding-top: 90px;
+    padding-bottom: 26px;
+}

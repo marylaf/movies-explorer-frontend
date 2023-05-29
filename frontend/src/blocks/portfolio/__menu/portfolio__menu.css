@@ -1,0 +1,12 @@
+.portfolio__menu {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.portfolio__menu:last-child {
+    border-bottom: none;;
+}

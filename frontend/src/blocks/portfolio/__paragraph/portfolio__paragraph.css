@@ -1,0 +1,17 @@
+.portfolio__paragraph {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    letter-spacing: -0.04em;
+    color: #000000;
+    margin: 0;
+    text-decoration: none;
+    padding-bottom: 19px;
+}
+
+.portfolio__paragraph:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}

@@ -1,0 +1,13 @@
+.about-me__paragraph {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #000000;
+    mix-blend-mode: normal;
+    padding-top: 26px;
+    padding-bottom: 79px;
+    margin: 0;
+    max-width: 600px;
+}
