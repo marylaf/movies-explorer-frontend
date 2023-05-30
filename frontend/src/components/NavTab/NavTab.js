@@ -10,7 +10,7 @@ function NavTab() {
             <a className="navTab__link" href="#section2">Технологии</a>
           </li>
           <li>
-            <a className="navTab__link" href="#section1">Студент</a>
+            <a className="navTab__link" href="#section3">Студент</a>
           </li>
         </ul>
       </nav>
