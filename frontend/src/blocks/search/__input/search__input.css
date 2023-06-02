@@ -1,0 +1,16 @@
+.search__input {
+    min-width: 100%;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 63px;
+    background: #F9F9F9;
+    border-radius: 9px;
+    border: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: #A0A0A0;
+    box-sizing: border-box;
+}

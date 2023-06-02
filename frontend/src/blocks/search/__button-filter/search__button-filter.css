@@ -1,0 +1,11 @@
+.search__button-filter {
+    padding: 0;
+    border: none;
+    display: flex;
+    background: none;
+    position: absolute;
+    margin-left: 29px;
+    margin-right: 30px;
+    right: 0;
+    top: 26px;
+}

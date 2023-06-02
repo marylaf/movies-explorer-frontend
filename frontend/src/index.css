@@ -48,3 +48,20 @@
 @import url(./blocks/portfolio/__title/portfolio__title.css);
 @import url(./blocks/portfolio/__menu/portfolio__menu.css);
 @import url(./blocks/portfolio/__paragraph/portfolio__paragraph.css);
+
+@import url(./blocks/search/search.css);
+@import url(./blocks/search/__button-filter/search__button-filter.css);
+@import url(./blocks/search/__icon-find/search__icon-find.css);
+@import url(./blocks/search/__input/search__input.css);
+@import url(./blocks/search/__name/search__name.css);
+@import url(./blocks/search/__submit/search__submit.css);
+@import url(./blocks/search/__container/search__container.css);
+
+@import url(./blocks/movies/movies.css);
+
+@import url(./blocks/header-auth/header-auth.css);
+@import url(./blocks/header-auth/__account/header-auth__account.css);
+@import url(./blocks/header-auth/_type/header-auth_type_saved.css);
+
+@import url(./blocks/preloader/preloader.css);
+@import url(./blocks/preloader/__paragraph/preloader__paragraph.css);

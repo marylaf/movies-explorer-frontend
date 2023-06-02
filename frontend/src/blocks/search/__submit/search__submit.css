@@ -1,0 +1,12 @@
+.search__submit {
+    min-width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    background: none;
+    padding-right: 29px;
+    border-right: 1px solid #E8E8E8;
+    position: absolute;
+    right: 226px;
+    top: 19px;
+}
