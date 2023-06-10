@@ -1,0 +1,9 @@
+.card__save-button {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 11px;
+    color: #000000;
+    background: #F9F9F9;
+}

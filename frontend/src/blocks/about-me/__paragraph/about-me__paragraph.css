@@ -11,3 +11,13 @@
     margin: 0;
     max-width: 600px;
 }
+
+@media screen and (max-width: 768px) {
+    .about-me__paragraph {
+        padding-top: 20px;
+        padding-bottom: 60px;
+        font-size: 12px;
+        line-height: 18px;
+        max-width: 364px;
+    }
+  }

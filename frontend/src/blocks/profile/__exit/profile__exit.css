@@ -1,0 +1,12 @@
+.profile__exit {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #FF4062;
+    margin: 0;
+    text-decoration: none;
+    display: block;
+}

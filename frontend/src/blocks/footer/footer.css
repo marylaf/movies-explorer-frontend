@@ -6,3 +6,15 @@
   padding-bottom: 20px;
   box-sizing: border-box;
 }
+
+@media screen and (max-width: 1140px) {
+  .footer {
+      max-width: 768px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+      max-width: 668px;
+  }
+}

@@ -8,3 +8,10 @@
     mix-blend-mode: normal;
     margin: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .about-me__title {
+    font-size: 12px;
+    line-height: 18px;
+    }
+  }

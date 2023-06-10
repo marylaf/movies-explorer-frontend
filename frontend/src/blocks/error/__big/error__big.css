@@ -1,0 +1,25 @@
+.error__big {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 140px;
+    line-height: 169px;
+    text-align: center;
+    color: #000000;
+    margin: 0;
+    padding-top: 246px;
+}
+
+@media screen and (max-width: 768px) {
+    .error__big {
+        padding-top: 408px;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .error__big {
+        font-size: 80px;
+        line-height: 97px;
+        padding-top: 329px;
+    }
+  }

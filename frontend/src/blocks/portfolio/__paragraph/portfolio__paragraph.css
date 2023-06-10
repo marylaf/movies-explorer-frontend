@@ -10,3 +10,9 @@
     text-decoration: none;
     padding-bottom: 19px;
 }
+
+@media screen and (max-width: 768px) {
+    .portfolio__paragraph {
+        font-size: 28px;
+    }
+  }

@@ -1,0 +1,20 @@
+@media screen and (max-width: 768px) {
+	.burger-menu__link {
+		color:#fff;
+		font-size: 18px;
+		line-height: 22px;	
+        text-decoration: none;
+		font-family: 'Inter';
+		color: #000000;
+
+    }
+
+	.burger-menu__link:hover {
+		opacity: 80%;
+	}
+
+	.burger-menu__link_active {
+		padding-bottom: 4px;
+		border-bottom: 2px solid #000000;
+	}
+}

@@ -10,3 +10,11 @@
     padding-top: 66px;
     padding-bottom: 18px;
 }
+
+@media screen and (max-width: 768px) {
+    .about-me__main {
+        padding-bottom: 16px;
+        font-size: 40px;
+        line-height: 40px;
+    }
+  }

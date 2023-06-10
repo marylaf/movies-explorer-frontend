@@ -7,7 +7,9 @@ function HeaderAuth() {
   return (
     <header className="header header-auth">
       <div className='header__container'>
+      <Link to="/">
       <img className="header__logo" src={logo} alt="Логотип" />
+      </Link>
       <div className="header__info-container">
             <Link to="/movies" className="header__link">
             Фильмы
@@ -27,6 +29,7 @@ function HeaderAuth() {
             <img src={profile} alt="Аккаунт" />
             </Link>
       </div>
+      <button className="header-auth__burger"></button>
       </div>
     </header>
   );

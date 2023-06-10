@@ -6,3 +6,11 @@
     top: 227px;
     border-radius: 10px;
 }
+
+@media screen and (max-width: 768px) {
+    .about-me__photo {
+        width: 255px;
+        height: 307px;
+        top: 207px;
+    }
+  }

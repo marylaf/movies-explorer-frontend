@@ -5,3 +5,10 @@
     margin-bottom: 122px;
     
 }
+
+@media screen and (max-width: 768px) {
+    .promo__picture {
+        margin-top: 224px;
+        margin-bottom: 240px;
+    }
+  }

@@ -13,3 +13,10 @@
     padding-top: 184px;
     padding-bottom: 224px;
 }
+
+@media screen and (max-width: 768px) {
+    .promo__title {
+        padding-top: 326px;
+        padding-bottom: 342px;
+    }
+  }

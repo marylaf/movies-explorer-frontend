@@ -5,6 +5,7 @@ import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import HeaderMain from "../HeaderMain/HeaderMain";
+import Footer from "../Footer/Footer";
 import React from "react";
 
 function Main() {
@@ -18,6 +19,7 @@ function Main() {
     <Techs />
     <AboutMe />
     <Portfolio />
+    <Footer />
   </>
   );
 }

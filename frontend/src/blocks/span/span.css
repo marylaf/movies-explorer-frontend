@@ -1,0 +1,13 @@
+.span {
+  min-height: 35px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  margin-top: 10px;
+}

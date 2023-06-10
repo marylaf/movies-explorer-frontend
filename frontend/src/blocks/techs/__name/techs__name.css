@@ -21,3 +21,12 @@
 .techs__name:last-of-type {
     margin-right: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .techs__name {
+        width: 84px;
+        height: 57px;   
+        font-size: 12px;
+        line-height: 15px;
+    }
+  }

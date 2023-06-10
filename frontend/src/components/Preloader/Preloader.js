@@ -1,7 +1,7 @@
 function Preloader() {
     return(
         <section className="preloader">
-            <p className="preloader__paragraph">Ещё</p>
+            <button className="preloader__paragraph">Ещё</button>
         </section>
     );
 }

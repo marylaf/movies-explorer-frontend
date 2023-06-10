@@ -1,0 +1,30 @@
+.burger-menu {
+	display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .burger-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: visibility .4s, opacity .4s linear;
+	}
+    .burger-menu_opened {
+      opacity: 1;
+      visibility: visible;
+      transition: visibility .4s, opacity .4s linear;
+    }
+    }
+
+  @media screen and (max-width: 320px) {
+    .burger-menu {
+          justify-content: center;
+      }
+	}

@@ -3,3 +3,17 @@
     max-width: 1140px;
     padding: 100px 0;
 }
+
+@media screen and (max-width: 1140px) {
+    .techs__container {
+        max-width: 768px;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .techs__container {
+        max-width: 668px;
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+  }

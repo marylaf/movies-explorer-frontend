@@ -1,0 +1,18 @@
+.profile__paragraph {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #000000;
+    margin: 0;
+    padding-top: 204px;
+    padding-bottom: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    .profile__paragraph {
+        padding-top: 2px;
+    }
+  }

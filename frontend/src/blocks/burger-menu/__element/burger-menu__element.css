@@ -1,0 +1,9 @@
+@media screen and (max-width: 768px) {
+	.burger-menu__element {
+		margin-bottom: 28px;
+	}
+
+    .burger-menu__element:last-child {
+		margin-bottom: 0;
+	}
+}

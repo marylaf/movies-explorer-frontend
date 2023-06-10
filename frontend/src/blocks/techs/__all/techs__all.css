@@ -3,4 +3,11 @@
     justify-content: center;
     margin-top: 100px;
     padding: 0;
+    margin-bottom: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .techs__all {
+        margin-top: 93px;
+    }
+  }

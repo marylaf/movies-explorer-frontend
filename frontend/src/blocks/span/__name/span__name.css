@@ -1,0 +1,11 @@
+.span__name {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #A0A0A0;
+    padding-bottom: 10px;
+    text-align: start;
+    min-width: 100%;
+}

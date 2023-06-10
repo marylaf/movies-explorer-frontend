@@ -3,3 +3,16 @@
     margin: 0 auto;
     margin-bottom: 106px;
 }
+
+@media screen and (max-width: 1140px) {
+    .portfolio {
+        max-width: 768px;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .portfolio {
+        max-width: 668px;
+        margin-bottom: 90px;
+    }
+  }

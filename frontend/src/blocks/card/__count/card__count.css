@@ -1,0 +1,10 @@
+.card__count {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #A0A0A0;
+    margin: 0;
+}
