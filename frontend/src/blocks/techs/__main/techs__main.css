@@ -18,3 +18,12 @@
         padding-bottom: 22px;
     }
   }
+
+  @media screen and (max-width: 450px) {
+    .techs__main  {
+        font-size: 30px;
+        line-height: 36px;
+        padding-top: 60px;
+        padding-bottom: 24px;
+    }
+  }

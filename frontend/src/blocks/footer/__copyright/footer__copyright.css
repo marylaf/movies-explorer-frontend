@@ -9,11 +9,20 @@
   margin: 0;
 }
 
-@media screen and (max-width: 768px) {
-  .footer__copyright {
-  }
-}
-
 .footer__copyright:last-child {
   padding-left: 20px;
 }
+
+@media screen and (max-width: 450px) {
+  .footer__copyright {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .footer__copyright:last-child {
+    padding-top: 12px;
+    padding-bottom: 30px;
+    padding-left: 35px;
+  }
+}
+

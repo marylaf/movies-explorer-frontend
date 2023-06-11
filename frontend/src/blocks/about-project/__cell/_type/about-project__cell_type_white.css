@@ -3,3 +3,9 @@
     padding: 9px 0;
     background: #000000;
 }
+
+@media screen and (max-width: 450px) {
+    .about-project__cell_type_white {
+        padding: 11px 0;
+    }
+  }

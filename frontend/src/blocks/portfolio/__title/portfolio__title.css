@@ -16,3 +16,11 @@
         padding-top: 0;
     }
   }
+
+  @media screen and (max-width: 450px) {
+    .portfolio__title {
+        font-size: 14px;
+        line-height: 20px;
+        padding-bottom: 40px;
+    }
+  }

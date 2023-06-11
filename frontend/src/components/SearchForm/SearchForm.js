@@ -10,10 +10,6 @@ function SearchForm() {
 
     const handleFilterClick = () => {
         setIsFilter(!isFilter);
-
-        setTimeout(() => {
-            setIsFilter(!isFilter);
-    }, 1000); // Задержка в 1 секунду
   };
 
     return(

@@ -20,3 +20,17 @@
         padding-bottom: 90px;
     }
   }
+
+  @media screen and (max-width: 667px) {
+    .about-project {
+        max-width: 450px;
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .about-project {
+        max-width: 284px;
+    }
+  }

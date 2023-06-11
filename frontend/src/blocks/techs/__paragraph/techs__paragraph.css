@@ -17,3 +17,10 @@
         line-height: 18px;   
     }
   }
+
+  @media screen and (max-width: 450px) {
+    .techs__paragraph  {
+        font-size: 11px;
+        line-height: 16px;
+    }
+  }

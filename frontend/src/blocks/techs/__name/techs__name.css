@@ -30,3 +30,9 @@
         line-height: 15px;
     }
   }
+
+  @media screen and (max-width: 450px) {
+    .techs__name  {
+        margin-right: 0;
+    }
+}

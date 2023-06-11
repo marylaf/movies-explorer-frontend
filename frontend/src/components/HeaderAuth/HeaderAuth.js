@@ -10,7 +10,7 @@ function HeaderAuth() {
       <Link to="/">
       <img className="header__logo" src={logo} alt="Логотип" />
       </Link>
-      <div className="header__info-container">
+      <div className="header__info-container header__info-burger">
             <Link to="/movies" className="header__link">
             Фильмы
             </Link>
@@ -20,7 +20,7 @@ function HeaderAuth() {
             </Link>
       </div>
 
-      <div className="header__info-container">
+      <div className="header__info-container header__info-burger">
             <Link to="/profile" className="header__link">
             Аккаунт
             </Link>

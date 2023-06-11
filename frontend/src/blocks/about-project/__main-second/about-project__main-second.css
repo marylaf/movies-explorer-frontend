@@ -1,0 +1,6 @@
+@media screen and (max-width: 450px) {
+    .about-project__main-second {
+        grid-row: 3; 
+        padding-top: 56px;
+    }
+  }

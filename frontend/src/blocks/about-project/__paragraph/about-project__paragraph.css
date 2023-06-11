@@ -7,3 +7,11 @@
     line-height: 20px;
     color: #000000;
 }
+
+@media screen and (max-width: 450px) {
+    .about-project__paragraph {
+        font-size: 11px;
+        line-height: 16px;
+        padding-top: 16px;
+    }
+  }

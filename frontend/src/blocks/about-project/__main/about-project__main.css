@@ -8,3 +8,11 @@
     letter-spacing: -0.04em;
     color: #000000;
 }
+
+@media screen and (max-width: 450px) {
+    .about-project__main {
+        grid-row: 1;
+        font-size: 18px;
+        line-height: 22px;
+    }
+  }

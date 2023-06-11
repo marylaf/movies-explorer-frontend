@@ -8,3 +8,10 @@
     margin: 0;
     padding-right: 40px;
 }
+
+@media screen and (max-width: 450px) {
+    .navTab__link {
+        font-size: 11px;
+        padding-right: 24px;
+    }
+  }

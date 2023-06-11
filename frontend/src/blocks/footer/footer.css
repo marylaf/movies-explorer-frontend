@@ -18,3 +18,15 @@
       max-width: 668px;
   }
 }
+
+@media screen and (max-width: 667px) {
+  .footer {
+      max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .footer {
+      max-width: 284px;
+  }
+}

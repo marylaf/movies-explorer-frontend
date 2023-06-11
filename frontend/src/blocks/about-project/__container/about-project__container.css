@@ -7,3 +7,14 @@
     row-gap: 26px;
     column-gap: 40px;
 }
+
+
+@media screen and (max-width: 450px) {
+    .about-project__container {
+        grid-template-columns: 1fr;
+        row-gap: 0;
+        column-gap: 0;
+        margin-top: 60px;
+        margin-bottom: 60px;
+    }
+  }

@@ -18,3 +18,12 @@
         line-height: 40px;
     }
   }
+
+  @media screen and (max-width: 450px) {
+    .about-me__main {
+        padding-top: 452px;
+        padding-bottom: 20px;
+        font-size: 30px;
+        line-height: 36px;
+    }
+  }

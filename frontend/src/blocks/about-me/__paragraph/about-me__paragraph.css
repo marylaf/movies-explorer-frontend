@@ -12,12 +12,33 @@
     max-width: 600px;
 }
 
+@media screen and (max-width: 1140px) {
+    .about-me__paragraph {
+       max-width: 400px;
+    }
+  }
+
 @media screen and (max-width: 768px) {
     .about-me__paragraph {
         padding-top: 20px;
         padding-bottom: 60px;
         font-size: 12px;
         line-height: 18px;
+        max-width: 364px;
+    }
+  }
+
+  @media screen and (max-width: 1140px) {
+    .about-me__paragraph {
+       max-width: 150px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .about-me__paragraph {
+        padding-bottom: 40px;
+        font-size: 11px;
+        line-height: 16px;
         max-width: 364px;
     }
   }
