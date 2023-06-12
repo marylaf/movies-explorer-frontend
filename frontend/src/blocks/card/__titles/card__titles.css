@@ -3,3 +3,9 @@
    display: flex;
    justify-content: space-between;
 }
+
+@media screen and (max-width: 709px) {
+   .card__titles {
+      padding: 14px;
+   }
+ }

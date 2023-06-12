@@ -15,3 +15,9 @@
     background: none;
     cursor: pointer;
 }
+
+@media screen and (max-width: 709px) {
+    .preloader__paragraph {
+        width: 240px;
+    }
+  }

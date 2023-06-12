@@ -8,3 +8,10 @@
     color: #A0A0A0;
     margin: 0;
 }
+
+@media screen and (max-width: 709px) {
+    .card__count {
+        font-size: 10px;
+        line-height: 18px;
+    }
+  }

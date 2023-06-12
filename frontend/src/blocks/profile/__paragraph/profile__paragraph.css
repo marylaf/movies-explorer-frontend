@@ -13,6 +13,14 @@
 
 @media screen and (max-width: 768px) {
     .profile__paragraph {
-        padding-top: 2px;
+        padding-top: 210px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .profile__paragraph {
+        padding-top: 379px;
+        font-size: 12px;
+        line-height: 15px;
     }
   }

@@ -3,7 +3,7 @@ import profile from "../../images/profile.svg";
 
 function BurgerMenu() {
 	return (
-		<section className="burger-menu">
+		<section className="burger-menu burger-menu_opened">
 			<nav className="burger-menu__container">
 				<button className="burger-menu__close"></button>
 				<ul className="burger-menu__links">

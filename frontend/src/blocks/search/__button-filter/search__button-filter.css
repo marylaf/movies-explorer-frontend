@@ -9,3 +9,23 @@
     right: 0;
     top: 26px;
 }
+
+@media screen and (max-width: 709px) {
+    .search__button-filter {
+        right: 37%;
+        top: 117px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 668px) {
+    .search__button-filter {
+        right: 27%;
+        top: 117px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+  }
+
+  

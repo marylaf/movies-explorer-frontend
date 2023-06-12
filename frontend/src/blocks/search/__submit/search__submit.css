@@ -13,3 +13,14 @@
     top: 16px;
     box-sizing: content-box;
 }
+
+@media screen and (max-width: 709px) {
+    .search__submit {
+        right: 0;
+        top: 19px;
+        padding-right: 19px;
+        border-right: none;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+  }

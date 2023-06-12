@@ -5,6 +5,11 @@
 @media screen and (max-width: 1140px) {
     .card__image {
         max-width: 342px;
+    }
+  }
 
+  @media screen and (max-width: 709px) {
+    .card__image {
+        max-width: 300px;
     }
   }

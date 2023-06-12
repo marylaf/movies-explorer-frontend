@@ -10,3 +10,10 @@
   margin: 0 auto;
   color: #000000;
 }
+
+@media screen and (max-width: 450px) {
+  .login__welcome {
+    padding-top: 50px;
+    padding-bottom: 80px;
+  }
+}

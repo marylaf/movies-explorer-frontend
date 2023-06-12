@@ -3,3 +3,10 @@
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (max-width: 450px) {
+  .login__form {
+    max-width: 260px;
+    margin: 0 auto;
+  }
+}
