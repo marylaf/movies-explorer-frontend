@@ -1,7 +1,6 @@
 .login__info {
   min-width: 100%;
-  font-family: "Inter";
-  font-style: normal;
+  font-family: "Inter", "Arial", sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
