@@ -6,8 +6,10 @@
     align-items: baseline;
     border-bottom: 1px solid #E8E8E8;
     text-decoration: none;
+    margin-bottom: 20px;
 }
 
 .portfolio__menu:last-child {
-    border-bottom: none;;
+    border-bottom: none;
+    margin-bottom: 0;
 }

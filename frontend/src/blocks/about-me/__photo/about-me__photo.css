@@ -15,10 +15,17 @@
     }
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 690px) {
     .about-me__photo {
         width: 292px;
         height: 352px;
         top: 181px;
+        right: 60px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .about-me__photo {
+        right: 0;
     }
   }

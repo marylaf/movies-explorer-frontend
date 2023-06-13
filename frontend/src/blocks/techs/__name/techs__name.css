@@ -30,7 +30,7 @@
     }
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 690px) {
     .techs__name  {
         margin-right: 0;
     }

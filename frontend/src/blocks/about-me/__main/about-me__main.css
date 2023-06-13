@@ -18,7 +18,7 @@
     }
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 690px) {
     .about-me__main {
         padding-top: 452px;
         padding-bottom: 20px;

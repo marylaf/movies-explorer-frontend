@@ -4,9 +4,9 @@
     margin-bottom: 106px;
 }
 
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1170px) {
     .portfolio {
-        max-width: 768px;
+        max-width: 700px;
     }
   }
 
@@ -17,15 +17,15 @@
     }
   }
 
-  @media screen and (max-width: 667px) {
+  @media screen and (max-width: 690px) {
     .portfolio {
-        max-width: 450px;
+        max-width: 400px;
     }
   }
 
   @media screen and (max-width: 450px) {
     .portfolio {
-        max-width: 284px;
+        max-width: 292px;
         margin-bottom: 70px;
     }
   }

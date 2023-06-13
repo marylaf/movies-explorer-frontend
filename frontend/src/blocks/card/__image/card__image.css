@@ -2,7 +2,7 @@
     display: block;
 }
 
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1170px) {
     .card__image {
         max-width: 342px;
     }

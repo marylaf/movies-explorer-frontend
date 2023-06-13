@@ -20,6 +20,22 @@
     }
   }
 
+  @media screen and (max-width: 720px) {
+    .promo__title {
+        max-width: 550px;
+        font-size: 40px;
+        line-height: 45px;
+    }
+  }
+
+  @media screen and (max-width: 560px) {
+    .promo__title {
+        max-width: 440px;
+        font-size: 40px;
+        line-height: 45px;
+    }
+  }
+
   @media screen and (max-width: 450px) {
     .promo__title {
         margin-top: 207px;

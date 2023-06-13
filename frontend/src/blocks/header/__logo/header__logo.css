@@ -3,7 +3,7 @@
   height: 38px;
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 320px) {
   .header__logo {
     display: flex;
     justify-content: center;

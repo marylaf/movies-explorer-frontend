@@ -10,5 +10,6 @@
     .login {
         margin-top: 56px;
         margin-bottom: 30px;
+        max-width: 280px;
     }
   }

@@ -7,26 +7,26 @@
     align-items: center;
   }
 
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1170px) {
     .header__container {
         max-width: 768px;
     }
   }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 780px) {
     .header__container {
         max-width: 668px;
         position: relative;
     }
   }
 
-  @media screen and (max-width: 667px) {
+  @media screen and (max-width: 680px) {
     .header__container {
         max-width: 450px;
     }
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 460px) {
     .header__container {
         max-width: 284px;
     }

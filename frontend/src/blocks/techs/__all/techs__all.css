@@ -13,7 +13,7 @@
   }
 
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 690px) {
     .techs__all  {
         margin-top: 50px;
         display: grid;
