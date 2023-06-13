@@ -5,7 +5,7 @@ function Promo() {
   
   return (
       <section className="promo">
-        <img className="promo__picture" src={promo} alt="рисунок буквы" />
+        <img className="promo__picture" src={promo} alt="Картинка Практикума" />
         <h1 className="promo__title">Учебный проект студентки факультета Веб-разработки.</h1>
       </section>
  );

@@ -12,6 +12,7 @@
     right: 226px;
     top: 16px;
     box-sizing: content-box;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 709px) {

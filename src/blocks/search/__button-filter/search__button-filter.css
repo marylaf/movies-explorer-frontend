@@ -8,6 +8,7 @@
     margin-right: 30px;
     right: 0;
     top: 26px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 709px) {

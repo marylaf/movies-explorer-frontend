@@ -11,16 +11,16 @@ import React from "react";
 function Main() {
   
   return (
-    <>
-    <HeaderMain />
-    <Promo />
-    <NavTab />
-    <AboutProject />
-    <Techs />
-    <AboutMe />
-    <Portfolio />
-    <Footer />
-  </>
+    <main>
+      <HeaderMain />
+      <Promo />
+      <NavTab />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
+      <Portfolio />
+      <Footer />
+    </main>
   );
 }
 
