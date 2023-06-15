@@ -2,6 +2,8 @@
 
 @import url(./vendor/fonts.css);
 
+@import url(./blocks/logo/logo.css);
+
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyright/footer__copyright.css);
 @import url(./blocks/footer/__info/footer__info.css);
@@ -11,7 +13,6 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__container/header__container.css);
-@import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/header/__link/header__link.css);
 @import url(./blocks/header/__link/_type/header__link_type_login.css);
 @import url(./blocks/header/__info-container/header__info-container.css);
@@ -30,7 +31,6 @@
 @import url(./blocks/about-project/__main/about-project__main.css);
 @import url(./blocks/about-project/__paragraph/about-project__paragraph.css);
 @import url(./blocks/about-project/__table/about-project_table.css);
-@import url(./blocks/about-project/__title/about-project__title.css);
 @import url(./blocks/about-project/__cell/_type/about-project__cell_type_black.css);
 @import url(./blocks/about-project/__cell/_type/about-project__cell_type_white.css);
 @import url(./blocks/about-project/__cell/_type/about-project__cell_type_grey.css);
@@ -46,7 +46,7 @@
 @import url(./blocks/about-me/__main/about-me__main.css);
 @import url(./blocks/about-me/__paragraph/about-me__paragraph.css);
 @import url(./blocks/about-me/__photo/about-me__photo.css);
-@import url(./blocks/about-me/__title/about-me__title.css);
+@import url(./blocks/about-me/__name/about-me__name.css);
 @import url(./blocks/about-me/__copyright/about-me__copyright.css);
 @import url(./blocks/about-me/about-me.css);
 
@@ -54,6 +54,8 @@
 @import url(./blocks/portfolio/__title/portfolio__title.css);
 @import url(./blocks/portfolio/__menu/portfolio__menu.css);
 @import url(./blocks/portfolio/__paragraph/portfolio__paragraph.css);
+
+@import url(./blocks/title/title.css);
 
 @import url(./blocks/search/search.css);
 @import url(./blocks/search/__button-filter/search__button-filter.css);
@@ -93,14 +95,15 @@
 @import url(./blocks/profile/__title/profile__title.css);
 
 @import url(./blocks/span/span.css);
-@import url(./blocks/span/__name/span__name.css);
 
 @import url(./blocks/login/login.css);
+@import url(./blocks/login/__name/login__name.css);
 @import url(./blocks/login/__button-save/login__button-save.css);
 @import url(./blocks/login/__form/login__form.css);
 @import url(./blocks/login/__info/login__info.css);
 @import url(./blocks/login/__paragraph/login__paragraph.css);
 @import url(./blocks/login/__welcome/login__welcome.css);
+@import url(./blocks/login/__welcome/_type/login__welcome_type_edit.css);
 @import url(./blocks/login/__paragraph/_type/login__paragraph_type_black.css);
 @import url(./blocks/login/__container-end/login__container-end.css);
 @import url(./blocks/login/__button-save/_type/login__button-save_type_bigger.css);

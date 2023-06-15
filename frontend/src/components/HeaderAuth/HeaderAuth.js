@@ -8,7 +8,7 @@ function HeaderAuth() {
     <header className="header header-auth">
       <div className='header__container'>
       <Link to="/">
-      <img className="header__logo" src={logo} alt="Логотип" />
+      <img className="logo" src={logo} alt="Логотип" />
       </Link>
       <div className="header__info-container header__info-burger">
             <Link to="/movies" className="header__link">

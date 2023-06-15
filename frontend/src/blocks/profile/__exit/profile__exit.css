@@ -17,3 +17,7 @@
         line-height: 15px;
     }
   }
+
+   .profile__exit:hover {
+    opacity: 0.7;
+   }

@@ -1,0 +1,12 @@
+.logo {
+    width: 38px;
+    height: 38px;
+  }
+  
+  @media screen and (max-width: 320px) {
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+    }
+  }

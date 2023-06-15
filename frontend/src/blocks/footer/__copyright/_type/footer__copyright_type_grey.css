@@ -3,3 +3,7 @@
         color: #A0A0A0;
     }
   }
+
+  .footer__copyright_type_grey:hover {
+    opacity: 1;
+  }

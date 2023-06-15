@@ -14,3 +14,7 @@
         padding-right: 24px;
     }
   }
+
+  .navTab__link:hover {
+    opacity: 0.7;
+  }

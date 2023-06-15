@@ -1,4 +1,4 @@
-.about-project__title {
+.title {
     font-family: "Inter", "Arial", sans-serif;
     font-weight: 400;
     font-size: 22px;
@@ -11,7 +11,7 @@
 }
 
 @media screen and (max-width: 450px) {
-    .about-project__title  {
+    .title  {
         font-size: 18px;
         line-height: 22px;
         padding-bottom: 28px;

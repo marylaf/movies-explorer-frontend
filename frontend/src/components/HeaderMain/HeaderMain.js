@@ -7,7 +7,7 @@ function HeaderMain() {
     <header className="header">
       <div className='header__container'>
       <Link to="/">
-      <img className="header__logo" src={logo} alt="Логотип" />
+      <img className="logo" src={logo} alt="Логотип" />
       </Link>
       <div className="header__info-container">
             <Link to="/sign-up" className="header__link">

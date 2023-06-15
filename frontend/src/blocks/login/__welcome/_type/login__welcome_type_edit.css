@@ -1,0 +1,10 @@
+.login__welcome_type_edit {
+    text-align: center;
+}
+
+@media screen and (max-width: 320px) {
+    .login__welcome_type_edit {
+      padding-top: 50px;
+      padding-bottom: 60px;
+    }
+}

@@ -7,10 +7,10 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Error from "../Error/Error";
 import { Routes, Route } from "react-router-dom";
+import Edition from '../Edition/Edition';
 
 function App() {
     return (
-      <div className="page">
          <Routes>
             <Route
               path="/" element={<Main />}
@@ -30,11 +30,13 @@ function App() {
             <Route
               path="/saved-movies" element={<SavedMovies />}
             />
+             <Route
+              path="/edit" element={<Edition />}
+            />
             <Route
-              path="/404" element={<Error />}
+              path="*" element={<Error />}
             />
           </Routes>
-      </div>
     );
 }
 

@@ -1,4 +1,4 @@
-.about-me__title {
+.about-me__name {
     font-family: "Inter", "Arial", sans-serif;
     font-weight: 500;
     font-size: 18px;
@@ -9,14 +9,14 @@
 }
 
 @media screen and (max-width: 768px) {
-    .about-me__title {
+    .about-me__name {
     font-size: 12px;
     line-height: 18px;
     }
   }
 
   @media screen and (max-width: 450px) {
-    .about-me__title {
+    .about-me__name {
         font-size: 11px;
         line-height: 16px;
     }

@@ -24,7 +24,7 @@ function Register() {
   return (
     <div className="login">
         <Link to="/">
-      <img className="header__logo" src={logo} alt="Логотип" />
+      <img className="logo" src={logo} alt="Логотип" />
       </Link>
       <p className="login__welcome">Добро пожаловать!</p>
       <form
@@ -32,7 +32,7 @@ function Register() {
         className="login__form"
         noValidate
       >
-        <span className="span__name">Имя</span>
+        <span className="login__name">Имя</span>
         <input
           type="text"
           className="login__info login__info_form_title"
@@ -43,7 +43,7 @@ function Register() {
         />
         <span className="span title-input-error"></span>
 
-        <span className="span__name">E-mail</span>
+        <span className="login__name">E-mail</span>
         <input
           type="text"
           className="login__info login__info_form_title"
@@ -54,7 +54,7 @@ function Register() {
         />
         <span className="span title-input-error"></span>
 
-        <span className="span__name">Пароль</span>
+        <span className="login__name">Пароль</span>
         <input
           type="password"
           className="login__info login__info_form_subtitle"

@@ -14,7 +14,10 @@ function Profile() {
                 <p className="profile__column">E-mail</p>
                 <p className="profile__name">pochta@yandex.ru</p>
             </div>
-            <p className="profile__paragraph">Редактировать</p>
+            <Link className="profile__paragraph" to="/edit">
+            Редактировать
+            </Link>
+            
             <Link className="profile__exit" to="/sign-in">
                 Выйти из аккаунта
             </Link>

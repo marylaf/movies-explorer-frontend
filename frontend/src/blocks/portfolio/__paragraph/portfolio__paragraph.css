@@ -22,3 +22,7 @@
         line-height: 28px;
     }
   }
+
+  .portfolio__paragraph:hover {
+    opacity: 0.7;
+  }
