@@ -1,0 +1,15 @@
+.card__name {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    margin: 0;
+}
+
+@media screen and (max-width: 709px) {
+    .card__name {
+        font-size: 12px;
+        line-height: 18px;
+    }
+  }

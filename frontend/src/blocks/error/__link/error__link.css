@@ -1,0 +1,22 @@
+.error__link {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #000000;
+    padding-top: 184px;
+    text-decoration: none;
+    display: block;
+}
+
+@media screen and (max-width: 320px) {
+    .error__link {
+        line-height: 15px;
+        padding-top: 284px;
+    }
+  }
+
+  .error__link:hover {
+    opacity: 0.7;
+  }

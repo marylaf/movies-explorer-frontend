@@ -1,0 +1,9 @@
+@media screen and (max-width: 450px) {
+    .footer__copyright_type_grey{
+        color: #A0A0A0;
+    }
+  }
+
+  .footer__copyright_type_grey:hover {
+    opacity: 1;
+  }

@@ -1,0 +1,8 @@
+.login__paragraph_type_black {
+    color: #000000;
+    padding-left: 6px;
+}
+
+.login__paragraph_type_black:hover {
+    opacity: 0.7;
+  }

@@ -1,0 +1,37 @@
+.techs__name {
+    width: 90px;
+    height: 60px;
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #000000;
+    background: #E8E8E8;
+    border-radius: 10px;
+    margin-right: 10px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.techs__name:last-of-type {
+    margin-right: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .techs__name {
+        width: 84px;
+        height: 57px;   
+        font-size: 12px;
+        line-height: 15px;
+    }
+  }
+
+  @media screen and (max-width: 690px) {
+    .techs__name  {
+        margin-right: 0;
+    }
+}

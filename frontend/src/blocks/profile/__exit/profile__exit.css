@@ -1,0 +1,23 @@
+.profile__exit {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #FF4062;
+    margin: 0;
+    text-decoration: none;
+    display: block;
+}
+
+@media screen and (max-width: 450px) {
+    .profile__exit {
+        padding-top: 2px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+  }
+
+   .profile__exit:hover {
+    opacity: 0.7;
+   }

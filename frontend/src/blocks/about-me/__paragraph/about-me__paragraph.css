@@ -1,0 +1,36 @@
+.about-me__paragraph {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #000000;
+    mix-blend-mode: normal;
+    padding-top: 26px;
+    padding-bottom: 79px;
+    margin: 0;
+    max-width: 600px;
+}
+
+@media screen and (max-width: 1170px) {
+    .about-me__paragraph {
+       max-width: 400px;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .about-me__paragraph {
+        padding-top: 20px;
+        padding-bottom: 60px;
+        font-size: 12px;
+        line-height: 18px;
+        max-width: 364px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .about-me__paragraph {
+        padding-bottom: 40px;
+        font-size: 11px;
+        line-height: 16px;
+    }
+  }

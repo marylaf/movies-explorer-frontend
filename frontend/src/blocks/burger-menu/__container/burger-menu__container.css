@@ -1,0 +1,16 @@
+@media screen and (max-width: 768px) {
+
+	.burger-menu__container {
+		width: 520px;
+		background-color: #202020;
+		position: relative;
+		background-color: #FFFFFF;
+	}
+}
+
+@media screen and (max-width: 320px) {
+
+	.burger-menu__container {
+		width: 100%;
+	}
+}

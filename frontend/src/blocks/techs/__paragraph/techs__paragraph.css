@@ -1,0 +1,26 @@
+.techs__paragraph {
+    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #000000;
+    margin: 0 auto;
+    max-width: 460px;
+}
+
+@media screen and (max-width: 768px) {
+    .techs__paragraph {
+        font-size: 12px;
+        line-height: 18px;   
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .techs__paragraph  {
+        font-size: 11px;
+        line-height: 16px;
+    }
+  }

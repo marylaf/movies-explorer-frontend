@@ -1,0 +1,36 @@
+.about-project {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 110px;
+    padding-bottom: 110px;
+    max-width: 1140px;
+    position: relative;
+}
+
+@media screen and (max-width: 1170px) {
+    .about-project {
+        max-width: 700px;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .about-project {
+        max-width: 668px;
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+  }
+
+  @media screen and (max-width: 690px) {
+    .about-project {
+        max-width: 400px;
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .about-project {
+        max-width: 284px;
+    }
+  }

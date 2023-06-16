@@ -1,0 +1,27 @@
+.techs__all {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .techs__all {
+        margin-top: 93px;
+    }
+  }
+
+
+  @media screen and (max-width: 690px) {
+    .techs__all  {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-gap: 10px;
+        max-width: 178px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+  }

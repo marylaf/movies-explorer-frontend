@@ -1,0 +1,28 @@
+.portfolio__paragraph {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    letter-spacing: -0.04em;
+    color: #000000;
+    margin: 0;
+    text-decoration: none;
+    padding-bottom: 19px;
+}
+
+@media screen and (max-width: 768px) {
+    .portfolio__paragraph {
+        font-size: 28px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .portfolio__paragraph {
+        font-size: 18px;
+        line-height: 28px;
+    }
+  }
+
+  .portfolio__paragraph:hover {
+    opacity: 0.7;
+  }

@@ -1,0 +1,16 @@
+.about-project__paragraph {
+    margin: 0;
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+}
+
+@media screen and (max-width: 450px) {
+    .about-project__paragraph {
+        font-size: 11px;
+        line-height: 16px;
+        padding-top: 16px;
+    }
+  }

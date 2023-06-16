@@ -1,0 +1,17 @@
+.login__paragraph {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #A0A0A0;
+  margin: 0;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 450px) {
+  .login__paragraph {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

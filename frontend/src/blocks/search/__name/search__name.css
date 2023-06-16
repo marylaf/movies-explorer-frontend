@@ -1,0 +1,17 @@
+.search__name {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #000000;
+    margin: 0;
+    padding-left: 14px;
+
+}
+
+@media screen and (max-width: 450px) {
+    .search__name {
+        font-size: 11px;
+        line-height: 18px;
+    }
+  }

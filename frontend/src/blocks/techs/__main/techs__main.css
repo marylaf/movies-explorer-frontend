@@ -1,0 +1,28 @@
+.techs__main {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #000000;
+    margin: 0;
+    padding-top: 90px;
+    padding-bottom: 26px;
+}
+
+@media screen and (max-width: 768px) {
+    .techs__main {
+        padding-top: 80px;
+        padding-bottom: 22px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .techs__main  {
+        font-size: 30px;
+        line-height: 36px;
+        padding-top: 60px;
+        padding-bottom: 24px;
+    }
+  }

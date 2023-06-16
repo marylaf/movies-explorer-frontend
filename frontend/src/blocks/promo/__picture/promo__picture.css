@@ -1,0 +1,23 @@
+.promo__picture {
+    width: 320px;
+    height: 320px;
+    margin-top: 82px;
+    margin-bottom: 122px;
+    
+}
+
+@media screen and (max-width: 768px) {
+    .promo__picture {
+        margin-top: 224px;
+        margin-bottom: 240px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .promo__picture {
+        margin-top: 142px;
+        margin-bottom: 180px;
+        width: 248px;
+        height: 248px;
+    }
+  }

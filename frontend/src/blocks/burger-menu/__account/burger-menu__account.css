@@ -1,0 +1,19 @@
+@media screen and (max-width: 768px) {
+	.burger-menu__account {
+        display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-top: 593px;
+	}
+}
+
+@media screen and (max-width: 320px) {
+    .burger-menu__account {
+        display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-top: 416px;
+		margin-bottom: 46px;
+
+	}
+}

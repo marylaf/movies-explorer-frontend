@@ -1,0 +1,35 @@
+.about-me {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 110px;
+    max-width: 1140px;
+    position: relative;
+    margin-bottom: 101px;
+}
+
+@media screen and (max-width: 1170px) {
+    .about-me {
+        max-width: 700px;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .about-me {
+        max-width: 668px;
+        padding-top: 90px;
+        margin-bottom: 90px;
+    }
+  }
+
+  @media screen and (max-width: 690px) {
+    .about-me {
+        max-width: 400px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .about-me {
+        max-width: 292px;
+        padding-top: 70px;
+    }
+  }

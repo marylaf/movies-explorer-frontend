@@ -1,0 +1,25 @@
+.profile__title {
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    margin: 0;
+    padding-top: 74px;
+    padding-bottom: 106px;
+}
+
+@media screen and (max-width: 768px) {
+    .profile__title {
+        padding-top: 236px;
+        padding-bottom: 96px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .profile__title {
+        padding-top: 70px;
+        padding-bottom: 80px;
+    }
+  }

@@ -1,0 +1,29 @@
+.login__button-save {
+  margin-top: 69px;
+  min-width: 100%;
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 14px 0;
+  background: #000000;
+  border-radius: 3px;
+  border: none;
+  margin-bottom: 16px;
+}
+
+@media screen and (max-width: 450px) {
+  .login__button-save {
+    font-size: 12px;
+    line-height: 15px;
+    padding: 15px 0;
+    margin-top: 172px;
+    margin-bottom: 14px;
+  }
+}
+
+.login__button-save:hover {
+  opacity: 0.7;
+}
