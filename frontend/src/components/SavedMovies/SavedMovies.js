@@ -4,12 +4,12 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Footer from "../Footer/Footer";
 
-function SavedMovies() {
+function SavedMovies({movies}) {
     return (
         <section className="movies">
             <HeaderAuth />
             <SearchForm />
-            <MoviesCardList isSavedPage={true} />
+            <MoviesCardList isSavedPage={true} movies={movies} />
             <Footer />
             <BurgerMenu />
         </section>

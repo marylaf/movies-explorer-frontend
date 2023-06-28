@@ -1,84 +1,20 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
-import first from "../../images/1.png";
-import second from "../../images/2.png";
-import third from "../../images/3.png";
 
-function MoviesCardList() {
+function MoviesCardList({movies}) {
     return(
         <section className="cards">
             <div className="cards__container">
-            <MoviesCard
-              title="В погоне за Бенкси"
-              image={first}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={second}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={third}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={first}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={second}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={third}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={first}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={second}
-              time="27 минут"
-              isSavedPage={false}
-            />
-              <MoviesCard
-              title="В погоне за Бенкси"
-              image={third}
-              time="27 минут"
-              isSavedPage={false}
-            />
-             <MoviesCard
-              title="В погоне за Бенкси"
-              image={first}
-              time="27 минут"
-              isSavedPage={false}
-            />
-             <MoviesCard
-              title="В погоне за Бенкси"
-              image={second}
-              time="27 минут"
-              isSavedPage={false}
-            />
-             <MoviesCard
-              title="В погоне за Бенкси"
-              image={third}
-              time="27 минут"
-              isSavedPage={false}
-            />
+              {movies.map((movie) => 
+              { 
+                return (
+                  <MoviesCard
+                  key={movie.id}
+                  title={movie.nameRU}
+                  image={movie.image.url}
+                  time={movie.duration}  
+                  isSavedPage={false}
+                />)}
+              )}
             </div>
         </section>
     );

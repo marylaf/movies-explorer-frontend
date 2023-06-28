@@ -16,7 +16,7 @@ function MoviesCard({title, time, image}) {
                 <h4 className="card__name">{title}</h4>
                 <p className="card__count">{time}</p>
             </div>
-            <img className="card__image" src={image} alt="Обложка фильма"/>
+            <img className="card__image" src={`${"https://api.nomoreparties.co/"}${image}`} alt="Обложка фильма" />
             <button className={`card__button ${isSaved ? "card__button-pink" : "card__save-button"}`}
             type="button"
             onClick={handleSaveClick}
