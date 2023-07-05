@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -27,11 +27,21 @@ function App() {
       });
   }, []);
 
-  const handleSearch = (request) => {
-    const results = movies.filter(movie =>
-      movie.nameRU.toLowerCase().includes(request.toLowerCase()))
+  const handleSearch = useCallback((request) => {
+    return new Promise((resolve) => {
+      const results = movies.filter(movie =>
+        movie.nameRU.toLowerCase().includes(request.toLowerCase()) ||
+        movie.nameEN.toLowerCase().includes(request.toLowerCase()) ||
+        movie.country.toLowerCase().includes(request.toLowerCase()) ||
+        movie.nameRU.toLowerCase().includes(request.toLowerCase()) ||
+        movie.description.toLowerCase().includes(request.toLowerCase()) ||
+        movie.director.toLowerCase().includes(request.toLowerCase()) ||
+        movie.year.toLowerCase().includes(request.toLowerCase())
+        );
       setSearchResults(results);
-  }
+      resolve(results);
+    });
+  }, [movies]);
 
     return (
       <SearchContext.Provider value={{ searchResults, setSearchResults }}>

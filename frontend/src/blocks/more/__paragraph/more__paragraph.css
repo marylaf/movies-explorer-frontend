@@ -1,4 +1,4 @@
-.preloader__paragraph {
+.more__paragraph {
     margin: 0;
     padding-top: 11px;
     padding-bottom: 9px;
@@ -16,11 +16,11 @@
 }
 
 @media screen and (max-width: 709px) {
-    .preloader__paragraph {
+    .more__paragraph {
         width: 240px;
     }
   }
 
-  .preloader__paragraph:hover {
+  .more__paragraph:hover {
     opacity: 0.7;
   }

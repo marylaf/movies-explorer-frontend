@@ -74,10 +74,12 @@
 @import url(./blocks/header-auth/_type/header-auth_type_saved.css);
 @import url(./blocks/header-auth/__burger/header-auth__burger.css);
 
-@import url(./blocks/preloader/preloader.css);
-@import url(./blocks/preloader/__paragraph/preloader__paragraph.css);
+@import url(./blocks/more/more.css);
+@import url(./blocks/more/__paragraph/more__paragraph.css);
 
 @import url(./blocks/cards/__container/cards__container.css);
+
+@import url(./components/Preloader/Preloader.css);
 
 @import url(./blocks/card/card.css);
 @import url(./blocks/card/__count/card__count.css);

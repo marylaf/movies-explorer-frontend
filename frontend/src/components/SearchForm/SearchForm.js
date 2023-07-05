@@ -5,7 +5,7 @@ import turnoff from "../../images/turnoff.svg";
 import { useState, useEffect, useContext } from "react";
 import SearchContext from '../../contexts/SearchContext';
 
-function SearchForm({ handleSearch }) {
+function SearchForm({ performSearch }) {
 
     const [isFilter, setIsFilter] = useState(false);
     const [keyword, setKeyword] = useState('');
@@ -21,33 +21,41 @@ function SearchForm({ handleSearch }) {
         setIsFilter(!isFilter);
   };
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
         if (keyword === '') {
             setErrorMessage("Нужно ввести ключевое слово");
-        } else {                            // если успешно
-            handleSearch(keyword)
-            .then((searchResults) => {
-                localStorage.setItem('searchResults', JSON.stringify(searchResults));
-                localStorage.setItem('request', keyword);
-                localStorage.setItem('isFilter', JSON.stringify(isFilter));
-                setErrorMessage('');
-            })
-            .catch(() => console.log("Ошибка"))
+        } else {        
+            try {
+                    await performSearch(keyword);
+                    localStorage.setItem('searchResults', JSON.stringify(searchResults));
+                    localStorage.setItem('request', keyword);
+                    localStorage.setItem('isFilter', JSON.stringify(isFilter));
+                    setErrorMessage('');
+
+                } catch {
+                    console.log("Ошибка");
+                }
+            }
         }
-    };
 
     useEffect(() => {
         const savedRequest = localStorage.getItem('request');
         const savedIsFilter = JSON.parse(localStorage.getItem('isFilter'));
         const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
+
         if (savedRequest) {
+            console.log("Получили сохраненный запрос:", savedRequest);
             setKeyword(savedRequest);
-            handleSearch(savedRequest);
+            console.log("После setKeyword, значение keyword:", keyword);
+            performSearch(savedRequest);
+            console.log("После performSearch, результаты поиска:", savedSearchResults);
         }
+
         if (savedIsFilter) {
             setIsFilter(savedIsFilter);
         }
+
         if (savedSearchResults) {
             setSearchResults(savedSearchResults);
           }

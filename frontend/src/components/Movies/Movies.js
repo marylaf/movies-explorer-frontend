@@ -1,34 +1,44 @@
 import SearchForm from "../SearchForm/SearchForm";
 import React, { useState, useEffect } from 'react';
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
-import Preloader from "../Preloader/Preloader";
+import MoreFilms from "../MoreFilms/MoreFilms";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import Preloader from "../Preloader/Preloader";
 
 function Movies({ handleSearch, movies}) {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [searchError, setSearchError] = useState(false);
 
     useEffect(() => {
-        console.log(handleSearch());
-        handleSearch()
-            .then(() => {
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error(error);
-                setIsLoading(false);
-            });
-    }, [handleSearch]);
+        if(movies.length > 0) {
+            setIsLoading(false);
+        }
+    }, [movies])
+    
+    const performSearch = (keyword) => {
+        setIsLoading(true);
+        setSearchError(false);
+        handleSearch(keyword)
+        .then(() => { 
+            setIsLoading(false);
+        })
+        .catch(() => {
+            setIsLoading(false);
+            setSearchError(true);
+        })
+    }
 
     return (
         <section className="movies">
             <HeaderAuth />
-            <SearchForm handleSearch={handleSearch} />
-              {isLoading ?  <Preloader /> : movies.length > 0 ? (<MoviesCardList movies={movies}/>) : (
-                <p className="paragraph">Ничего не найдено</p>
+            <SearchForm performSearch={performSearch} />
+              {isLoading ? <Preloader /> : movies.length > 0 ? (<MoviesCardList movies={movies}/>) : (
+                <p className="paragraph">{searchError ? 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' : 'Ничего не найдено'}</p>
             )}
+            <MoreFilms />
             <Footer />
             <BurgerMenu />
         </section>
