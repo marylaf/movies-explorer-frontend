@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import iconSaved from "../../images/saved.svg";
-import iconDelete from "../../images/icon-delete.svg";
 
-function MoviesCard({title, time, image}) {
+function MoviesCard({title, time, image, handleCardClick}) {
 
     const [isSaved, setIsSaved] = useState(false);
 
@@ -11,7 +10,7 @@ function MoviesCard({title, time, image}) {
       };
 
     return(
-        <article className="card">
+        <article className="card" onClick={handleCardClick}>
             <div className="card__titles">
                 <h4 className="card__name">{title}</h4>
                 <p className="card__count">{time}</p>

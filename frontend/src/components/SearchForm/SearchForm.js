@@ -2,35 +2,24 @@ import find from "../../images/find.svg";
 import icon from "../../images/icon-find.svg";
 import turnin from "../../images/smalltumb.svg";
 import turnoff from "../../images/turnoff.svg";
-import { useState, useEffect, useContext } from "react";
-import SearchContext from '../../contexts/SearchContext';
+import { useState, useEffect } from "react";
 
-function SearchForm({ performSearch }) {
-
-    const [isFilter, setIsFilter] = useState(false);
+function SearchForm({ performSearch, isFilter, handleFilterClick }) {
     const [keyword, setKeyword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
-    const { searchResults, setSearchResults } = useContext(SearchContext);
 
     const handleInputChange = (evt) => {
         setKeyword(evt.target.value);
       };
 
-    const handleFilterClick = () => {
-        setIsFilter(!isFilter);
-  };
-
-    const handleSubmit = async (evt) => {
+    const handleSubmit = (evt) => {
         evt.preventDefault();
         if (keyword === '') {
             setErrorMessage("Нужно ввести ключевое слово");
         } else {        
             try {
-                    await performSearch(keyword);
-                    localStorage.setItem('searchResults', JSON.stringify(searchResults));
+                    performSearch(keyword, isFilter);
                     localStorage.setItem('request', keyword);
-                    localStorage.setItem('isFilter', JSON.stringify(isFilter));
                     setErrorMessage('');
 
                 } catch {
@@ -41,31 +30,17 @@ function SearchForm({ performSearch }) {
 
     useEffect(() => {
         const savedRequest = localStorage.getItem('request');
-        const savedIsFilter = JSON.parse(localStorage.getItem('isFilter'));
-        const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
 
         if (savedRequest) {
-            console.log("Получили сохраненный запрос:", savedRequest);
             setKeyword(savedRequest);
-            console.log("После setKeyword, значение keyword:", keyword);
-            performSearch(savedRequest);
-            console.log("После performSearch, результаты поиска:", savedSearchResults);
         }
-
-        if (savedIsFilter) {
-            setIsFilter(savedIsFilter);
-        }
-
-        if (savedSearchResults) {
-            setSearchResults(savedSearchResults);
-          }
     }, []);
 
     return(
     <form className="search" onSubmit={handleSubmit} noValidate>
         <div className="search__container">
             <img src={icon} className="search__icon-find" alt="Иконка поиска" />
-            <input className="search__input" onChange={handleInputChange} type="text" placeholder="Фильм" name="keyword" required/>
+            <input className="search__input" value={keyword} onChange={handleInputChange} type="text" placeholder="Фильм" name="keyword" required/>
             {errorMessage &&  <span className="span">{errorMessage}</span>}
             <button className="search__submit" type="submit">
                 <img className="" src={find} alt="Кнопка поиска" />

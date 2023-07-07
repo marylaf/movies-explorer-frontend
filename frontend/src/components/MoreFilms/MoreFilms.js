@@ -1,7 +1,7 @@
-function MoreFilms() {
+function MoreFilms({handleLoadMore}) {
     return(
         <section className="more">
-            <button className="more__paragraph">Ещё</button>
+            <button onClick={handleLoadMore} className="more__paragraph">Ещё</button>
         </section>
     );
 }
