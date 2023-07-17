@@ -9,7 +9,7 @@ import Preloader from "../Preloader/Preloader";
 import useWindowSize from "../../hooks/resize";
 
 
-function Movies({ handleSearch, movies, isFilter, handleFilterClick, changeFilter}) {
+function Movies({ handleSearch, movies, handleFilterClick, handleMovieSave }) {
 
     const [isLoading, setIsLoading] = useState(false);
     const [searchError, setSearchError] = useState(false);
@@ -29,6 +29,7 @@ function Movies({ handleSearch, movies, isFilter, handleFilterClick, changeFilte
       };
 
     const displayedMovies = useMemo(() => {
+      console.log(movies);
         const moviesRow = getMoviesRow(width);
         const moviesPerPage = moviesRow * displayedRows;
         // Обновляем список отображаемых фильмов
@@ -41,10 +42,10 @@ function Movies({ handleSearch, movies, isFilter, handleFilterClick, changeFilte
         }
     }, [movies])
 
-    const performSearch = (keyword) => {
+    const performSearch = (keyword, isFilter) => {
         setIsLoading(true);
         setSearchError(false);
-        handleSearch(keyword)
+        handleSearch(keyword, isFilter)
         .then(() => { 
             setIsLoading(false);
             setDisplayedRows(1); 
@@ -56,19 +57,18 @@ function Movies({ handleSearch, movies, isFilter, handleFilterClick, changeFilte
     }
 
       const handleLoadMore = () => {
-        console.log("HANDLE");
         setDisplayedRows((prevRows) => prevRows + 1); // Увеличиваем количество отображаемых рядов
       };
 
     return (
         <section className="movies">
             <HeaderAuth />
-            <SearchForm isFilter={isFilter} handleFilterClick={handleFilterClick} performSearch={performSearch} />
+            <SearchForm handleFilterClick={handleFilterClick} performSearch={performSearch} />
                {isLoading ? (
         <Preloader />
       ) : movies.length > 0 ? (
         <>
-          <MoviesCardList movies={displayedMovies} />
+          <MoviesCardList movies={displayedMovies} handleMovieSave={handleMovieSave}/>
           {movies.length > displayedMovies.length && <MoreFilms handleLoadMore={handleLoadMore} />}
         </>
       ) : (

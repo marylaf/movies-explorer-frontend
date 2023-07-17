@@ -1,6 +1,6 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({movies}) {
+function MoviesCardList({movies, handleMovieSave}) {
 
   const handleCardClick = (trailerUrl) => {
     window.open(trailerUrl, '_blank');
@@ -18,6 +18,7 @@ function MoviesCardList({movies}) {
                   time={movie.duration}  
                   isSavedPage={false}
                   handleCardClick={() => handleCardClick(movie.trailerLink)}
+                  handleMovieSave={handleMovieSave}
                 />)}
               )}
             </div>

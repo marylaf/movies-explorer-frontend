@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import iconSaved from "../../images/saved.svg";
 
-function MoviesCard({title, time, image, handleCardClick}) {
+function MoviesCard({title, time, image, handleCardClick, handleMovieSave}) {
 
     const [isSaved, setIsSaved] = useState(false);
 
-    const handleSaveClick = () => {
+    const handleSaveClick = (movie) => {
         setIsSaved(!isSaved);
+        handleMovieSave(movie);
       };
 
     return(
-        <article className="card" onClick={handleCardClick}>
+        <article className="card">
             <div className="card__titles">
                 <h4 className="card__name">{title}</h4>
                 <p className="card__count">{time}</p>
             </div>
-            <img className="card__image" src={`${"https://api.nomoreparties.co/"}${image}`} alt="Обложка фильма" />
+            <img className="card__image" onClick={handleCardClick} src={`${"https://api.nomoreparties.co/"}${image}`} alt="Обложка фильма" />
             <button className={`card__button ${isSaved ? "card__button-pink" : "card__save-button"}`}
             type="button"
             onClick={handleSaveClick}

@@ -2,10 +2,14 @@ import find from "../../images/find.svg";
 import icon from "../../images/icon-find.svg";
 import turnin from "../../images/smalltumb.svg";
 import turnoff from "../../images/turnoff.svg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-function SearchForm({ performSearch, isFilter, handleFilterClick }) {
+function SearchForm({ performSearch }) {
     const [keyword, setKeyword] = useState('');
+    const [isFilter, setIsFilter] = useState(() => {
+        const savedIsFilter = JSON.parse(localStorage.getItem('isFilter'))
+        return savedIsFilter;
+    });
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleInputChange = (evt) => {
@@ -36,6 +40,13 @@ function SearchForm({ performSearch, isFilter, handleFilterClick }) {
         }
     }, []);
 
+    const toggleFilter = useCallback(() => {
+        setIsFilter(!isFilter);
+        performSearch(keyword, !isFilter);
+        localStorage.setItem('isFilter', JSON.stringify(!isFilter));
+    }, [keyword, isFilter]);
+       
+
     return(
     <form className="search" onSubmit={handleSubmit} noValidate>
         <div className="search__container">
@@ -45,7 +56,7 @@ function SearchForm({ performSearch, isFilter, handleFilterClick }) {
             <button className="search__submit" type="submit">
                 <img className="" src={find} alt="Кнопка поиска" />
             </button>
-            <button className="search__button-filter" type="button" onClick={handleFilterClick}>
+            <button className="search__button-filter" type="button" onClick={toggleFilter}>
                 <img src={isFilter ? turnin : turnoff} alt="Кнопка фильтра короткометражки" />
                 <p className="search__name">Короткометражки</p>
             </button>

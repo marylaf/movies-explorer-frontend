@@ -101,6 +101,7 @@
 @import url(./blocks/span/span.css);
 
 @import url(./blocks/login/login.css);
+@import url(./blocks/login/__save-container/login__save-container.css);
 @import url(./blocks/login/__name/login__name.css);
 @import url(./blocks/login/__button-save/login__button-save.css);
 @import url(./blocks/login/__form/login__form.css);
@@ -111,10 +112,12 @@
 @import url(./blocks/login/__paragraph/_type/login__paragraph_type_black.css);
 @import url(./blocks/login/__container-end/login__container-end.css);
 @import url(./blocks/login/__button-save/_type/login__button-save_type_bigger.css);
+@import url(./blocks/login/__button-save/_disabled/login__button-save_disabled.css);
 
 @import url(./blocks/error/__big/error__big.css);
 @import url(./blocks/error/__link/error__link.css);
 @import url(./blocks/error/__small/error__small.css);
+@import url(./blocks/error/error.css);
 
 @import url(./blocks/burger-menu/burger-menu.css);
 @import url(./blocks/burger-menu/__account-link/burger-menu__account-link.css);

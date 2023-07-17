@@ -1,0 +1,10 @@
+.login__save-container {
+    min-width: 100%;
+    margin-top: 69px;
+}
+
+@media screen and (max-width: 450px) {
+    .login__save-container {
+      margin-top: 172px;
+    }
+  }

@@ -12,7 +12,7 @@ function Portfolio() {
                    <p className="portfolio__paragraph">Адаптивный сайт</p>
                     <img className="portfolio__icon" src={icon} alt="Логотип" />
                 </a>
-                <a href="https://mary.student.nomoredomains.monster" target="_blank" rel="noopener noreferrer" className="portfolio__menu">
+                <a href="https://mary.diplom.nomoredomains.monster" target="_blank" rel="noopener noreferrer" className="portfolio__menu">
                     <p className="portfolio__paragraph">Одностраничное приложение</p>
                     <img className="portfolio__icon" src={icon} alt="Логотип" />
                 </a>
