@@ -1,0 +1,10 @@
+.login__button-save_type_bigger {
+    margin-top: 144px;
+}
+
+
+@media screen and (max-width: 450px) {
+    .login__button-save_type_bigger {
+      margin-top: 232px;
+    }
+  }

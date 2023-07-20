@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
 
-function useFormValidation() {
-    const [inputs, setInputs] = useState({
-        name: '',
-        email: '',
-        password: '',
-      });
+function useFormValidation(initialState) {
+    const [inputs, setInputs] = useState(initialState);
     const [isTouched, setIsTouched] = useState(false);
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);

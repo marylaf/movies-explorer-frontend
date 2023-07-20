@@ -4,21 +4,14 @@ class MainApi {
       this._baseUrl = baseUrl;
     }
   
-    getInitialMovies() {
-      return fetch(`${this._baseUrl}`, {
-        headers: this._headers,
-      }).then(this._getResponseData);
-    }
+    // getInitialMovies() {
+    //   return fetch(`${this._baseUrl}`, {
+    //     headers: this._headers,
+    //   }).then(this._getResponseData);
+    // }
 
     deleteCard(id) {
       return fetch(`${this._baseUrl}/cards/${id}`, {
-        method: "DELETE",
-        headers: this._headers,
-      }).then(this._getResponseData);
-    }
-  
-    deleteMovie(id) {
-      return fetch(`${this._baseUrl}/cards/${id}/likes `, {
         method: "DELETE",
         headers: this._headers,
       }).then(this._getResponseData);
@@ -46,13 +39,31 @@ class MainApi {
       this._headers = headers;
     }
 
+    login(email, password) {
+      return fetch(`${this._baseUrl}/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }).then(this._getResponseData)
+      .then((res) => {
+         this._headers = {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${res.token}`,
+        };
+        mainApi.setHeaders(this._headers);
+        return res;
+         });
+    }
+
     async _getResponseData(res) {
       const resJson = await res.json();
-      console.log("RES", resJson);
+      // console.log("RES", resJson);
         if (!res.ok) {
           return Promise.reject(resJson.message);
         }
-        return res.json();
+        return resJson;
       }
   }
   

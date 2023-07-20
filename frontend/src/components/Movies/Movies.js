@@ -29,7 +29,6 @@ function Movies({ handleSearch, movies, handleFilterClick, handleMovieSave }) {
       };
 
     const displayedMovies = useMemo(() => {
-      console.log(movies);
         const moviesRow = getMoviesRow(width);
         const moviesPerPage = moviesRow * displayedRows;
         // Обновляем список отображаемых фильмов

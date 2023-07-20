@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useLayoutEffect } from "react";
 import Main from "../Main/Main";
 import { useNavigate } from "react-router-dom";
 import Movies from "../Movies/Movies";
@@ -22,27 +22,30 @@ function App() {
     const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
     return savedSearchResults;
   });
-
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      return true;
+    }
+    return false;
+  });
   const [serverError, setServerError] = useState(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // настало время проверить токен
     tokenCheck();
   }, []);
   
   const tokenCheck = () => {
-
     const jwt = localStorage.getItem("jwt");
-
     if (jwt) {
-
       mainApi.setHeaders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
       })
+      api.getInitialMovies()
       .then((res) => {
         if (res) {
           setIsLoggedIn(true);
@@ -50,7 +53,7 @@ function App() {
           // setUserEmail(res.data.email);
         }
       })
-      .catch((e) => console.log("Ошибка", e));
+      .catch((e) => console.log("Ошибка:", e));
     }
   };
 
@@ -97,6 +100,7 @@ function App() {
       return mainApi
         .register(email, password, name)
         .then((res) => {
+          setIsLoggedIn(true);
           navigate("/movies", { replace: true });
         })
         .catch((error) => { 
@@ -104,6 +108,39 @@ function App() {
           throw error;
      });
     }
+
+    function handleLogin(email, password) {
+      return mainApi
+        .login(email, password)
+        .then((res) => {
+          localStorage.setItem("jwt", res.token);
+          console.log(res.token);
+          mainApi.setHeaders({
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${res.token}`,
+          });
+          setIsLoggedIn(true);
+          // setUserEmail(email);
+          navigate("/movies", { replace: true });
+        })
+        .catch((error) => { 
+          setServerError(error); // Установка ошибки
+          throw error;
+     });
+    }
+
+    function handleSignOut() {
+      localStorage.removeItem("jwt");
+      setIsLoggedIn(false);
+      navigate("/sign-in", { replace: true });
+  
+    }
+
+    // if (isStatus) {
+    //   return (
+    //     <Preloader />
+    // );
+    // }
 
     return (
          <Routes>
@@ -114,37 +151,50 @@ function App() {
               path="/sign-up" element={<Register handleRegister={handleRegister} serverError={serverError} />}
             />
             <Route
-              path="/sign-in" element={<Login />}
+              path="/sign-in" element={<Login handleLogin={handleLogin} serverError={serverError} />}
             />
              <Route
               path="/profile" element={
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
-                  element={Profile}
+                  element={() => (
+                    <Profile 
+                      handleSignOut={handleSignOut}
+                    />
+                  )}
             /> 
             }
             />
             <Route
-              path="/movies"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={Movies}
-                  onMovieSave={handleMovieSave}
-                  onSearch={handleSearch}
-                  movies={searchResults}
-                />
-              }
+                path="/movies"
+                element={
+                  <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    element={() => (
+                      <Movies 
+                        handleMovieSave={handleMovieSave}
+                        handleSearch={handleSearch}
+                        movies={searchResults}
+                      />
+                    )}
+                  />
+                }
               />
-            <Route
-              path="/saved-movies" element={
-                <ProtectedRoute
-                  movies={savedMovies}
-                  isLoggedIn={isLoggedIn}
-                  element={SavedMovies}
-            /> 
-            }
-            />
+                <Route
+                path="/saved-movies"
+                element={
+                  <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    element={() => (
+                      <SavedMovies 
+                        handleMovieSave={handleMovieSave}
+                        handleSearch={handleSearch}
+                        movies={savedMovies}
+                      />
+                    )}
+                  />
+                }
+              />
              <Route
               path="/edit" element={
                 <ProtectedRoute

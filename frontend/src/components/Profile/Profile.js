@@ -1,7 +1,7 @@
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import { Link } from "react-router-dom";
 
-function Profile() {
+function Profile({handleSignOut}) {
     return(
         <section className="profile">
             <HeaderAuth />
@@ -18,7 +18,7 @@ function Profile() {
             Редактировать
             </Link>
             
-            <Link className="profile__exit" to="/sign-in">
+            <Link className="profile__exit" onClick={handleSignOut} to="/sign-in">
                 Выйти из аккаунта
             </Link>
         </section>
