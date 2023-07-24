@@ -5,7 +5,12 @@ function useFormValidation(initialState) {
     const [isTouched, setIsTouched] = useState(false);
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
-
+    
+    useEffect(() => {
+        setInputs(initialState);
+    }, [...Object.values(initialState)]);
+      
+    // console.log("WHAT ARE THE NAMES", inputs);
     const handleInputChange = evt => {
         const { name, value } = evt.target;
         setInputs(prevInputs => ({

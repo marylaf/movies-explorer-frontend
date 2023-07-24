@@ -4,7 +4,8 @@ import useFormValidation from "../../hooks/useFormValidation";
 
 function Login({handleLogin, serverError}) {
 
-  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ email: '', password: '' });
+  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ email: '', password: ''});
+
   
   function handleInSubmit(evt) {
     evt.preventDefault();

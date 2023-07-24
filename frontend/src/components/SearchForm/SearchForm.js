@@ -42,7 +42,10 @@ function SearchForm({ performSearch }) {
 
     const toggleFilter = useCallback(() => {
         setIsFilter(!isFilter);
-        performSearch(keyword, !isFilter);
+        localStorage.setItem('request', keyword);
+        const newKeyword = localStorage.getItem('request');
+        setKeyword(newKeyword);
+        performSearch(newKeyword, !isFilter);
         localStorage.setItem('isFilter', JSON.stringify(!isFilter));
     }, [keyword, isFilter]);
        

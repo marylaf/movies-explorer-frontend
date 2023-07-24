@@ -1,7 +1,20 @@
 import { Link } from "react-router-dom";
+import { useMemo } from 'react';
 import logo from "../../images/logo.svg";
+import useFormValidation from "../../hooks/useFormValidation";
 
-function Edition() {
+function Edition({serverError, handleEdition, userEmail, userName}) {
+  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: userName, email: userEmail});
+
+  function handleChangeSubmit(evt) {
+    evt.preventDefault();
+    handleEdition(inputs.name, inputs.email)
+    .catch((error) => {
+      console.log('Ошибка');
+      }
+  );
+    }
+
     return (
         <div className="login">
             <Link to="/">
@@ -11,33 +24,43 @@ function Edition() {
           <form
             id="login__form"
             className="login__form"
+            onSubmit={handleChangeSubmit}
             noValidate
           >
 
             <span className="login__name">Имя</span>
             <input
               type="text"
+              onChange={handleInputChange}
+              name="name"
+              value={inputs.name}
               className="login__info login__info_form_title"
               id="title-input"
               minLength="6"
               maxLength="40"
               required
             />
-            <span className="span title-input-error"></span>
+            <span className="span title-input-error">{errors.name}</span>
     
             <span className="login__name">E-mail</span>
             <input
-              type="password"
+              type="email"
+              onChange={handleInputChange}
+              name="email"
+              value={inputs.email}
               className="login__info login__info_form_subtitle"
               id="subtitle-input"
               minLength="6"
               maxLength="200"
               required
             />
-            <span className="span subtitle-input-error">Что-то пошло не так...</span>
+             <span className="span subtitle-input-error">{errors.email}</span>
+             <div className="login__save-container login__save-container_type_bigger">
+            {serverError && <span className="error">{serverError}</span>}
             <button
               type="submit"
-              className="login__button-save login__button-save_type_bigger"
+              className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
+              disabled={!isValid}
             >
               Сохранить
             </button>
@@ -45,6 +68,7 @@ function Edition() {
             <Link to="/profile" className="login__paragraph login__paragraph_type_black">
             Передумал
             </Link>
+            </div>
             </div>
           </form>
         </div>

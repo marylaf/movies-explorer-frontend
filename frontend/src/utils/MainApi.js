@@ -4,11 +4,20 @@ class MainApi {
       this._baseUrl = baseUrl;
     }
   
-    // getInitialMovies() {
-    //   return fetch(`${this._baseUrl}`, {
-    //     headers: this._headers,
-    //   }).then(this._getResponseData);
-    // }
+
+    getCurrentUser() {
+      return fetch(`${this._baseUrl}/users/me`, {
+        method: 'GET',
+        headers: this._headers,
+      }).then(this._getResponseData);
+    }
+
+    getMovies() {
+      return fetch(`${this._baseUrl}/movies`, {
+        method: 'GET',
+        headers: this._headers,
+      }).then(this._getResponseData);
+    }
 
     deleteCard(id) {
       return fetch(`${this._baseUrl}/cards/${id}`, {
@@ -16,14 +25,57 @@ class MainApi {
         headers: this._headers,
       }).then(this._getResponseData);
     }
-  
-    saveMovie() {
+    
+    saveMovie(movie) {
+
       return fetch(`${this._baseUrl}/movies `, {
         method: 'POST',
-        headers: this._headers,
-      }).then(this._getResponseData);
+        headers:{
+          "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": 'application/json',
+        },
+        body: JSON.stringify({
+          country: movie.country, 
+          director: movie.director, 
+          duration: movie.duration, 
+          movieId: movie.movieId,
+          year: movie.year, 
+          description: movie.description, 
+          image: movie.image,
+          trailerLink: movie.trailerLink, 
+          thumbnail: movie.thumbnail,
+          nameRU: movie.nameRU, 
+          nameEN: movie.nameEN 
+        }),
+      }).then(this._getResponseData)
+      .then((res) => { 
+        console.log(res);
+    })
     }
 
+    // createMovie(movie) {
+    //   return fetch(`${this._url}movies/`, {
+    //     method: 'POST',
+    //     headers:{
+    //       "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+    //       "Content-Type": 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       country: movie.country, 
+    //       director: movie.director, 
+    //       duration: movie.duration, 
+    //       year: movie.year, 
+    //       description: movie.description, 
+    //       image: `${MOVIES_API_IMAGE_LINK}/${movie.image.url}`,
+    //       trailerLink: movie.trailerLink, 
+    //       thumbnail: `${MOVIES_API_IMAGE_LINK}/${movie.image.formats.thumbnail.url}`,
+    //       movieId: movie.id,
+    //       nameRU: movie.nameRU, 
+    //       nameEN: movie.nameEN 
+    //     })
+    //   })
+    //   .then(this._checkResponse)
+    // }
 
     register(email, password, name) {
       return fetch(`${this._baseUrl}/signup`, {
@@ -55,6 +107,17 @@ class MainApi {
         mainApi.setHeaders(this._headers);
         return res;
          });
+    }
+
+    updateProfile(name, email) {
+      return fetch(`${this._baseUrl}/users/me`, {
+        method: 'PATCH',
+        headers: this._headers,
+        body: JSON.stringify({
+          name,
+          email,
+        }),
+      }).then(this._getResponseData);
     }
 
     async _getResponseData(res) {

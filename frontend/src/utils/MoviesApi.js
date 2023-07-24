@@ -7,7 +7,15 @@ class Api {
     getInitialMovies() {
       return fetch(`${this._baseUrl}`, {
         headers: this._headers,
-      }).then(this._getResponseData);
+      }).then(this._getResponseData)
+      .then((res) => { 
+        return res.map(movie => {
+          return {
+            ...movie,
+            image: `${"https://api.nomoreparties.co/"}${movie.image.url}`,
+          }
+        });
+    })
     }
 
     _getResponseData(res) {
