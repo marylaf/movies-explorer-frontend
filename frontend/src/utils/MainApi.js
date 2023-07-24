@@ -38,7 +38,7 @@ class MainApi {
           country: movie.country, 
           director: movie.director, 
           duration: movie.duration, 
-          movieId: movie.movieId,
+          movieId: movie.id,
           year: movie.year, 
           description: movie.description, 
           image: movie.image,

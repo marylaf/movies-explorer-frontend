@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import iconSaved from "../../images/saved.svg";
 
 function MoviesCard({ movie, isSaved, nameRU, duration, image, handleCardClick, handleMovieSave}) {
-
-    // const [isSaved, setIsSaved] = useState(false);
 
     // useEffect(() => {
     //     console.log('ПЕРЕКЛЮЧИЛОСЬ', isSaved);
     // }, [isSaved]);
 
-    const handleSaveClick = React.useCallback(() => {
+    const handleSaveClick = useCallback(() => {
         console.log('НАЧАЛО', isSaved);
         handleMovieSave(movie);
     }, [movie]);

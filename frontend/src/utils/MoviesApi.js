@@ -9,10 +9,12 @@ class Api {
         headers: this._headers,
       }).then(this._getResponseData)
       .then((res) => { 
+        console.log(res, 'APIIIII');
         return res.map(movie => {
           return {
             ...movie,
             image: `${"https://api.nomoreparties.co/"}${movie.image.url}`,
+            thumbnail: `${"https://api.nomoreparties.co/"}${movie.image.formats.thumbnail.url}`,
           }
         });
     })

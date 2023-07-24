@@ -11,14 +11,12 @@ function MoviesCardList({movies, handleMovieSave, isSaved}) {
             <div className="cards__container">
               {movies.map((movie) => 
               {
-                console.log('CARDLIST', movies);
-              //  console.log(typeof movie.image === String);
                 return (
                   <MoviesCard
                   movie={movie}
                   image={movie.image}
-                  // image={`${"https://api.nomoreparties.co/"}${movie.image.url}`}
                   trailerLink={movie.trailerLink}
+                  thumbnail={movie.thumbnail}
                   movieId={movie.id}
                   key={movie.id}
                   nameRU={movie.nameRU}
