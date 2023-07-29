@@ -8,9 +8,9 @@ function MoviesCard({ movie, isSaved, nameRU, duration, image, handleCardClick, 
     // }, [isSaved]);
 
     const handleSaveClick = useCallback(() => {
-        console.log('НАЧАЛО', isSaved);
+        console.log('проверка в клике', isSaved);
         handleMovieSave(movie);
-    }, [movie]);
+    }, []);
 
     return(
         <article className="card">

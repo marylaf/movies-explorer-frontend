@@ -16,11 +16,11 @@ class MainApi {
       return fetch(`${this._baseUrl}/movies`, {
         method: 'GET',
         headers: this._headers,
-      }).then(this._getResponseData);
+      }).then(this._getResponseData)
     }
 
-    deleteCard(id) {
-      return fetch(`${this._baseUrl}/cards/${id}`, {
+    deleteMovie(movie) {
+      return fetch(`${this._baseUrl}/movies/:_id `, {
         method: "DELETE",
         headers: this._headers,
       }).then(this._getResponseData);
@@ -53,29 +53,9 @@ class MainApi {
     })
     }
 
-    // createMovie(movie) {
-    //   return fetch(`${this._url}movies/`, {
-    //     method: 'POST',
-    //     headers:{
-    //       "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
-    //       "Content-Type": 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //       country: movie.country, 
-    //       director: movie.director, 
-    //       duration: movie.duration, 
-    //       year: movie.year, 
-    //       description: movie.description, 
-    //       image: `${MOVIES_API_IMAGE_LINK}/${movie.image.url}`,
-    //       trailerLink: movie.trailerLink, 
-    //       thumbnail: `${MOVIES_API_IMAGE_LINK}/${movie.image.formats.thumbnail.url}`,
-    //       movieId: movie.id,
-    //       nameRU: movie.nameRU, 
-    //       nameEN: movie.nameEN 
-    //     })
-    //   })
-    //   .then(this._checkResponse)
-    // }
+    changeButtonStatus(movie, isSaved) {
+    return !isSaved ? this.saveMovie(movie) : this.deleteMovie(movie);
+  }
 
     register(email, password, name) {
       return fetch(`${this._baseUrl}/signup`, {

@@ -9,7 +9,6 @@ class Api {
         headers: this._headers,
       }).then(this._getResponseData)
       .then((res) => { 
-        console.log(res, 'APIIIII');
         return res.map(movie => {
           return {
             ...movie,

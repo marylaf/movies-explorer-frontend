@@ -45,7 +45,10 @@ function App() {
   const [displayedRows, setDisplayedRows] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isSaved, setIsSaved] = useState(() => {
+    const savedState = JSON.parse(localStorage.getItem('isSaved'));
+    return savedState;
+  });
 
   const { width } = useWindowSize();
 
@@ -76,13 +79,14 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    console.log(isSaved);
+  }, [isSaved]);
+
   const handleMovieSave = (movie) => {
-    console.log('НАЖИМАЕТСЯ', movie);
     mainApi.saveMovie(movie)
-    .then((res) =>  {
-      setIsSaved(!isSaved);
-      console.log('УСПЕХ', isSaved);
-      // setSavedMovies([...savedMovies, movie]);
+    .then(() =>  {
+      setIsSaved(true);
     })
     .catch(() => {
       console.log("Ошибка");
@@ -98,6 +102,7 @@ function App() {
   useEffect(() => {
     api.getInitialMovies()
       .then((res) => {
+        console.log(isSaved, 'ПОЛУЧЕНИЕ');
         setMovies(res);
       })
       .catch(() => {
@@ -109,6 +114,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('searchResults', JSON.stringify(searchResults));
   }, [searchResults])
+
+  useEffect(() => {
+    localStorage.setItem('isSaved', JSON.stringify(isSaved));
+  }, [isSaved])
 
   const handleSearch = useCallback(async (keyword, isFilter) => {
       const filteredMovies = isFilter ? movies.filter((movie) => movie.duration <= 40) : movies;

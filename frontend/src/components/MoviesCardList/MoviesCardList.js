@@ -5,7 +5,6 @@ function MoviesCardList({movies, handleMovieSave, isSaved}) {
   const handleCardClick = (trailerUrl) => {
     window.open(trailerUrl, '_blank');
   }
-  // console.log("MOVIES RENDER", movies);
     return(
         <section className="cards">
             <div className="cards__container">
