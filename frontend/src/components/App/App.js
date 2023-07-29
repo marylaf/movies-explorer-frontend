@@ -169,9 +169,10 @@ function App() {
       return mainApi
         .register(email, password, name)
         .then((res) => {
+          console.log(res);
+          setCurrentUser(res.data);
           setUserEmail(email);
           setUserName(name);
-          setCurrentUser(res.data);
           setIsLoggedIn(true);
           navigate("/movies", { replace: true });
         })
@@ -194,8 +195,9 @@ function App() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${res.token}`,
           });
-          setUserEmail(email);
           setCurrentUser(res.data);
+          setUserEmail(res.data.email);
+          setUserName(res.data.name);
           setIsLoggedIn(true);
           navigate("/movies", { replace: true });
         })
