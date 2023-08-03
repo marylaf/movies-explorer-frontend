@@ -8,7 +8,7 @@ import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Preloader from "../Preloader/Preloader";
 
 
-function Movies({  isSaved, performSearch, movies, handleFilterClick, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies }) {
+function Movies({ performSearch, movies, handleFilterClick, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies, savedMovies }) {
 
     return (
         <section className="movies">
@@ -18,7 +18,7 @@ function Movies({  isSaved, performSearch, movies, handleFilterClick, handleMovi
         <Preloader />
       ) : movies.length > 0 ? (
         <>
-          <MoviesCardList  isSaved={isSaved} movies={displayedMovies} handleMovieSave={handleMovieSave} />
+          <MoviesCardList savedMovies={savedMovies} movies={displayedMovies} handleMovieSave={handleMovieSave} />
           {movies.length > displayedMovies.length && <MoreFilms handleLoadMore={handleLoadMore} />}
         </>
       ) : (

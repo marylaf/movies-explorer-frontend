@@ -26,10 +26,9 @@ function App() {
 
   const [searchResults, setSearchResults] = useState(() => {
     const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
-    return savedSearchResults;
+    return savedSearchResults ? savedSearchResults : [];
   });
   const [movies, setMovies] = useState([]);
-  // const [savedMovies, setSavedMovies] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
@@ -45,10 +44,7 @@ function App() {
   const [displayedRows, setDisplayedRows] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
-  const [isSaved, setIsSaved] = useState(() => {
-    const savedState = JSON.parse(localStorage.getItem('isSaved'));
-    return savedState;
-  });
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const { width } = useWindowSize();
 
@@ -79,19 +75,23 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    console.log(isSaved);
-  }, [isSaved]);
 
-  const handleMovieSave = (movie) => {
-    mainApi.saveMovie(movie)
-    .then(() =>  {
-      setIsSaved(true);
-    })
-    .catch(() => {
-      console.log("Ошибка");
-    });
-  };
+  // const handleMovieSave = (movie) => {
+  //   const existingMovie = savedMovies.find(savedMovie => savedMovie.id === movie.id);
+
+  //   if (existingMovie) {
+  //       console.log("Фильм уже сохранен");
+  //       return;
+  //   } else 
+
+  //   mainApi.saveMovie(movie)
+  //   .then(() =>  {
+  //     setIsSaved(true);
+  //   })
+  //   .catch(() => {
+  //     console.log("Ошибка");
+  //   });
+  // };
 
   useEffect(() => {
     if(searchResults.length > 0) {
@@ -102,8 +102,8 @@ function App() {
   useEffect(() => {
     api.getInitialMovies()
       .then((res) => {
-        console.log(isSaved, 'ПОЛУЧЕНИЕ');
         setMovies(res);
+        setSearchResults(res);
       })
       .catch(() => {
         console.log("Ошибка");
@@ -115,11 +115,13 @@ function App() {
     localStorage.setItem('searchResults', JSON.stringify(searchResults));
   }, [searchResults])
 
-  useEffect(() => {
-    localStorage.setItem('isSaved', JSON.stringify(isSaved));
-  }, [isSaved])
-
   const handleSearch = useCallback(async (keyword, isFilter) => {
+      
+    if (!keyword.trim()) {
+      // Если ключевое слово пустое, то просто сбрасываем результаты поиска до всех фильмов
+      setSearchResults(movies);
+      return;
+    }
       const filteredMovies = isFilter ? movies.filter((movie) => movie.duration <= 40) : movies;
       const results = filteredMovies.filter(movie =>
         movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -223,11 +225,22 @@ function App() {
     }
 
     function handleSignOut() {
-      localStorage.removeItem("jwt");
+      localStorage.clear();
       setIsLoggedIn(false);
       navigate("/sign-in", { replace: true });
   
     }
+
+    // const getSavedMovies = () => {
+    //   mainApi.getMovies()
+    //   .then((newMovies) => {
+    //     console.log("MOVIES", newMovies, savedMovies);
+    //     if (JSON.stringify(newMovies) !== JSON.stringify(savedMovies)) {
+    //       setSavedMovies(newMovies);
+    //     }
+    // })
+    //   .catch((e) => console.log("Ошибка:", e));
+    // }
 
     function closeBurger() {
       setIsBurgerOpen(false);
@@ -268,7 +281,6 @@ function App() {
                     element={() => (
                       <Movies
                         performSearch={performSearch}
-                        handleMovieSave={handleMovieSave}
                         handleSearch={handleSearch}
                         movies={searchResults}
                         toggleBurger={toggleBurger}
@@ -276,7 +288,7 @@ function App() {
                         searchError={searchError}
                         handleLoadMore={handleLoadMore}
                         displayedMovies={displayedMovies}
-                        isSaved={isSaved}
+                        savedMovies={savedMovies}
                       />
                     )}
                   />
@@ -289,12 +301,11 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     element={() => (
                       <SavedMovies 
-                        handleMovieSave={handleMovieSave}
                         handleSearch={handleSearch}
-                        movies={movies}
                         toggleBurger={toggleBurger}
                         handleLoadMore={handleLoadMore}
-                        isSaved={isSaved}
+                        setSavedMovies={setSavedMovies}
+                        savedMovies={savedMovies}
                       />
                     )}
                   />

@@ -1,11 +1,33 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import iconSaved from "../../images/saved.svg";
+import { mainApi } from "../../utils/MainApi";
 
-function MoviesCard({ movie, isSaved, nameRU, duration, image, handleCardClick, handleMovieSave}) {
+function MoviesCard({ movie, nameRU, duration, image, handleCardClick, savedMovies }) {
 
-    // useEffect(() => {
-    //     console.log('ПЕРЕКЛЮЧИЛОСЬ', isSaved);
-    // }, [isSaved]);
+    console.log(savedMovies);
+    const [isSaved, setIsSaved] = useState(() => {
+        // Проверяем, сохранен ли этот конкретный фильм
+        const savedState = savedMovies.some(savedMovie => savedMovie.id === movie.id);
+        return savedState;
+      });
+
+      const handleMovieSave = (movie) => {
+        const existingMovie = savedMovies.find(savedMovie => savedMovie.id === movie.id);
+      
+        if (existingMovie) {
+            console.log("Фильм уже сохранен");
+            setIsSaved(true);
+            return;
+        } else {
+          mainApi.saveMovie(movie)
+            .then(() =>  {
+              setIsSaved(true);
+            })
+            .catch(() => {
+              console.log("Ошибка");
+            });
+        };
+      };
 
     const handleSaveClick = useCallback(() => {
         console.log('проверка в клике', isSaved);

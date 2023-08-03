@@ -1,10 +1,12 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({movies, handleMovieSave, isSaved}) {
+function MoviesCardList({movies, savedMovies}) {
 
   const handleCardClick = (trailerUrl) => {
     window.open(trailerUrl, '_blank');
   }
+
+  // console.log(movies);
     return(
         <section className="cards">
             <div className="cards__container">
@@ -20,9 +22,9 @@ function MoviesCardList({movies, handleMovieSave, isSaved}) {
                   key={movie.id}
                   nameRU={movie.nameRU}
                   duration={movie.duration}  
-                  isSaved={isSaved}
                   handleCardClick={() => handleCardClick(movie.trailerLink)}
-                  handleMovieSave={handleMovieSave}
+                  savedMovies={savedMovies}
+                  movies={movies}
                 />)}
               )}
             </div>
