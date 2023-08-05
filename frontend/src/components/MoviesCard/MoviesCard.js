@@ -3,17 +3,18 @@ import iconSaved from "../../images/saved.svg";
 import { mainApi } from "../../utils/MainApi";
 
 function MoviesCard({ movie, nameRU, duration, image, handleCardClick, savedMovies }) {
+  // TODO: unify backends' interfaces
+  const realMovieId = movie.id || movie._id;
 
     const [isSaved, setIsSaved] = useState(() => {
-        // Проверяем, сохранен ли этот конкретный фильм
-        const savedState = savedMovies.some(savedMovie => savedMovie.id === movie.id);
-        return savedState;
-      });
+      // Проверяем, сохранен ли этот конкретный фильм
+      const savedState = savedMovies.some(savedMovie => savedMovie._id === realMovieId);
+      return savedState;
+    });
 
       useEffect(() => {
-        const savedMovieIds = JSON.parse(localStorage.getItem('savedMovieIds') || "[]");
-        setIsSaved(savedMovieIds.includes(movie.id));
-    }, [movie.id]);
+        setIsSaved(savedMovies.some(savedMovie => savedMovie._id === realMovieId));
+    }, [realMovieId]);
 
       const handleMovieSave = (movie) => {
         const existingMovie = savedMovies.find(savedMovie => savedMovie.id === movie.id);

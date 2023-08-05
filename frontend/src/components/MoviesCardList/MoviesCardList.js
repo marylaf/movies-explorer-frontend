@@ -6,7 +6,6 @@ function MoviesCardList({movies, savedMovies}) {
     window.open(trailerUrl, '_blank');
   }
 
-  // console.log(movies);
     return(
         <section className="cards">
             <div className="cards__container">
@@ -19,7 +18,7 @@ function MoviesCardList({movies, savedMovies}) {
                   trailerLink={movie.trailerLink}
                   thumbnail={movie.thumbnail}
                   movieId={movie.id}
-                  key={movie.id}
+                  key={movie.id || movie._id}
                   nameRU={movie.nameRU}
                   duration={movie.duration}  
                   handleCardClick={() => handleCardClick(movie.trailerLink)}

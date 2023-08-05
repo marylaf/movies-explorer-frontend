@@ -1,7 +1,18 @@
-import './App.css';
-import { useState, useEffect, useCallback, useLayoutEffect, useMemo } from "react";
+import "./App.css";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+} from "react";
 import Main from "../Main/Main";
-import { useNavigate, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  createBrowserRouter,
+  BrowserRouter,
+} from "react-router-dom";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
@@ -9,26 +20,26 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Error from "../Error/Error";
 import { Routes, Route } from "react-router-dom";
-import Edition from '../Edition/Edition';
+import Edition from "../Edition/Edition";
 import { api } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
-import { SavedMoviesProvider }  from "../../contexts/SavedMoviesContext";
-import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import { SavedMoviesProvider } from "../../contexts/SavedMoviesContext";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import useWindowSize from "../../hooks/resize";
 
-
 function App() {
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   const [searchResults, setSearchResults] = useState(() => {
-    const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
+    const savedSearchResults = JSON.parse(
+      localStorage.getItem("searchResults")
+    );
     return savedSearchResults ? savedSearchResults : [];
   });
+
   const [movies, setMovies] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const jwt = localStorage.getItem("jwt");
@@ -51,39 +62,43 @@ function App() {
 
   const toggleBurger = () => {
     setIsBurgerOpen(true);
-  }
+  };
 
   useLayoutEffect(() => {
     // настало время проверить токен
     tokenCheck();
   }, []);
-  
+
   const tokenCheck = () => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       mainApi.setHeaders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
-      })
-      mainApi.getCurrentUser()
-      .then((userData) => {
-        setIsLoggedIn(true);
-        setUserEmail(userData.data.email);
-        setUserName(userData.data.name);
-        navigate(location.pathname, { replace: true });
-      })
-      .catch((e) => console.log("Ошибка:", e));
+      });
+      mainApi
+        .getCurrentUser()
+        .then((userData) => {
+          setIsLoggedIn(true);
+          setUserEmail(userData.data.email);
+          setUserName(userData.data.name);
+          // navigate(location.pathname, { replace: true });
+        })
+        .catch((e) => console.log("Ошибка:", e));
     }
   };
 
   useEffect(() => {
-    if(searchResults.length > 0) {
-        setIsLoading(false);
+    if (searchResults.length > 0) {
+      setIsLoading(false);
     }
-}, [searchResults])
+    // cache results
+    localStorage.setItem("searchResults", JSON.stringify(searchResults));
+  }, [searchResults]);
 
   useEffect(() => {
-    api.getInitialMovies()
+    api
+      .getInitialMovies()
       .then((res) => {
         setMovies(res);
         setSearchResults(res);
@@ -93,242 +108,203 @@ function App() {
       });
   }, []);
 
-  // cache results
-  useEffect(() => {
-    localStorage.setItem('searchResults', JSON.stringify(searchResults));
-  }, [searchResults])
-
-  const handleSearch = useCallback(async (keyword, isFilter) => {
-      
-    if (!keyword.trim()) {
-      // Если ключевое слово пустое, то просто сбрасываем результаты поиска до всех фильмов
-      setSearchResults(movies);
-      return;
-    }
-      const filteredMovies = isFilter ? movies.filter((movie) => movie.duration <= 40) : movies;
-      const results = filteredMovies.filter(movie =>
-        movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.description.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.year.toLowerCase().includes(keyword.toLowerCase())
-        );
-        setSearchResults(results);
-    }, [movies]);
-
-    const getMoviesRow = (windowWidth) => {
-      if (windowWidth >= 1171) {
-        return 3; 
-      } else if (windowWidth >= 731) {
-        return 2; 
-      } else {
-        return 1;
-      }
-    };
-
-    const handleSearchSaved = useCallback(async (keyword, isFilter) => {
-      
+  const handleSearch = useCallback(
+    async (keyword, isFilter) => {
       if (!keyword.trim()) {
         // Если ключевое слово пустое, то просто сбрасываем результаты поиска до всех фильмов
-        setSearchResults(savedMovies);
+        setSearchResults(movies);
         return;
       }
-        console.log(savedMovies);
-        const filteredMovies = isFilter ? savedMovies.filter((savedMovie) => savedMovie.duration <= 40) : savedMovies;
-        filteredMovies.forEach(savedMovie => console.log(savedMovie.year));
-        const results = filteredMovies.filter(savedMovie =>
-          savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.description.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.year.toLowerCase().includes(keyword.toLowerCase())
-          );
-          setSearchResults(results);
-      }, [savedMovies]);
+      const filteredMovies = isFilter
+        ? movies.filter((movie) => movie.duration <= 40)
+        : movies;
+      const results = filteredMovies.filter(
+        (movie) =>
+          movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
+          movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
+          movie.country.toLowerCase().includes(keyword.toLowerCase()) ||
+          movie.description.toLowerCase().includes(keyword.toLowerCase()) ||
+          movie.director.toLowerCase().includes(keyword.toLowerCase()) ||
+          movie.year.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setSearchResults(results);
+    },
+    [movies]
+  );
 
-      useEffect(() => {
-        console.log(searchResults);
-      }, [searchResults]);
+  const getMoviesRow = (windowWidth) => {
+    if (windowWidth >= 1171) {
+      return 3;
+    } else if (windowWidth >= 731) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
 
+  useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
 
-    const performSearch = (keyword, isFilter) => {
-      setIsLoading(true);
-      setSearchError(false);
-      handleSearch(keyword, isFilter)
-      .then(() => { 
-        console.log('ФИЛЬМЫ ИЩУТСЯ');
-          setIsLoading(false);
-          setDisplayedRows(1); 
-      })
-      .catch(() => {
-          setIsLoading(false);
-          setSearchError(true);
-      })
-  }
-
-  const savedSearch = (keyword, isFilter) => {
+  const performSearch = (keyword, isFilter) => {
     setIsLoading(true);
     setSearchError(false);
-    handleSearchSaved(keyword, isFilter)
-    .then(() => { 
-      console.log('СОХРАНЕННЫЕ ИЩУТСЯ');
+    handleSearch(keyword, isFilter)
+      .then(() => {
+        console.log("ФИЛЬМЫ ИЩУТСЯ");
         setIsLoading(false);
-        // setSavedMovies(searchResults);
-    })
-    .catch(() => {
+        setDisplayedRows(1);
+      })
+      .catch(() => {
         setIsLoading(false);
         setSearchError(true);
-    })
-}
+      });
+  };
+
 
   const displayedMovies = useMemo(() => {
-      const moviesRow = getMoviesRow(width);
-      const moviesPerPage = moviesRow * displayedRows;
-      // Обновляем список отображаемых фильмов
-      return searchResults.slice(0, moviesPerPage);
-  }, [searchResults, width, displayedRows]); 
+    const moviesRow = getMoviesRow(width);
+    const moviesPerPage = moviesRow * displayedRows;
+    // Обновляем список отображаемых фильмов
+    return searchResults.slice(0, moviesPerPage);
+  }, [searchResults, width, displayedRows]);
 
-    function handleRegister(email, password, name) {
-      return mainApi
-        .register(email, password, name)
-        .then((res) => {
-          console.log(res);
-          setCurrentUser(res.data);
-          setUserEmail(email);
-          setUserName(name);
-          setIsLoggedIn(true);
-          navigate("/movies", { replace: true });
-        })
-        .catch((error) => { 
-          setServerError(error); // Установка ошибки
-          throw error;
-     });
-    }
+  function handleRegister(email, password, name) {
+    return mainApi
+      .register(email, password, name)
+      .then((res) => {
+        console.log(res);
+        setCurrentUser(res.data);
+        setUserEmail(email);
+        setUserName(name);
+        setIsLoggedIn(true);
+        // navigate("/movies", { replace: true });
+      })
+      .catch((error) => {
+        setServerError(error); // Установка ошибки
+        throw error;
+      });
+  }
 
-    const handleLoadMore = () => {
-      setDisplayedRows((prevRows) => prevRows + 1); // Увеличиваем количество отображаемых рядов
-    };
+  const handleLoadMore = () => {
+    setDisplayedRows((prevRows) => prevRows + 1); // Увеличиваем количество отображаемых рядов
+  };
 
-    function handleLogin(email, password) {
-      return mainApi
-        .login(email, password)
-        .then((res) => {
-          localStorage.setItem("jwt", res.token);
-          mainApi.setHeaders({
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${res.token}`,
-          });
-          setCurrentUser(res.data);
-          setUserEmail(res.data.email);
-          setUserName(res.data.name);
-          setIsLoggedIn(true);
-          navigate("/movies", { replace: true });
-        })
-        .catch((error) => { 
-          setServerError(error); // Установка ошибки
-          throw error;
-     });
-    }
+  function handleLogin(email, password) {
+    return mainApi
+      .login(email, password)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        mainApi.setHeaders({
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${res.token}`,
+        });
+        setCurrentUser(res.data);
+        setUserEmail(res.data.email);
+        setUserName(res.data.name);
+        setIsLoggedIn(true);
+        // navigate("/movies", { replace: true });
+      })
+      .catch((error) => {
+        setServerError(error); // Установка ошибки
+        throw error;
+      });
+  }
 
-    function handleEdition(name, email) {
-      return mainApi
-        .updateProfile(name, email)
-        .then((res) => {
-          setUserName(name);
-          setUserEmail(email);
-          setCurrentUser(res.data);
-          navigate("/profile", { replace: true });
-        })
-        .catch((error) => { 
-          setServerError(error); // Установка ошибки
-          throw error;
-     });
-    }
+  function handleEdition(name, email) {
+    return mainApi
+      .updateProfile(name, email)
+      .then((res) => {
+        setUserName(name);
+        setUserEmail(email);
+        setCurrentUser(res.data);
+        // navigate("/profile", { replace: true });
+      })
+      .catch((error) => {
+        setServerError(error); // Установка ошибки
+        throw error;
+      });
+  }
 
-    function handleSignOut() {
-      localStorage.clear();
-      setIsLoggedIn(false);
-      navigate("/sign-in", { replace: true });
-  
-    }
+  function handleSignOut() {
+    localStorage.clear();
+    setIsLoggedIn(false);
+    // navigate("/sign-in", { replace: true });
+  }
 
-    function closeBurger() {
-      setIsBurgerOpen(false);
-    }
+  function closeBurger() {
+    setIsBurgerOpen(false);
+  }
 
-    return (
-      <SavedMoviesProvider>
+  return (
+    <SavedMoviesProvider>
       <CurrentUserContext.Provider value={currentUser}>
-         <Routes>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Main />} />
             <Route
-              path="/" element={<Main />}
+              path="/sign-up"
+              element={
+                <Register
+                  handleRegister={handleRegister}
+                  serverError={serverError}
+                />
+              }
             />
             <Route
-              path="/sign-up" element={<Register handleRegister={handleRegister} serverError={serverError} />}
+              path="/sign-in"
+              element={
+                <Login handleLogin={handleLogin} serverError={serverError} />
+              }
             />
             <Route
-              path="/sign-in" element={<Login handleLogin={handleLogin} serverError={serverError} />}
-            />
-             <Route
-              path="/profile" element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={() => (
-                    <Profile 
-                      handleSignOut={handleSignOut}
-                      userEmail={userEmail}
-                      userName={userName}
-                      toggleBurger={toggleBurger}
-                    />
-                  )}
-            /> 
-            }
-            />
-            <Route
-                path="/movies"
-                element={
-                  <ProtectedRoute
-                    isLoggedIn={isLoggedIn}
-                    element={() => (
-                      <Movies
-                        performSearch={performSearch}
-                        movies={searchResults}
-                        toggleBurger={toggleBurger}
-                        isLoading={isLoading}
-                        searchError={searchError}
-                        handleLoadMore={handleLoadMore}
-                        displayedMovies={displayedMovies}
-                        savedMovies={savedMovies}
-                      />
-                    )}
+              path="/profile"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    handleSignOut={handleSignOut}
+                    userEmail={userEmail}
+                    userName={userName}
+                    toggleBurger={toggleBurger}
                   />
-                }
-              />
-                <Route
-                path="/saved-movies"
-                element={
-                  <ProtectedRoute
-                    isLoggedIn={isLoggedIn}
-                    element={() => (
-                      <SavedMovies 
-                        movies={savedMovies}
-                        savedSearch={savedSearch}
-                        toggleBurger={toggleBurger}
-                        handleLoadMore={handleLoadMore}
-                        setSavedMovies={setSavedMovies}
-                        // displayedMovies={displayedMovies}
-                        savedMovies={savedMovies}
-                        isLoading={isLoading}
-                        searchError={searchError}
-                      />
-                    )}
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/movies"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Movies
+                    performSearch={performSearch}
+                    movies={searchResults}
+                    toggleBurger={toggleBurger}
+                    isLoading={isLoading}
+                    searchError={searchError}
+                    handleLoadMore={handleLoadMore}
+                    displayedMovies={displayedMovies}
+                    savedMovies={savedMovies}
                   />
-                }
-              />
-             <Route
-              path="/edit" element={
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <SavedMovies
+                    movies={savedMovies}
+                    toggleBurger={toggleBurger}
+                    handleLoadMore={handleLoadMore}
+                    setSavedMovies={setSavedMovies}
+                    // displayedMovies={displayedMovies}
+                    savedMovies={savedMovies}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit"
+              element={
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
                   element={Edition}
@@ -336,17 +312,16 @@ function App() {
                   handleEdition={handleEdition}
                   userEmail={userEmail}
                   userName={userName}
-            /> 
-            }
+                />
+              }
             />
-            <Route
-              path="*" element={<Error />}
-            />
+            <Route path="*" element={<Error />} />
           </Routes>
-           <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
-          </CurrentUserContext.Provider>
-          </SavedMoviesProvider>
-    );
+          <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
+        </BrowserRouter>
+      </CurrentUserContext.Provider>
+    </SavedMoviesProvider>
+  );
 }
 
 export default App;

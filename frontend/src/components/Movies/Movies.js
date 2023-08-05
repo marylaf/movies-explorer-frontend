@@ -10,6 +10,7 @@ import Preloader from "../Preloader/Preloader";
 
 function Movies({ performSearch, movies, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies, savedMovies }) {
 
+  console.log("MOVIES RENDER");
     return (
         <section className="movies">
             <HeaderAuth toggleBurger={toggleBurger} />
