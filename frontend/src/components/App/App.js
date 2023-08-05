@@ -14,6 +14,7 @@ import { api } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { SavedMoviesProvider }  from "../../contexts/SavedMoviesContext";
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import useWindowSize from "../../hooks/resize";
 
@@ -75,24 +76,6 @@ function App() {
     }
   };
 
-
-  // const handleMovieSave = (movie) => {
-  //   const existingMovie = savedMovies.find(savedMovie => savedMovie.id === movie.id);
-
-  //   if (existingMovie) {
-  //       console.log("Фильм уже сохранен");
-  //       return;
-  //   } else 
-
-  //   mainApi.saveMovie(movie)
-  //   .then(() =>  {
-  //     setIsSaved(true);
-  //   })
-  //   .catch(() => {
-  //     console.log("Ошибка");
-  //   });
-  // };
-
   useEffect(() => {
     if(searchResults.length > 0) {
         setIsLoading(false);
@@ -127,7 +110,6 @@ function App() {
         movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
         movie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
         movie.description.toLowerCase().includes(keyword.toLowerCase()) ||
         movie.director.toLowerCase().includes(keyword.toLowerCase()) ||
         movie.year.toLowerCase().includes(keyword.toLowerCase())
@@ -145,12 +127,38 @@ function App() {
       }
     };
 
+    const handleSearchSaved = useCallback(async (keyword, isFilter) => {
+      
+      if (!keyword.trim()) {
+        // Если ключевое слово пустое, то просто сбрасываем результаты поиска до всех фильмов
+        setSearchResults(savedMovies);
+        return;
+      }
+        console.log(savedMovies);
+        const filteredMovies = isFilter ? savedMovies.filter((savedMovie) => savedMovie.duration <= 40) : savedMovies;
+        filteredMovies.forEach(savedMovie => console.log(savedMovie.year));
+        const results = filteredMovies.filter(savedMovie =>
+          savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
+          savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
+          savedMovie.country.toLowerCase().includes(keyword.toLowerCase()) ||
+          savedMovie.description.toLowerCase().includes(keyword.toLowerCase()) ||
+          savedMovie.director.toLowerCase().includes(keyword.toLowerCase()) ||
+          savedMovie.year.toLowerCase().includes(keyword.toLowerCase())
+          );
+          setSearchResults(results);
+      }, [savedMovies]);
+
+      useEffect(() => {
+        console.log(searchResults);
+      }, [searchResults]);
+
 
     const performSearch = (keyword, isFilter) => {
       setIsLoading(true);
       setSearchError(false);
       handleSearch(keyword, isFilter)
       .then(() => { 
+        console.log('ФИЛЬМЫ ИЩУТСЯ');
           setIsLoading(false);
           setDisplayedRows(1); 
       })
@@ -159,6 +167,21 @@ function App() {
           setSearchError(true);
       })
   }
+
+  const savedSearch = (keyword, isFilter) => {
+    setIsLoading(true);
+    setSearchError(false);
+    handleSearchSaved(keyword, isFilter)
+    .then(() => { 
+      console.log('СОХРАНЕННЫЕ ИЩУТСЯ');
+        setIsLoading(false);
+        // setSavedMovies(searchResults);
+    })
+    .catch(() => {
+        setIsLoading(false);
+        setSearchError(true);
+    })
+}
 
   const displayedMovies = useMemo(() => {
       const moviesRow = getMoviesRow(width);
@@ -231,22 +254,12 @@ function App() {
   
     }
 
-    // const getSavedMovies = () => {
-    //   mainApi.getMovies()
-    //   .then((newMovies) => {
-    //     console.log("MOVIES", newMovies, savedMovies);
-    //     if (JSON.stringify(newMovies) !== JSON.stringify(savedMovies)) {
-    //       setSavedMovies(newMovies);
-    //     }
-    // })
-    //   .catch((e) => console.log("Ошибка:", e));
-    // }
-
     function closeBurger() {
       setIsBurgerOpen(false);
     }
 
     return (
+      <SavedMoviesProvider>
       <CurrentUserContext.Provider value={currentUser}>
          <Routes>
             <Route
@@ -281,7 +294,6 @@ function App() {
                     element={() => (
                       <Movies
                         performSearch={performSearch}
-                        handleSearch={handleSearch}
                         movies={searchResults}
                         toggleBurger={toggleBurger}
                         isLoading={isLoading}
@@ -301,11 +313,15 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     element={() => (
                       <SavedMovies 
-                        handleSearch={handleSearch}
+                        movies={savedMovies}
+                        savedSearch={savedSearch}
                         toggleBurger={toggleBurger}
                         handleLoadMore={handleLoadMore}
                         setSavedMovies={setSavedMovies}
+                        // displayedMovies={displayedMovies}
                         savedMovies={savedMovies}
+                        isLoading={isLoading}
+                        searchError={searchError}
                       />
                     )}
                   />
@@ -329,6 +345,7 @@ function App() {
           </Routes>
            <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
           </CurrentUserContext.Provider>
+          </SavedMoviesProvider>
     );
 }
 

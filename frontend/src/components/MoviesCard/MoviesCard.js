@@ -1,15 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import iconSaved from "../../images/saved.svg";
 import { mainApi } from "../../utils/MainApi";
 
 function MoviesCard({ movie, nameRU, duration, image, handleCardClick, savedMovies }) {
 
-    console.log(savedMovies);
     const [isSaved, setIsSaved] = useState(() => {
         // Проверяем, сохранен ли этот конкретный фильм
         const savedState = savedMovies.some(savedMovie => savedMovie.id === movie.id);
         return savedState;
       });
+
+      useEffect(() => {
+        const savedMovieIds = JSON.parse(localStorage.getItem('savedMovieIds') || "[]");
+        setIsSaved(savedMovieIds.includes(movie.id));
+    }, [movie.id]);
 
       const handleMovieSave = (movie) => {
         const existingMovie = savedMovies.find(savedMovie => savedMovie.id === movie.id);
@@ -22,6 +26,9 @@ function MoviesCard({ movie, nameRU, duration, image, handleCardClick, savedMovi
           mainApi.saveMovie(movie)
             .then(() =>  {
               setIsSaved(true);
+              let savedMovieIds = JSON.parse(localStorage.getItem('savedMovieIds') || "[]");
+              savedMovieIds.push(movie.id);
+              localStorage.setItem('savedMovieIds', JSON.stringify(savedMovieIds));
             })
             .catch(() => {
               console.log("Ошибка");

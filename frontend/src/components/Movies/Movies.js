@@ -8,12 +8,12 @@ import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Preloader from "../Preloader/Preloader";
 
 
-function Movies({ performSearch, movies, handleFilterClick, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies, savedMovies }) {
+function Movies({ performSearch, movies, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies, savedMovies }) {
 
     return (
         <section className="movies">
             <HeaderAuth toggleBurger={toggleBurger} />
-            <SearchForm handleFilterClick={handleFilterClick} performSearch={performSearch} />
+            <SearchForm searchFilms={performSearch} />
                {isLoading ? (
         <Preloader />
       ) : movies.length > 0 ? (

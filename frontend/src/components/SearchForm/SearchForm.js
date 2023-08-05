@@ -4,7 +4,7 @@ import turnin from "../../images/smalltumb.svg";
 import turnoff from "../../images/turnoff.svg";
 import { useState, useEffect, useCallback } from "react";
 
-function SearchForm({ performSearch }) {
+function SearchForm({ searchFilms }) {
     const [keyword, setKeyword] = useState('');
     const [isFilter, setIsFilter] = useState(() => {
         const savedIsFilter = JSON.parse(localStorage.getItem('isFilter'))
@@ -22,7 +22,8 @@ function SearchForm({ performSearch }) {
             setErrorMessage("Нужно ввести ключевое слово");
         } else {        
             try {
-                    performSearch(keyword, isFilter);
+                    searchFilms(keyword, isFilter);
+                    console.log(keyword);
                     localStorage.setItem('request', keyword);
                     setErrorMessage('');
 
@@ -45,7 +46,7 @@ function SearchForm({ performSearch }) {
         localStorage.setItem('request', keyword);
         const newKeyword = localStorage.getItem('request');
         setKeyword(newKeyword);
-        performSearch(newKeyword, !isFilter);
+        searchFilms(newKeyword, !isFilter);
         localStorage.setItem('isFilter', JSON.stringify(!isFilter));
     }, [keyword, isFilter]);
        
