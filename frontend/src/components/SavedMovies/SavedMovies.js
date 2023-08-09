@@ -15,7 +15,6 @@ function SavedMovies({ toggleBurger }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchError, setSearchError] = useState(false);
   const { savedMovies, setSavedMovies } = useSavedMovies();
-  
 
   const handleSearchSaved = useCallback(
     async (keyword, isFilter) => {

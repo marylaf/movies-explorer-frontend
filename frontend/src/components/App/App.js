@@ -89,13 +89,13 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    mainApi.getMovies()
-      .then((newMovies) => {
-        setSavedMovies(newMovies);
-    })
-      .catch((e) => console.log("Ошибка:", e));
-  }, []);
+  // useEffect(() => {
+  //   mainApi.getMovies()
+  //     .then((newMovies) => {
+  //       setSavedMovies(newMovies);
+  //   })
+  //     .catch((e) => console.log("Ошибка:", e));
+  // }, [setSavedMovies]);
 
   useEffect(() => {
     if (searchResults.length > 0) {

@@ -10,8 +10,8 @@ import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 
 function Movies({ performSearch, movies, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies }) {
-
-  console.log("MOVIES RENDER");
+  const { savedMovies } = useSavedMovies();
+  console.log("MOVIES RENDER", savedMovies);
     return (
         <section className="movies">
             <HeaderAuth toggleBurger={toggleBurger} />
