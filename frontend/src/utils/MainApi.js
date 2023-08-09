@@ -53,9 +53,9 @@ class MainApi {
     })
     }
 
-    changeButtonStatus(movie, isSaved) {
-    return !isSaved ? this.saveMovie(movie) : this.deleteMovie(movie);
-  }
+  //   changeButtonStatus(movie, isSaved) {
+  //   return !isSaved ? this.saveMovie(movie) : this.deleteMovie(movie);
+  // }
 
     register(email, password, name) {
       return fetch(`${this._baseUrl}/signup`, {

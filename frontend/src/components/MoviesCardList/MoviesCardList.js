@@ -8,7 +8,6 @@ function MoviesCardList({ movies }) {
   const handleCardClick = (trailerUrl) => {
     window.open(trailerUrl, '_blank');
   }
-  console.log(savedMovies);
     return(
         <section className="cards">
             <div className="cards__container">

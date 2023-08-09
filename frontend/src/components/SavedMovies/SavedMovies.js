@@ -6,7 +6,6 @@ import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import React from "react";
-import { mainApi } from "../../utils/MainApi";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function SavedMovies({ toggleBurger }) {
@@ -14,8 +13,9 @@ function SavedMovies({ toggleBurger }) {
   const [searchResults, setSearchResults] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchError, setSearchError] = useState(false);
-  const { savedMovies, setSavedMovies } = useSavedMovies();
+  const { savedMovies } = useSavedMovies();
 
+  console.log(savedMovies);
   const handleSearchSaved = useCallback(
     async (keyword, isFilter) => {
       if (!keyword.trim()) {
@@ -24,7 +24,6 @@ function SavedMovies({ toggleBurger }) {
         setSearchKeyword("");
         return;
       }
-      console.log(savedMovies);
       const filteredMovies = isFilter
         ? savedMovies.filter((savedMovie) => savedMovie.duration <= 40)
         : savedMovies;
