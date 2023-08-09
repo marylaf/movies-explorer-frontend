@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import SearchForm from "../SearchForm/SearchForm";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -67,7 +67,7 @@ function SavedMovies({ toggleBurger, savedMovies, setSavedMovies }) {
         .catch((e) => console.log("Ошибка:", e));
     }, []);
 
-    const moviesToRender = React.useMemo(() => {
+    const moviesToRender = useMemo(() => {
       if (searchKeyword.length) {
         return searchResults;
       }

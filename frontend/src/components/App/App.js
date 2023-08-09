@@ -30,8 +30,8 @@ import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import useWindowSize from "../../hooks/resize";
 
 function App() {
-  // const navigate = useNavigate();
-  // const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [searchResults, setSearchResults] = useState(() => {
     const savedSearchResults = JSON.parse(
@@ -82,7 +82,7 @@ function App() {
           setIsLoggedIn(true);
           setUserEmail(userData.data.email);
           setUserName(userData.data.name);
-          // navigate(location.pathname, { replace: true });
+          navigate(location.pathname, { replace: true });
         })
         .catch((e) => console.log("Ошибка:", e));
     }
@@ -178,7 +178,7 @@ function App() {
         setUserEmail(email);
         setUserName(name);
         setIsLoggedIn(true);
-        // navigate("/movies", { replace: true });
+        navigate("/movies", { replace: true });
       })
       .catch((error) => {
         setServerError(error); // Установка ошибки
@@ -203,7 +203,7 @@ function App() {
         setUserEmail(res.data.email);
         setUserName(res.data.name);
         setIsLoggedIn(true);
-        // navigate("/movies", { replace: true });
+        navigate("/movies", { replace: true });
       })
       .catch((error) => {
         setServerError(error); // Установка ошибки
@@ -218,7 +218,7 @@ function App() {
         setUserName(name);
         setUserEmail(email);
         setCurrentUser(res.data);
-        // navigate("/profile", { replace: true });
+        navigate("/profile", { replace: true });
       })
       .catch((error) => {
         setServerError(error); // Установка ошибки
@@ -229,7 +229,7 @@ function App() {
   function handleSignOut() {
     localStorage.clear();
     setIsLoggedIn(false);
-    // navigate("/sign-in", { replace: true });
+    navigate("/sign-in", { replace: true });
   }
 
   function closeBurger() {
@@ -239,7 +239,6 @@ function App() {
   return (
     <SavedMoviesProvider>
       <CurrentUserContext.Provider value={currentUser}>
-        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />} />
             <Route
@@ -296,7 +295,6 @@ function App() {
                     toggleBurger={toggleBurger}
                     handleLoadMore={handleLoadMore}
                     setSavedMovies={setSavedMovies}
-                    // displayedMovies={displayedMovies}
                     savedMovies={savedMovies}
                   />
                 </ProtectedRoute>
@@ -318,7 +316,6 @@ function App() {
             <Route path="*" element={<Error />} />
           </Routes>
           <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
-        </BrowserRouter>
       </CurrentUserContext.Provider>
     </SavedMoviesProvider>
   );
