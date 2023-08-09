@@ -25,14 +25,15 @@ import { api } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
-import { SavedMoviesProvider } from "../../contexts/SavedMoviesContext";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import useWindowSize from "../../hooks/resize";
+import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { savedMovies, setSavedMovies } = useSavedMovies();
   const [searchResults, setSearchResults] = useState(() => {
     const savedSearchResults = JSON.parse(
       localStorage.getItem("searchResults")
@@ -56,7 +57,7 @@ function App() {
   const [displayedRows, setDisplayedRows] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
-  const [savedMovies, setSavedMovies] = useState([]);
+  // const [savedMovies, setSavedMovies] = useState([]);
 
   const { width } = useWindowSize();
 
@@ -87,6 +88,14 @@ function App() {
         .catch((e) => console.log("Ошибка:", e));
     }
   };
+
+  useEffect(() => {
+    mainApi.getMovies()
+      .then((newMovies) => {
+        setSavedMovies(newMovies);
+    })
+      .catch((e) => console.log("Ошибка:", e));
+  }, []);
 
   useEffect(() => {
     if (searchResults.length > 0) {
@@ -141,10 +150,6 @@ function App() {
       return 1;
     }
   };
-
-  useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
 
   const performSearch = (keyword, isFilter) => {
     setIsLoading(true);
@@ -237,7 +242,6 @@ function App() {
   }
 
   return (
-    <SavedMoviesProvider>
       <CurrentUserContext.Provider value={currentUser}>
           <Routes>
             <Route path="/" element={<Main />} />
@@ -281,7 +285,6 @@ function App() {
                     searchError={searchError}
                     handleLoadMore={handleLoadMore}
                     displayedMovies={displayedMovies}
-                    savedMovies={savedMovies}
                   />
                 </ProtectedRoute>
               }
@@ -291,11 +294,9 @@ function App() {
               element={
                 <ProtectedRoute isLoggedIn={isLoggedIn}>
                   <SavedMovies
-                    movies={savedMovies}
                     toggleBurger={toggleBurger}
                     handleLoadMore={handleLoadMore}
                     setSavedMovies={setSavedMovies}
-                    savedMovies={savedMovies}
                   />
                 </ProtectedRoute>
               }
@@ -317,7 +318,6 @@ function App() {
           </Routes>
           <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
       </CurrentUserContext.Provider>
-    </SavedMoviesProvider>
   );
 }
 

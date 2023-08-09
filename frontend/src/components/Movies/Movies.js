@@ -6,9 +6,10 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Preloader from "../Preloader/Preloader";
+import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 
-function Movies({ performSearch, movies, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies, savedMovies }) {
+function Movies({ performSearch, movies, handleMovieSave, toggleBurger, isLoading, searchError, handleLoadMore, displayedMovies }) {
 
   console.log("MOVIES RENDER");
     return (
@@ -19,7 +20,7 @@ function Movies({ performSearch, movies, handleMovieSave, toggleBurger, isLoadin
         <Preloader />
       ) : movies.length > 0 ? (
         <>
-          <MoviesCardList savedMovies={savedMovies} movies={displayedMovies} handleMovieSave={handleMovieSave} />
+          <MoviesCardList movies={displayedMovies} handleMovieSave={handleMovieSave} />
           {movies.length > displayedMovies.length && <MoreFilms handleLoadMore={handleLoadMore} />}
         </>
       ) : (

@@ -3,10 +3,10 @@ import React, { createContext, useState, useContext } from 'react';
 const SavedMoviesContext = createContext();
 
 export function SavedMoviesProvider({ children }) {
-  const [isSaved, setIsSaved] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   return (
-    <SavedMoviesContext.Provider value={{ isSaved, setIsSaved }}>
+    <SavedMoviesContext.Provider value={{ savedMovies, setSavedMovies }}>
       {children}
     </SavedMoviesContext.Provider>
   );

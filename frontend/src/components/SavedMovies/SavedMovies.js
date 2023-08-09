@@ -7,12 +7,15 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import React from "react";
 import { mainApi } from "../../utils/MainApi";
+import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
-function SavedMovies({ toggleBurger, savedMovies, setSavedMovies }) {
+function SavedMovies({ toggleBurger }) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchError, setSearchError] = useState(false);
+  const { savedMovies, setSavedMovies } = useSavedMovies();
+  
 
   const handleSearchSaved = useCallback(
     async (keyword, isFilter) => {
@@ -59,14 +62,6 @@ function SavedMovies({ toggleBurger, savedMovies, setSavedMovies }) {
       });
   };
 
-   useEffect(() => {
-      mainApi.getMovies()
-        .then((newMovies) => {
-          setSavedMovies(newMovies);
-      })
-        .catch((e) => console.log("Ошибка:", e));
-    }, []);
-
     const moviesToRender = useMemo(() => {
       if (searchKeyword.length) {
         return searchResults;
@@ -96,7 +91,7 @@ function SavedMovies({ toggleBurger, savedMovies, setSavedMovies }) {
             {pageState === "loading" &&  <Preloader />}
             {pageState === "search_error" &&  <p className="paragraph">{searchError}</p>}
             {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
-            {pageState === "movies" && <MoviesCardList movies={moviesToRender} savedMovies={savedMovies} />}
+            {pageState === "movies" && <MoviesCardList movies={moviesToRender} />}
             <Footer />
             <BurgerMenu />
         </section>

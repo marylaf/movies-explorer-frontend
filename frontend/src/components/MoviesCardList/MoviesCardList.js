@@ -1,11 +1,14 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
+import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
-function MoviesCardList({movies, savedMovies}) {
+function MoviesCardList({ movies }) {
+
+  const { savedMovies } = useSavedMovies();
 
   const handleCardClick = (trailerUrl) => {
     window.open(trailerUrl, '_blank');
   }
-
+  console.log(savedMovies);
     return(
         <section className="cards">
             <div className="cards__container">
