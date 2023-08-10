@@ -15,6 +15,7 @@ function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
     );
     return savedState;
   });
+  
   useEffect(() => {
     console.log("USE EFFECT set saved", realMovieId, savedMovies);
     setIsSaved(
