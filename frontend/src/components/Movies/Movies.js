@@ -21,6 +21,7 @@ function Movies({
   const [searchKeyword, setSearchKeyword] = useState("");
   const { width } = useWindowSize();
 
+  
   useEffect(() => {
     if (searchResults.length > 0) {
       setIsLoading(false);
@@ -93,14 +94,6 @@ function Movies({
     setDisplayedRows((prevRows) => prevRows + 1); // Увеличиваем количество отображаемых рядов
   };
 
-  // const moviesToRender = useMemo(() => {
-  //   if (searchKeyword.length) {
-  //     return displayedMovies;
-  //   }
-  //   return movies;
-  // }, [searchKeyword, displayedMovies, movies]);
-
-  console.log("MOVIES RENDER", savedMovies);
   return (
     <section className="movies">
       <HeaderAuth toggleBurger={toggleBurger} />

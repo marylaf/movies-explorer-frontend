@@ -1,88 +1,97 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import iconSaved from "../../images/saved.svg";
 import { mainApi } from "../../utils/MainApi";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
   const { savedMovies, setSavedMovies } = useSavedMovies();
-  console.log(savedMovies, "SAVED");
-  const realMovieId = movie.id || movie._id;
+
+  const realMovieId = movie.id || movie.movieId;
 
   const [isSaved, setIsSaved] = useState(() => {
     // Проверяем, сохранен ли этот конкретный фильм
     const savedState = savedMovies.some(
-      (savedMovie) => savedMovie._id === realMovieId
+      (savedMovie) => (savedMovie.id ?? savedMovie.movieId) === realMovieId
     );
     return savedState;
   });
   useEffect(() => {
+    console.log("USE EFFECT set saved", realMovieId, savedMovies);
     setIsSaved(
-      savedMovies.some((savedMovie) => savedMovie._id === realMovieId)
+      savedMovies.some((savedMovie) => (savedMovie.id ?? savedMovie.movieId) === realMovieId)
     );
   }, [realMovieId, savedMovies]);
 
+  // const handleMovieSave = (movie) => {
+  //   // const existingMovie = savedMovies.some(
+  //   //   (savedMovie) => savedMovie.movieId === realMovieId
+  //   // );
+
+  //   // if (existingMovie) {
+  //   //   console.log("Фильм уже сохранен");
+  //   //   return;
+  //   // } else {
+  //     mainApi
+  //       .saveMovie(movie)
+  //       .then(() => {
+  //         setIsSaved(true);
+  //         // let savedMovieIds = JSON.parse(
+  //         //   localStorage.getItem("savedMovieIds") || "[]"
+  //         // );
+  //         // savedMovieIds.push(movie.movieId);
+  //         // localStorage.setItem("savedMovieIds", JSON.stringify(savedMovieIds));
+  //       })
+  //       .catch(() => {
+  //         console.log("Ошибка");
+  //       });
+  //   }
+  // };
+
   const handleMovieSave = (movie) => {
-    const existingMovie = savedMovies.some(
-      (savedMovie) => savedMovie._id === realMovieId
-    );
-
-    if (existingMovie) {
-      console.log("Фильм уже сохранен");
-      return;
-    } else {
-      mainApi
-        .saveMovie(movie)
-        .then(() => {
-          setIsSaved(true);
-          let savedMovieIds = JSON.parse(
-            localStorage.getItem("savedMovieIds") || "[]"
-          );
-          savedMovieIds.push(movie.id);
-          localStorage.setItem("savedMovieIds", JSON.stringify(savedMovieIds));
-        })
-        .catch(() => {
-          console.log("Ошибка");
-        });
-    }
-  };
-
-  const handleMovieDelete = (movie) => {
     mainApi
-      .deleteMovie(movie._id)
-      .then(() => {
-        setIsSaved(false);
-        // Удалить фильм из списка savedMovies
-        const updatedSavedMovies = savedMovies.filter(
-          (savedMovie) => savedMovie._id !== realMovieId
-        );
-        setSavedMovies(updatedSavedMovies);
-
-        // Обновить localStorage с удаленным ID
-        let savedMovieIds = JSON.parse(
-          localStorage.getItem("savedMovieIds") || "[]"
-        );
-        savedMovieIds = savedMovieIds.filter(
-          (savedMovieId) => savedMovieId !== realMovieId
-        );
-        localStorage.setItem("savedMovieIds", JSON.stringify(savedMovieIds));
+      .saveMovie(movie)
+      .then((res) => {
+        console.log("res", res, movie);
+        setSavedMovies([...savedMovies, res.data]);
       })
       .catch(() => {
         console.log("Ошибка");
       });
   };
 
+  const handleMovieDelete = () => {
+    const savedMovieToDelete = savedMovies.find((savedMovie) => savedMovie.movieId === realMovieId);
+    console.log("savedMovieToDelete", savedMovieToDelete, savedMovies, movie);
+    if (savedMovieToDelete) {
+      mainApi
+        .deleteMovie(savedMovieToDelete._id)
+        .then(() => {
+          // setIsSaved(false);
+          const updatedSavedMovies = savedMovies.filter(
+            (savedMovie) => savedMovie._id !== savedMovieToDelete._id
+          );
+          setSavedMovies(updatedSavedMovies);
+        })
+        .catch(() => {
+          console.log("Ошибка");
+        });
+  };
+}
+
   useEffect(() => {
     console.log("проверка в useEffect", isSaved);
   }, [isSaved]);
 
-  const changeButtonStatus = (movie, isSaved ) => {
-        return !isSaved ? handleMovieSave(movie) : handleMovieDelete(movie);
+  const changeButtonStatus = (movie, isSaved) => {
+    return isSaved ? handleMovieDelete(movie) : handleMovieSave(movie);
   }
 
   const handleSaveClick = () => {
     console.log("проверка в клике", isSaved);
     changeButtonStatus(movie, isSaved);
   };
+
+  console.log("MOVIE", movie.nameRU, realMovieId, isSaved, savedMovies);
 
   return (
     <article className="card">

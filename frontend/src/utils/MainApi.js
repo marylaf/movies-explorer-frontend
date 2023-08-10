@@ -48,14 +48,7 @@ class MainApi {
           nameEN: movie.nameEN 
         }),
       }).then(this._getResponseData)
-      .then((res) => { 
-        console.log(res);
-    })
     }
-
-  //   changeButtonStatus(movie, isSaved) {
-  //   return !isSaved ? this.saveMovie(movie) : this.deleteMovie(movie);
-  // }
 
     register(email, password, name) {
       return fetch(`${this._baseUrl}/signup`, {
@@ -102,7 +95,6 @@ class MainApi {
 
     async _getResponseData(res) {
       const resJson = await res.json();
-      // console.log("RES", resJson);
         if (!res.ok) {
           return Promise.reject(resJson.message);
         }
@@ -111,6 +103,6 @@ class MainApi {
   }
   
   export const mainApi = new MainApi({
-    // baseUrl: "https://api.mary.student.nomoredomains.monster",
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://api.mary.student.nomoredomains.monster",
+    // baseUrl: "http://localhost:3000",
   });

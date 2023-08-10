@@ -2,16 +2,11 @@ import "./App.css";
 import {
   useState,
   useEffect,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
 } from "react";
 import Main from "../Main/Main";
 import {
   useNavigate,
   useLocation,
-  createBrowserRouter,
-  BrowserRouter,
 } from "react-router-dom";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -26,21 +21,13 @@ import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
-// import useWindowSize from "../../hooks/resize";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { savedMovies, setSavedMovies, searchResults, setSearchResults } = useSavedMovies();
-  // const [searchResults, setSearchResults] = useState(() => {
-  //   const savedSearchResults = JSON.parse(
-  //     localStorage.getItem("searchResults")
-  //   );
-  //   return savedSearchResults ? savedSearchResults : [];
-  // });
-
+  const { setSavedMovies, setSearchResults } = useSavedMovies();
   const [movies, setMovies] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const jwt = localStorage.getItem("jwt");
@@ -54,11 +41,7 @@ function App() {
   const [userName, setUserName] = useState("");
   const [currentUser, setCurrentUser] = useState({});
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
-  // const [savedMovies, setSavedMovies] = useState([]);
-
-  // const { width } = useWindowSize();
 
   const toggleBurger = () => {
     setIsBurgerOpen(true);
@@ -95,21 +78,13 @@ function App() {
         setSavedMovies(newMovies);
     })
       .catch((e) => console.log("Ошибка:", e));
-  }, []);
-
-  // useEffect(() => {
-  //   if (searchResults.length > 0) {
-  //     setIsLoading(false);
-  //   }
-  //   // cache results
-  //   localStorage.setItem("searchResults", JSON.stringify(searchResults));
-  // }, [searchResults]);
+  }, [setSavedMovies]);
 
   useEffect(() => {
     api
       .getInitialMovies()
       .then((res) => {
-        console.log(res);
+        console.log(res, 'вот тут');
         setMovies(res);
         setSearchResults(res);
       })
@@ -117,63 +92,6 @@ function App() {
         console.log("Ошибка");
       });
   }, []);
-
-  // const handleSearch = useCallback(
-  //   async (keyword, isFilter) => {
-  //     if (!keyword.trim()) {
-  //       // Если ключевое слово пустое, то просто сбрасываем результаты поиска до всех фильмов
-  //       setSearchResults(movies);
-  //       return;
-  //     }
-  //     const filteredMovies = isFilter
-  //       ? movies.filter((movie) => movie.duration <= 40)
-  //       : movies;
-  //     const results = filteredMovies.filter(
-  //       (movie) =>
-  //         movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-  //         movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-  //         movie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-  //         movie.description.toLowerCase().includes(keyword.toLowerCase()) ||
-  //         movie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-  //         movie.year.toLowerCase().includes(keyword.toLowerCase())
-  //     );
-  //     setSearchResults(results);
-  //   },
-  //   [movies]
-  // );
-
-  // const getMoviesRow = (windowWidth) => {
-  //   if (windowWidth >= 1171) {
-  //     return 3;
-  //   } else if (windowWidth >= 731) {
-  //     return 2;
-  //   } else {
-  //     return 1;
-  //   }
-  // };
-
-  // const performSearch = (keyword, isFilter) => {
-  //   setIsLoading(true);
-  //   setSearchError(false);
-  //   handleSearch(keyword, isFilter)
-  //     .then(() => {
-  //       console.log("ФИЛЬМЫ ИЩУТСЯ");
-  //       setIsLoading(false);
-  //       setDisplayedRows(1);
-  //     })
-  //     .catch(() => {
-  //       setIsLoading(false);
-  //       setSearchError(true);
-  //     });
-  // };
-
-
-  // const displayedMovies = useMemo(() => {
-  //   const moviesRow = getMoviesRow(width);
-  //   const moviesPerPage = moviesRow * displayedRows;
-  //   // Обновляем список отображаемых фильмов
-  //   return searchResults.slice(0, moviesPerPage);
-  // }, [searchResults, width, displayedRows]);
 
   function handleRegister(email, password, name) {
     return mainApi
@@ -191,10 +109,6 @@ function App() {
         throw error;
       });
   }
-
-  // const handleLoadMore = () => {
-  //   setDisplayedRows((prevRows) => prevRows + 1); // Увеличиваем количество отображаемых рядов
-  // };
 
   function handleLogin(email, password) {
     return mainApi
