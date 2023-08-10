@@ -3,10 +3,10 @@ import logo from "../../images/logo.svg";
 import profile from "../../images/profile.svg";
 import { Link } from "react-router-dom";
 
-function HeaderAuth({ toggleBurger }) {
+function HeaderAuth({ toggleBurger, isLoggedIn }) {
 
   return (
-    <header className="header header-auth">
+    <header className={`header ${isLoggedIn ? '' : 'header-auth'}`}>
       <div className='header__container'>
       <Link to="/">
       <img className="logo" src={logo} alt="Логотип" />

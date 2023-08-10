@@ -70,6 +70,7 @@
 @import url(./blocks/movies/movies.css);
 
 @import url(./blocks/header-auth/header-auth.css);
+@import url(./blocks/header-auth/_type/header-auth_type_pink.css);
 @import url(./blocks/header-auth/__account/header-auth__account.css);
 @import url(./blocks/header-auth/_type/header-auth_type_saved.css);
 @import url(./blocks/header-auth/__burger/header-auth__burger.css);

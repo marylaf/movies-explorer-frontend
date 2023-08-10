@@ -159,7 +159,7 @@ function App() {
   return (
       <CurrentUserContext.Provider value={currentUser}>
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
             <Route
               path="/sign-up"
               element={
