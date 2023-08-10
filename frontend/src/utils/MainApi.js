@@ -4,33 +4,51 @@ class MainApi {
       this._baseUrl = baseUrl;
     }
   
-    getInitialMovies() {
-      return fetch(`${this._baseUrl}`, {
+
+    getCurrentUser() {
+      return fetch(`${this._baseUrl}/users/me`, {
+        method: 'GET',
         headers: this._headers,
       }).then(this._getResponseData);
     }
 
-    deleteCard(id) {
-      return fetch(`${this._baseUrl}/cards/${id}`, {
-        method: "DELETE",
+    getMovies() {
+      return fetch(`${this._baseUrl}/movies`, {
+        method: 'GET',
         headers: this._headers,
-      }).then(this._getResponseData);
+      }).then(this._getResponseData)
     }
-  
+
     deleteMovie(id) {
-      return fetch(`${this._baseUrl}/cards/${id}/likes `, {
+      return fetch(`${this._baseUrl}/movies/${id} `, {
         method: "DELETE",
         headers: this._headers,
       }).then(this._getResponseData);
     }
-  
-    saveMovie() {
+    
+    saveMovie(movie) {
+
       return fetch(`${this._baseUrl}/movies `, {
         method: 'POST',
-        headers: this._headers,
-      }).then(this._getResponseData);
+        headers:{
+          "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+          "Content-Type": 'application/json',
+        },
+        body: JSON.stringify({
+          country: movie.country, 
+          director: movie.director, 
+          duration: movie.duration, 
+          movieId: movie.id,
+          year: movie.year, 
+          description: movie.description, 
+          image: movie.image,
+          trailerLink: movie.trailerLink, 
+          thumbnail: movie.thumbnail,
+          nameRU: movie.nameRU, 
+          nameEN: movie.nameEN 
+        }),
+      }).then(this._getResponseData)
     }
-
 
     register(email, password, name) {
       return fetch(`${this._baseUrl}/signup`, {
@@ -46,17 +64,45 @@ class MainApi {
       this._headers = headers;
     }
 
+    login(email, password) {
+      return fetch(`${this._baseUrl}/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }).then(this._getResponseData)
+      .then((res) => {
+         this._headers = {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${res.token}`,
+        };
+        mainApi.setHeaders(this._headers);
+        return res;
+         });
+    }
+
+    updateProfile(name, email) {
+      return fetch(`${this._baseUrl}/users/me`, {
+        method: 'PATCH',
+        headers: this._headers,
+        body: JSON.stringify({
+          name,
+          email,
+        }),
+      }).then(this._getResponseData);
+    }
+
     async _getResponseData(res) {
       const resJson = await res.json();
-      console.log("RES", resJson);
         if (!res.ok) {
           return Promise.reject(resJson.message);
         }
-        return res.json();
+        return resJson;
       }
   }
   
   export const mainApi = new MainApi({
-    // baseUrl: "https://api.mary.student.nomoredomains.monster",
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://api.mary.student.nomoredomains.monster",
+    // baseUrl: "http://localhost:3000",
   });

@@ -3,7 +3,8 @@ import logo from "../../images/logo.svg";
 import profile from "../../images/profile.svg";
 import { Link } from "react-router-dom";
 
-function HeaderAuth() {
+function HeaderAuth({ toggleBurger }) {
+
   return (
     <header className="header header-auth">
       <div className='header__container'>
@@ -29,7 +30,7 @@ function HeaderAuth() {
             <img src={profile} alt="Аккаунт" />
             </Link>
       </div>
-      <button className="header-auth__burger"></button>
+      <button className="header-auth__burger" onClick={toggleBurger}></button>
       </div>
     </header>
   );

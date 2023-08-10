@@ -1,6 +1,9 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
+import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
-function MoviesCardList({movies, handleMovieSave}) {
+function MoviesCardList({ movies }) {
+
+  const { savedMovies } = useSavedMovies();
 
   const handleCardClick = (trailerUrl) => {
     window.open(trailerUrl, '_blank');
@@ -12,13 +15,17 @@ function MoviesCardList({movies, handleMovieSave}) {
               {
                 return (
                   <MoviesCard
-                  key={movie.id}
-                  title={movie.nameRU}
-                  image={movie.image.url}
-                  time={movie.duration}  
-                  isSavedPage={false}
+                  movie={movie}
+                  image={movie.image}
+                  trailerLink={movie.trailerLink}
+                  thumbnail={movie.thumbnail}
+                  movieId={movie.id}
+                  key={movie.id || movie._id}
+                  nameRU={movie.nameRU}
+                  duration={movie.duration}  
                   handleCardClick={() => handleCardClick(movie.trailerLink)}
-                  handleMovieSave={handleMovieSave}
+                  savedMovies={savedMovies}
+                  movies={movies}
                 />)}
               )}
             </div>

@@ -7,32 +7,16 @@ class Api {
     getInitialMovies() {
       return fetch(`${this._baseUrl}`, {
         headers: this._headers,
-      }).then(this._getResponseData);
-    }
-
-    deleteCard(id) {
-      return fetch(`${this._baseUrl}/cards/${id}`, {
-        method: "DELETE",
-        headers: this._headers,
-      }).then(this._getResponseData);
-    }
-  
-    deleteLike(id) {
-      return fetch(`${this._baseUrl}/cards/${id}/likes `, {
-        method: "DELETE",
-        headers: this._headers,
-      }).then(this._getResponseData);
-    }
-  
-    saveMovie() {
-      return fetch(`${this._baseUrl}/movies `, {
-        method: "PUT",
-        headers: this._headers,
-      }).then(this._getResponseData);
-    }
-  
-    changeLikeStatus(id, isLiked) {
-      return !isLiked ? this.addLike(id) : this.deleteLike(id);
+      }).then(this._getResponseData)
+      .then((res) => { 
+        return res.map(movie => {
+          return {
+            ...movie,
+            image: `${"https://api.nomoreparties.co/"}${movie.image.url}`,
+            thumbnail: `${"https://api.nomoreparties.co/"}${movie.image.formats.thumbnail.url}`,
+          }
+        });
+    })
     }
 
     _getResponseData(res) {
@@ -45,4 +29,7 @@ class Api {
   
   export const api = new Api({
     baseUrl: "https://api.nomoreparties.co/beatfilm-movies",
+    headers:{
+      "Content-Type": 'application/json'
+    },
   });

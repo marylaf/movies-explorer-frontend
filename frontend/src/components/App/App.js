@@ -1,7 +1,13 @@
-import './App.css';
-import { useState, useEffect, useCallback } from "react";
+import "./App.css";
+import {
+  useState,
+  useEffect,
+} from "react";
 import Main from "../Main/Main";
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
@@ -9,155 +15,220 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Error from "../Error/Error";
 import { Routes, Route } from "react-router-dom";
-import Edition from '../Edition/Edition';
+import Edition from "../Edition/Edition";
 import { api } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function App() {
-
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [searchResults, setSearchResults] = useState(() => {
-    const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
-    return savedSearchResults;
-  });
-
+  const { setSavedMovies, setSearchResults } = useSavedMovies();
   const [movies, setMovies] = useState([]);
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      return true;
+    }
+    return false;
+  });
   const [serverError, setServerError] = useState(null);
+  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [searchError, setSearchError] = useState(false);
+
+  const toggleBurger = () => {
+    setIsBurgerOpen(true);
+  };
 
   useEffect(() => {
     // настало время проверить токен
     tokenCheck();
   }, []);
-  
+
   const tokenCheck = () => {
-
     const jwt = localStorage.getItem("jwt");
-
     if (jwt) {
-
       mainApi.setHeaders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
-      })
-      .then((res) => {
-        if (res) {
+      });
+      mainApi
+        .getCurrentUser()
+        .then((userData) => {
           setIsLoggedIn(true);
-          navigate("/movies", { replace: true });
-          // setUserEmail(res.data.email);
-        }
-      })
-      .catch((e) => console.log("Ошибка", e));
+          setUserEmail(userData.data.email);
+          setUserName(userData.data.name);
+          navigate(location.pathname, { replace: true });
+        })
+        .catch((e) => console.log("Ошибка:", e));
     }
   };
 
-  const handleMovieSave = (movie) => {
-    mainApi.saveMovie(movie)
-    .then((res) =>  {
-      setSavedMovies((prevSavedMovies) => [...prevSavedMovies, movie]);
+  useEffect(() => {
+    mainApi.getMovies()
+      .then((newMovies) => {
+        console.log(newMovies);
+        setSavedMovies(newMovies);
     })
-    .catch(() => {
-      console.log("Ошибка");
-    });
-  };
+      .catch((e) => console.log("Ошибка:", e));
+  }, [setSavedMovies]);
 
   useEffect(() => {
-    api.getInitialMovies()
+    api
+      .getInitialMovies()
       .then((res) => {
+        console.log(res, 'вот тут');
         setMovies(res);
+        setSearchResults(res);
       })
       .catch(() => {
         console.log("Ошибка");
       });
   }, []);
 
-  // cache results
-  useEffect(() => {
-    localStorage.setItem('searchResults', JSON.stringify(searchResults));
-  }, [searchResults])
+  function handleRegister(email, password, name) {
+    return mainApi
+      .register(email, password, name)
+      .then((res) => {
+        console.log(res);
+        setCurrentUser(res.data);
+        setUserEmail(email);
+        setUserName(name);
+        setIsLoggedIn(true);
+        navigate("/movies", { replace: true });
+      })
+      .catch((error) => {
+        setServerError(error); // Установка ошибки
+        throw error;
+      });
+  }
 
-  const handleSearch = useCallback(async (keyword, isFilter) => {
-      const filteredMovies = isFilter ? movies.filter((movie) => movie.duration <= 40) : movies;
-      const results = filteredMovies.filter(movie =>
-        movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.description.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-        movie.year.toLowerCase().includes(keyword.toLowerCase())
-        );
-        setSearchResults(results);
-    }, [movies]);
+  function handleLogin(email, password) {
+    return mainApi
+      .login(email, password)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        mainApi.setHeaders({
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${res.token}`,
+        });
+        setCurrentUser(res.data);
+        setUserEmail(res.data.email);
+        setUserName(res.data.name);
+        setIsLoggedIn(true);
+        navigate("/movies", { replace: true });
+      })
+      .catch((error) => {
+        setServerError(error); // Установка ошибки
+        throw error;
+      });
+  }
 
-    function handleRegister(email, password, name) {
-      return mainApi
-        .register(email, password, name)
-        .then((res) => {
-          navigate("/movies", { replace: true });
-        })
-        .catch((error) => { 
-          setServerError(error); // Установка ошибки
-          throw error;
-     });
-    }
+  function handleEdition(name, email) {
+    return mainApi
+      .updateProfile(name, email)
+      .then((res) => {
+        setUserName(name);
+        setUserEmail(email);
+        setCurrentUser(res.data);
+        navigate("/profile", { replace: true });
+      })
+      .catch((error) => {
+        setServerError(error); // Установка ошибки
+        throw error;
+      });
+  }
 
-    return (
-         <Routes>
+  function handleSignOut() {
+    localStorage.clear();
+    setIsLoggedIn(false);
+    navigate("/sign-in", { replace: true });
+  }
+
+  function closeBurger() {
+    setIsBurgerOpen(false);
+  }
+
+  return (
+      <CurrentUserContext.Provider value={currentUser}>
+          <Routes>
+            <Route path="/" element={<Main />} />
             <Route
-              path="/" element={<Main />}
+              path="/sign-up"
+              element={
+                <Register
+                  handleRegister={handleRegister}
+                  serverError={serverError}
+                />
+              }
             />
             <Route
-              path="/sign-up" element={<Register handleRegister={handleRegister} serverError={serverError} />}
+              path="/sign-in"
+              element={
+                <Login handleLogin={handleLogin} serverError={serverError} />
+              }
             />
             <Route
-              path="/sign-in" element={<Login />}
-            />
-             <Route
-              path="/profile" element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={Profile}
-            /> 
-            }
+              path="/profile"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    handleSignOut={handleSignOut}
+                    userEmail={userEmail}
+                    userName={userName}
+                    toggleBurger={toggleBurger}
+                  />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/movies"
               element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={Movies}
-                  onMovieSave={handleMovieSave}
-                  onSearch={handleSearch}
-                  movies={searchResults}
-                />
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Movies
+                    movies={movies}
+                    toggleBurger={toggleBurger}
+                    searchError={searchError}
+                  />
+                </ProtectedRoute>
               }
-              />
-            <Route
-              path="/saved-movies" element={
-                <ProtectedRoute
-                  movies={savedMovies}
-                  isLoggedIn={isLoggedIn}
-                  element={SavedMovies}
-            /> 
-            }
             />
-             <Route
-              path="/edit" element={
+            <Route
+              path="/saved-movies"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <SavedMovies
+                    toggleBurger={toggleBurger}
+                    setSavedMovies={setSavedMovies}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit"
+              element={
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
                   element={Edition}
-            /> 
-            }
+                  serverError={serverError}
+                  handleEdition={handleEdition}
+                  userEmail={userEmail}
+                  userName={userName}
+                />
+              }
             />
-            <Route
-              path="*" element={<Error />}
-            />
+            <Route path="*" element={<Error />} />
           </Routes>
-    );
+          <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
+      </CurrentUserContext.Provider>
+  );
 }
 
 export default App;

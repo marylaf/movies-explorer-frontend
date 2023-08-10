@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
 
 function Register({handleRegister, serverError}) {
 
-  const { inputs, handleInputChange, errors, isValid } = useFormValidation();
-  
+  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: '', email: '', password: '' });
+
 function handleSubmit(evt) {
   evt.preventDefault();
   handleRegister(inputs.email, inputs.password, inputs.name)
@@ -70,20 +69,20 @@ return (
         />
         <span className="span subtitle-input-error">{errors.password}</span>
         <div className="login__save-container">
-        {serverError && <span className="error">{serverError}</span>}
-        <button
-          type="submit"
-          className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
-          disabled={!isValid}
-        >
-          Зарегистрироваться
-        </button>
-        <div className="login__container-end">
-        <p className="login__paragraph">Уже зарегистрированы?</p>
-        <Link to="/sign-in" className="login__paragraph login__paragraph_type_black">
-        Войти
-        </Link>
-        </div>
+          {serverError && <span className="error">{serverError}</span>}
+          <button
+            type="submit"
+            className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
+            disabled={!isValid}
+          >
+            Зарегистрироваться
+          </button>
+          <div className="login__container-end">
+          <p className="login__paragraph">Уже зарегистрированы?</p>
+          <Link to="/sign-in" className="login__paragraph login__paragraph_type_black">
+          Войти
+          </Link>
+         </div>
         </div>
       </form>
     </div>

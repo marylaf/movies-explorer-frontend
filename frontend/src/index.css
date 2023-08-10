@@ -111,8 +111,8 @@
 @import url(./blocks/login/__welcome/_type/login__welcome_type_edit.css);
 @import url(./blocks/login/__paragraph/_type/login__paragraph_type_black.css);
 @import url(./blocks/login/__container-end/login__container-end.css);
-@import url(./blocks/login/__button-save/_type/login__button-save_type_bigger.css);
 @import url(./blocks/login/__button-save/_disabled/login__button-save_disabled.css);
+@import url(./blocks/login/__save-container/_type/login__save-container_type_bigger.css);
 
 @import url(./blocks/error/__big/error__big.css);
 @import url(./blocks/error/__link/error__link.css);
