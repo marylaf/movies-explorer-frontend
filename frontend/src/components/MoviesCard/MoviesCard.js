@@ -22,30 +22,6 @@ function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
     );
   }, [realMovieId, savedMovies]);
 
-  // const handleMovieSave = (movie) => {
-  //   // const existingMovie = savedMovies.some(
-  //   //   (savedMovie) => savedMovie.movieId === realMovieId
-  //   // );
-
-  //   // if (existingMovie) {
-  //   //   console.log("Фильм уже сохранен");
-  //   //   return;
-  //   // } else {
-  //     mainApi
-  //       .saveMovie(movie)
-  //       .then(() => {
-  //         setIsSaved(true);
-  //         // let savedMovieIds = JSON.parse(
-  //         //   localStorage.getItem("savedMovieIds") || "[]"
-  //         // );
-  //         // savedMovieIds.push(movie.movieId);
-  //         // localStorage.setItem("savedMovieIds", JSON.stringify(savedMovieIds));
-  //       })
-  //       .catch(() => {
-  //         console.log("Ошибка");
-  //       });
-  //   }
-  // };
 
   const handleMovieSave = (movie) => {
     mainApi
@@ -66,7 +42,6 @@ function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
       mainApi
         .deleteMovie(savedMovieToDelete._id)
         .then(() => {
-          // setIsSaved(false);
           const updatedSavedMovies = savedMovies.filter(
             (savedMovie) => savedMovie._id !== savedMovieToDelete._id
           );
