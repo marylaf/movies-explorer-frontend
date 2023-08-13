@@ -14,12 +14,13 @@ function Movies({
   handleMovieSave,
   toggleBurger
 }) {
-  const { savedMovies, searchResults, setSearchResults } = useSavedMovies();
+  const { searchResults, setSearchResults } = useSavedMovies();
   const [displayedRows, setDisplayedRows] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const { width } = useWindowSize();
+  
 
   
   useEffect(() => {

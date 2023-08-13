@@ -27,7 +27,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { setSavedMovies, setSearchResults } = useSavedMovies();
+  const { setSavedMovies, setSearchResults, searchResults } = useSavedMovies();
   const [movies, setMovies] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const jwt = localStorage.getItem("jwt");
@@ -86,7 +86,11 @@ function App() {
       .then((res) => {
         console.log(res, 'вот тут');
         setMovies(res);
-        setSearchResults(res);
+        if (searchResults && searchResults.length > 0) {
+          setSearchResults(searchResults);
+        } else {
+          setSearchResults(res); // Установка начальных результатов, если сохраненных нет
+        }
       })
       .catch(() => {
         console.log("Ошибка");
@@ -97,7 +101,12 @@ function App() {
     return mainApi
       .register(email, password, name)
       .then((res) => {
-        console.log(res);
+        console.log(res, res.token, 'TOKEN');
+        localStorage.setItem("jwt", res.token);
+        mainApi.setHeaders({
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${res.token}`,
+        });
         setCurrentUser(res.data);
         setUserEmail(email);
         setUserName(name);
