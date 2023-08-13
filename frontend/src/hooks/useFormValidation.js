@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 function useFormValidation(initialState) {
     const [inputs, setInputs] = useState(initialState);
-    const [isTouched, setIsTouched] = useState(false);
+    const [touched, setTouched] = useState({});
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
     
@@ -10,14 +10,16 @@ function useFormValidation(initialState) {
         setInputs(initialState);
     }, [...Object.values(initialState)]);
       
-    // console.log("WHAT ARE THE NAMES", inputs);
     const handleInputChange = evt => {
         const { name, value } = evt.target;
         setInputs(prevInputs => ({
             ...prevInputs,
             [name]: value,
           }));
-        setIsTouched(true);
+          setTouched(prevTouched => ({
+            ...prevTouched,
+            [name]: true,
+        }));
         };
 
         const validationRules = {
@@ -50,20 +52,18 @@ function useFormValidation(initialState) {
             },
           };
 
-       useEffect(() => {
-        if(isTouched) {
-            const newErrors = Object.entries(inputs).reduce((acc, [name, value]) => {
-                const errorMessage = validationRules[name] ? validationRules[name](value) : null;
-                return {
-                ...acc,
-                [name]: errorMessage,
-                };
-            }, {});
-            
-            setErrors(newErrors);
-            setIsValid(!Object.values(newErrors).some(Boolean));
-        }
-        }, [inputs, isTouched]);
+            useEffect(() => {
+                const newErrors = Object.entries(inputs).reduce((acc, [name, value]) => {
+                    const errorMessage = validationRules[name] ? validationRules[name](value) : null;
+                    return {
+                        ...acc,
+                        [name]: errorMessage,
+                    };
+                }, {});
+        
+                setErrors(newErrors);
+                setIsValid(!Object.values(newErrors).some(Boolean));
+            }, [inputs]);
 
         return { inputs, handleInputChange, errors, isValid };
     }
