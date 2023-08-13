@@ -57,6 +57,9 @@ function SearchForm({ searchFilms }) {
     }, [isMoviesActive]);
 
      const toggleFilter = useCallback(() => {
+        if (keyword === '') {
+            setErrorMessage("Нужно ввести ключевое слово");
+        }
         setIsFilter((prevIsFilter) => !prevIsFilter);
         if (isMoviesActive) {
             localStorage.setItem('isFilter', JSON.stringify(!isFilter));
