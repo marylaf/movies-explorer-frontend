@@ -21,6 +21,7 @@ import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import PopupSuccess from "../PopupSuccess/PopupSuccess";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [searchError, setSearchError] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
 
   const toggleBurger = () => {
     setIsBurgerOpen(true);
@@ -97,6 +99,15 @@ function App() {
       });
   }, []);
 
+
+  // function handleConfirmationClick() {
+  //   setSuccessPopupOpen(true);
+  // }
+
+  // function closePopup() {
+  //   setSuccessPopupOpen(false);
+  // }
+
   function handleRegister(email, password, name) {
     return mainApi
       .register(email, password, name)
@@ -147,6 +158,7 @@ function App() {
         setUserName(name);
         setUserEmail(email);
         setCurrentUser(res.data);
+        setIsSuccessPopupOpen(true);
         navigate("/profile", { replace: true });
       })
       .catch((error) => {
@@ -224,18 +236,18 @@ function App() {
               path="/edit"
               element={
                 <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={Edition}
-                  serverError={serverError}
+                  isLoggedIn={isLoggedIn}>
+                  <Edition serverError={serverError}
                   handleEdition={handleEdition}
                   userEmail={userEmail}
-                  userName={userName}
-                />
+                  userName={userName} />
+                  </ProtectedRoute>
               }
             />
             <Route path="*" element={<Error />} />
           </Routes>
           <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
+          <PopupSuccess isOpen={isSuccessPopupOpen} onClose={() => setIsSuccessPopupOpen(false)} />
       </CurrentUserContext.Provider>
   );
 }
