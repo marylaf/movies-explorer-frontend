@@ -17,7 +17,6 @@ function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
   });
   
   useEffect(() => {
-    console.log("USE EFFECT set saved", realMovieId, savedMovies);
     setIsSaved(
       savedMovies.some((savedMovie) => (savedMovie.id ?? savedMovie.movieId) === realMovieId)
     );

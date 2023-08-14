@@ -15,7 +15,6 @@ function SavedMovies({ toggleBurger }) {
   const [searchError, setSearchError] = useState(false);
   const { savedMovies } = useSavedMovies();
 
-  console.log(savedMovies);
   const handleSearchSaved = useCallback(
     async (keyword, isFilter) => {
       if (!keyword.trim()) {
@@ -45,20 +44,34 @@ function SavedMovies({ toggleBurger }) {
     [savedMovies]
   );
 
-  const savedSearch = (keyword, isFilter) => {
+  const savedSearch = async (keyword, isFilter) => {
     setIsLoading(true);
     setSearchError(false);
-    handleSearchSaved(keyword, isFilter)
-      .then(() => {
-        console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
-        setIsLoading(false);
-        // setSavedMovies(searchResults);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setSearchError(true);
-      });
+
+    try {
+      await handleSearchSaved(keyword, isFilter)
+      console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
+    } catch (error) {
+      setSearchError(true);
+    } finally {
+      setIsLoading(false); // Скрываем прелоадер при завершении поиска (успешном или неуспешном)
+    }
   };
+
+  // const savedSearch = (keyword, isFilter) => {
+  //   setIsLoading(true);
+  //   setSearchError(false);
+  //   handleSearchSaved(keyword, isFilter)
+  //     .then(() => {
+  //       console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
+  //       setIsLoading(false);
+  //       // setSavedMovies(searchResults);
+  //     })
+  //     .catch(() => {
+  //       setIsLoading(false);
+  //       setSearchError(true);
+  //     });
+  // };
 
     const moviesToRender = useMemo(() => {
       if (searchKeyword.length) {

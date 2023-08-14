@@ -24,9 +24,9 @@ function Movies({
 
   
   useEffect(() => {
-    if (searchResults.length > 0) {
-      setIsLoading(false);
-    }
+    // if (searchResults.length > 0) {
+    //   setIsLoading(false);
+    // }
     // cache results
     localStorage.setItem("searchResults", JSON.stringify(searchResults));
   }, [searchResults]);
@@ -57,21 +57,20 @@ function Movies({
     [movies]
   );
 
-  const performSearch = (keyword, isFilter) => {
+  const performSearch = async (keyword, isFilter) => {
     setIsLoading(true);
     setSearchError(false);
-    handleSearch(keyword, isFilter)
-      .then(() => {
-        console.log("ФИЛЬМЫ ИЩУТСЯ");
-        setDisplayedRows(1);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setSearchError(true);
-      });
-  };
 
+    try {
+      await handleSearch(keyword, isFilter)
+      console.log("ФИЛЬМЫ ИЩУТСЯ");
+      setDisplayedRows(1);
+    } catch (error) {
+      setSearchError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getMoviesRow = (windowWidth) => {
     if (windowWidth >= 1171) {
@@ -95,29 +94,30 @@ function Movies({
     setDisplayedRows((prevRows) => prevRows + 1); // Увеличиваем количество отображаемых рядов
   };
 
+  let pageState = (() => {
+    if (isLoading) {
+      return "loading";
+    }
+    if (searchKeyword.length > 0) {
+      if (searchError) {
+        return "search_error";
+      }
+      if (searchResults.length === 0) {
+        return "no_results";
+      }
+    }
+    return "movies";   
+  })();
+
   return (
     <section className="movies">
       <HeaderAuth toggleBurger={toggleBurger} />
       <SearchForm searchFilms={performSearch} />
-      {isLoading ? (
-        <Preloader />
-      ) : searchResults.length > 0 ? (
-        <>
-          <MoviesCardList
-            movies={displayedMovies}
-            handleMovieSave={handleMovieSave}
-          />
-          {searchResults.length > displayedMovies.length && (
-            <MoreFilms handleLoadMore={handleLoadMore} />
-          )}
-        </>
-      ) : (
-        <p className="paragraph">
-          {searchError
-            ? "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
-            : "Ничего не найдено"}
-        </p>
-      )}
+      {pageState === "loading" && <Preloader />}
+      {pageState === "search_error" && (<p className="paragraph">{searchError}</p>)}
+      {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
+      {pageState === "movies" && (<MoviesCardList movies={displayedMovies} handleMovieSave={handleMovieSave} />)}
+      {pageState === "movies" && searchResults.length > displayedMovies.length && ( <MoreFilms handleLoadMore={handleLoadMore} />)}
       <Footer />
       <BurgerMenu />
     </section>
