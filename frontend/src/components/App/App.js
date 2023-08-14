@@ -99,15 +99,6 @@ function App() {
       });
   }, []);
 
-
-  // function handleConfirmationClick() {
-  //   setSuccessPopupOpen(true);
-  // }
-
-  // function closePopup() {
-  //   setSuccessPopupOpen(false);
-  // }
-
   function handleRegister(email, password, name) {
     return mainApi
       .register(email, password, name)
@@ -158,6 +149,7 @@ function App() {
         setUserName(name);
         setUserEmail(email);
         setCurrentUser(res.data);
+        console.log(name, email);
         setIsSuccessPopupOpen(true);
         navigate("/profile", { replace: true });
       })

@@ -1,19 +1,36 @@
 import { Link } from "react-router-dom";
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
 
 function Edition({serverError, handleEdition, userEmail, userName}) {
   const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: userName, email: userEmail});
+  const [isFormUnchanged, setIsFormUnchanged] = useState(true);
 
   function handleChangeSubmit(evt) {
     evt.preventDefault();
+    if (isFormUnchanged) {
+      console.log("Информация не изменилась");
+      return;
+    }
     handleEdition(inputs.name, inputs.email)
     .catch((error) => {
       console.log('Ошибка');
       }
   );
     }
+
+    useEffect(() => {
+      checkFormChanges();
+    }, [inputs, userName, userEmail]);
+
+    const checkFormChanges = () => {
+      if (inputs.name === userName && inputs.email === userEmail) {
+        setIsFormUnchanged(true);
+      } else {
+        setIsFormUnchanged(false);
+      }
+    };
 
     return (
         <div className="login">
@@ -59,8 +76,8 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
             {serverError && <span className="error">{serverError}</span>}
             <button
               type="submit"
-              className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
-              disabled={!isValid}
+              className={`login__button-save ${!isFormUnchanged && isValid ? '' : 'login__button-save_disabled'}`}
+              disabled={!isValid && isFormUnchanged}
             >
               Сохранить
             </button>

@@ -66,15 +66,6 @@ function SearchForm({ searchFilms }) {
         }
         searchFilms(keyword, !isFilter);
     }, [keyword, !isFilter, searchFilms, isMoviesActive]);
-
-    // const toggleFilter = useCallback(() => {
-    //     setIsFilter((prevIsFilter) => !prevIsFilter);
-    //     localStorage.setItem('request', keyword);
-    //     const newKeyword = localStorage.getItem('request');
-    //     setKeyword(newKeyword);
-    //     searchFilms(newKeyword, !isFilter);
-    //     localStorage.setItem('isFilter', JSON.stringify(!isFilter));
-    // }, [keyword, isFilter]);
        
 
     return(
