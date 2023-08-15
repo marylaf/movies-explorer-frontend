@@ -115,6 +115,6 @@ class MainApi {
   }
   
   export const mainApi = new MainApi({
-    // baseUrl: "https://api.mary.student.nomoredomains.monster",
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://api.mary.student.nomoredomains.monster",
+    // baseUrl: "http://localhost:3000",
   });
