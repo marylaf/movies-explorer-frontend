@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import iconSaved from "../../images/saved.svg";
 import { mainApi } from "../../utils/MainApi";
+import { api } from "../../utils/MoviesApi";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
 function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
@@ -66,13 +67,13 @@ function MoviesCard({ movie, nameRU, duration, image, handleCardClick }) {
     changeButtonStatus(movie, isSaved);
   };
 
-  console.log("MOVIE", movie.nameRU, realMovieId, isSaved, savedMovies);
+  console.log("MOVIE", movie.nameRU, movie.duration, realMovieId, isSaved, savedMovies);
 
   return (
     <article className="card">
       <div className="card__titles">
         <h4 className="card__name">{nameRU}</h4>
-        <p className="card__count">{duration}</p>
+        <p className="card__count">{mainApi._convertToHoursAndMinutes(duration) || api._convertToHoursAndMinutes(duration)}</p>
       </div>
       <img
         className="card__image"

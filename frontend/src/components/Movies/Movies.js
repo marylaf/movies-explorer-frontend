@@ -12,7 +12,8 @@ import useWindowSize from "../../hooks/resize";
 function Movies({
   movies,
   handleMovieSave,
-  toggleBurger
+  toggleBurger, 
+  isLoggedIn
 }) {
   const { searchResults, setSearchResults } = useSavedMovies();
   const [displayedRows, setDisplayedRows] = useState(1);
@@ -24,9 +25,9 @@ function Movies({
 
   
   useEffect(() => {
-    // if (searchResults.length > 0) {
-    //   setIsLoading(false);
-    // }
+    if (searchResults.length > 0) {
+      setIsLoading(false);
+    }
     // cache results
     localStorage.setItem("searchResults", JSON.stringify(searchResults));
   }, [searchResults]);
@@ -45,14 +46,11 @@ function Movies({
         : movies;
       const results = filteredMovies.filter(
         (movie) =>
-          movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-          movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-          movie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-          movie.description.toLowerCase().includes(keyword.toLowerCase()) ||
-          movie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-          movie.year.toLowerCase().includes(keyword.toLowerCase())
+        movie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
+        movie.nameEN.toLowerCase().includes(keyword.toLowerCase())
       );
       setSearchResults(results);
+      console.log(results);
     },
     [movies]
   );
@@ -73,9 +71,11 @@ function Movies({
   };
 
   const getMoviesRow = (windowWidth) => {
-    if (windowWidth >= 1171) {
+    if (windowWidth >= 1280) {
+      return 4;
+    } else if (windowWidth >= 768) {
       return 3;
-    } else if (windowWidth >= 731) {
+    } else if (windowWidth >= 320) {
       return 2;
     } else {
       return 1;
@@ -98,15 +98,13 @@ function Movies({
     if (isLoading) {
       return "loading";
     }
-    if (searchKeyword.length > 0) {
+    if (displayedMovies.length === 0) {
       if (searchError) {
         return "search_error";
       }
-      if (searchResults.length === 0) {
-        return "no_results";
-      }
+      return "no_results";
     }
-    return "movies";   
+    return "movies";
   })();
 
   return (
@@ -116,6 +114,11 @@ function Movies({
       {pageState === "loading" && <Preloader />}
       {pageState === "search_error" && (<p className="paragraph">{searchError}</p>)}
       {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
+        {/* <p className="paragraph">
+          {searchError
+            ? "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+            : "Ничего не найдено"}
+        </p> */}
       {pageState === "movies" && (<MoviesCardList movies={displayedMovies} handleMovieSave={handleMovieSave} />)}
       {pageState === "movies" && searchResults.length > displayedMovies.length && ( <MoreFilms handleLoadMore={handleLoadMore} />)}
       <Footer />

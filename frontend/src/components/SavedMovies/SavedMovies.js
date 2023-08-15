@@ -26,17 +26,16 @@ function SavedMovies({ toggleBurger }) {
       const filteredMovies = isFilter
         ? savedMovies.filter((savedMovie) => savedMovie.duration <= 40)
         : savedMovies;
-      filteredMovies.forEach((savedMovie) => console.log(savedMovie.year));
       const results = filteredMovies.filter(
         (savedMovie) =>
-          savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.description
-            .toLowerCase()
-            .includes(keyword.toLowerCase()) ||
-          savedMovie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.year.toLowerCase().includes(keyword.toLowerCase())
+        savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
+        savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase())
+          // savedMovie.country.toLowerCase().includes(keyword.toLowerCase()) ||
+          // savedMovie.description
+          //   .toLowerCase()
+          //   .includes(keyword.toLowerCase()) ||
+          // savedMovie.director.toLowerCase().includes(keyword.toLowerCase()) ||
+          // savedMovie.year.toLowerCase().includes(keyword.toLowerCase())
       );
       setSearchResults(results);
       setSearchKeyword(keyword);
@@ -57,21 +56,6 @@ function SavedMovies({ toggleBurger }) {
       setIsLoading(false); // Скрываем прелоадер при завершении поиска (успешном или неуспешном)
     }
   };
-
-  // const savedSearch = (keyword, isFilter) => {
-  //   setIsLoading(true);
-  //   setSearchError(false);
-  //   handleSearchSaved(keyword, isFilter)
-  //     .then(() => {
-  //       console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
-  //       setIsLoading(false);
-  //       // setSavedMovies(searchResults);
-  //     })
-  //     .catch(() => {
-  //       setIsLoading(false);
-  //       setSearchError(true);
-  //     });
-  // };
 
     const moviesToRender = useMemo(() => {
       if (searchKeyword.length) {

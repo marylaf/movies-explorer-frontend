@@ -86,8 +86,8 @@ function App() {
     api
       .getInitialMovies()
       .then((res) => {
-        console.log(res, 'вот тут');
         setMovies(res);
+        console.log(res);
         if (searchResults && searchResults.length > 0) {
           setSearchResults(searchResults);
         } else {
@@ -162,6 +162,11 @@ function App() {
   function handleSignOut() {
     localStorage.clear();
     setIsLoggedIn(false);
+    setUserEmail("");
+    setUserName("");
+    // setSavedMovies([]);
+    // setSearchResults([]);
+    setCurrentUser({});
     navigate("/sign-in", { replace: true });
   }
 
@@ -209,6 +214,7 @@ function App() {
                     movies={movies}
                     toggleBurger={toggleBurger}
                     searchError={searchError}
+                    isLoggedIn={isLoggedIn}
                   />
                 </ProtectedRoute>
               }
