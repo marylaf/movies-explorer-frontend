@@ -6,18 +6,24 @@ import useFormValidation from "../../hooks/useFormValidation";
 function Edition({serverError, handleEdition, userEmail, userName}) {
   const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: userName, email: userEmail});
   const [isFormUnchanged, setIsFormUnchanged] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChangeSubmit(evt) {
     evt.preventDefault();
+    setIsSubmitting(true);
     if (isFormUnchanged) {
       console.log("Информация не изменилась");
+      setIsSubmitting(false);
       return;
     }
     handleEdition(inputs.name, inputs.email)
     .catch((error) => {
       console.log('Ошибка');
       }
-  );
+  )
+    .finally(() => {
+      setIsSubmitting(false);
+    });
     }
 
     useEffect(() => {
@@ -76,8 +82,8 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
             {serverError && <span className="error">{serverError}</span>}
             <button
               type="submit"
-              className={`login__button-save ${!isFormUnchanged && isValid ? '' : 'login__button-save_disabled'}`}
-              disabled={!isValid && isFormUnchanged}
+              className={`login__button-save ${!isSubmitting && !isFormUnchanged && isValid ? '' : 'login__button-save_disabled'}`}
+              disabled={isSubmitting && !isValid && isFormUnchanged}
             >
               Сохранить
             </button>

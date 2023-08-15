@@ -1,19 +1,25 @@
 import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
+import { useState } from "react";
 
 function Login({handleLogin, serverError, isLoggedIn}) {
 
   const { inputs, handleInputChange, errors, isValid } = useFormValidation({ email: '', password: ''});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   
   function handleInSubmit(evt) {
     evt.preventDefault();
+    setIsSubmitting(true);
     handleLogin(inputs.email, inputs.password)
     .catch((error) => {
       console.log('Ошибка');
       }
-  );
+  )
+    .finally(() => {
+      setIsSubmitting(false);
+    });
   }
 
   if (isLoggedIn) {
@@ -64,8 +70,8 @@ function Login({handleLogin, serverError, isLoggedIn}) {
         {serverError && <span className="error">{serverError}</span>}
         <button
             type="submit"
-            className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
-            disabled={!isValid}
+            className={`login__button-save ${!isSubmitting && isValid ? '' : 'login__button-save_disabled'}`}
+            disabled={!isValid && isSubmitting}
           >
           Войти
         </button>

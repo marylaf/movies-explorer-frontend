@@ -1,18 +1,24 @@
 import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
+import { useState } from "react";
 
 function Register({ handleRegister, serverError, isLoggedIn }) {
 
   const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: '', email: '', password: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
 function handleSubmit(evt) {
   evt.preventDefault();
+  setIsSubmitting(true);
   handleRegister(inputs.email, inputs.password, inputs.name)
   .catch((error) => {
     console.log('Ошибка');
     }
-);
+)
+  .finally(() => {
+    setIsSubmitting(false);
+  });
 }
 
 if (isLoggedIn) {
@@ -77,8 +83,8 @@ return (
           {serverError && <span className="error">{serverError}</span>}
           <button
             type="submit"
-            className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
-            disabled={!isValid}
+            className={`login__button-save ${!isSubmitting && isValid ? '' : 'login__button-save_disabled'}`}
+            disabled={isSubmitting && !isValid}
           >
             Зарегистрироваться
           </button>

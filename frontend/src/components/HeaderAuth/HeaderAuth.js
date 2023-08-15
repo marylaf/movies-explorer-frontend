@@ -1,36 +1,47 @@
 import React from "react";
 import logo from "../../images/logo.svg";
 import profile from "../../images/profile.svg";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function HeaderAuth({ toggleBurger, isLoggedIn }) {
-
   return (
-    <header className={`header ${isLoggedIn ? '' : 'header-auth'}`}>
-      <div className='header__container'>
-      <Link to="/">
-      <img className="logo" src={logo} alt="Логотип" />
-      </Link>
-      <div className="header__info-container header__info-burger">
-            <Link to="/movies" className="header__link">
+    <header className={`header ${isLoggedIn ? "" : "header-auth"}`}>
+      <div className="header__container">
+        <Link to="/">
+          <img className="logo" src={logo} alt="Логотип" />
+        </Link>
+        <div className="header__info-container header__info-burger">
+          <NavLink
+            to="/movies"
+            className="header__link"
+            activeclassname="active"
+          >
             Фильмы
-            </Link>
+          </NavLink>
 
-            <Link to="/saved-movies" className="header__link header-auth_type_saved">
+          <NavLink
+            to="/saved-movies"
+            className="header__link"
+            activeclassname="active"
+          >
             Сохранённые фильмы
-            </Link>
-      </div>
+          </NavLink>
+        </div>
 
-      <div className="header__info-container header__info-burger">
-            <Link to="/profile" className="header__link">
+        <div className="header__info-container header__info-burger">
+          <NavLink
+            to="/profile"
+            className="header__link"
+            activeclassname="active"
+          >
             Аккаунт
-            </Link>
+          </NavLink>
 
-            <Link to="/profile" className="header-auth__account">
+          <Link to="/profile" className="header-auth__account">
             <img src={profile} alt="Аккаунт" />
-            </Link>
-      </div>
-      <button className="header-auth__burger" onClick={toggleBurger}></button>
+          </Link>
+        </div>
+        <button className="header-auth__burger" onClick={toggleBurger}></button>
       </div>
     </header>
   );

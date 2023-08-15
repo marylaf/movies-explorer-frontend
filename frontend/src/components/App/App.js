@@ -63,7 +63,11 @@ function App() {
           setUserName(userData.data.name);
           navigate(location.pathname, { replace: true });
         })
-        .catch((e) => console.log("Ошибка:", e));
+        .catch(() => {
+          console.log("Ошибка");
+          localStorage.removeItem("jwt");
+          navigate("/sign-in");
+        }); 
     }
   };
 
@@ -111,6 +115,10 @@ function App() {
         navigate("/movies", { replace: true });
       })
       .catch((error) => {
+        if (error.status === 401) {
+          localStorage.removeItem("jwt");
+          navigate("/sign-in");
+        }
         setServerError(error); // Установка ошибки
         throw error;
       });
@@ -132,6 +140,10 @@ function App() {
         navigate("/movies", { replace: true });
       })
       .catch((error) => {
+        if (error.status === 401) {
+          localStorage.removeItem("jwt");
+          navigate("/sign-in");
+        }
         setServerError(error); // Установка ошибки
         throw error;
       });
