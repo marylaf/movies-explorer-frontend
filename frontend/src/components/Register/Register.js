@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
 
-function Register({handleRegister, serverError}) {
+function Register({ handleRegister, serverError, isLoggedIn }) {
 
   const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: '', email: '', password: '' });
 
@@ -13,6 +13,11 @@ function handleSubmit(evt) {
     console.log('Ошибка');
     }
 );
+}
+
+if (isLoggedIn) {
+  // Если пользователь авторизован, перенаправляем на страницу фильмов
+  return <Navigate to="/movies" replace />;
 }
 
 return (

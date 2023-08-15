@@ -8,4 +8,6 @@
     line-height: 12px;
     color: #FF4062;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }

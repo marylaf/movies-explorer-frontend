@@ -1,13 +1,7 @@
 import "./App.css";
-import {
-  useState,
-  useEffect,
-} from "react";
+import { useState, useEffect } from "react";
 import Main from "../Main/Main";
-import {
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
@@ -74,11 +68,12 @@ function App() {
   };
 
   useEffect(() => {
-    mainApi.getMovies()
+    mainApi
+      .getMovies()
       .then((newMovies) => {
         console.log(newMovies);
         setSavedMovies(newMovies);
-    })
+      })
       .catch((e) => console.log("Ошибка:", e));
   }, [setSavedMovies]);
 
@@ -103,7 +98,7 @@ function App() {
     return mainApi
       .register(email, password, name)
       .then((res) => {
-        console.log(res, res.token, 'TOKEN');
+        console.log(res, res.token, "TOKEN");
         localStorage.setItem("jwt", res.token);
         mainApi.setHeaders({
           "Content-Type": "application/json",
@@ -167,7 +162,7 @@ function App() {
     // setSavedMovies([]);
     // setSearchResults([]);
     setCurrentUser({});
-    navigate("/sign-in", { replace: true });
+    navigate("/", { replace: true });
   }
 
   function closeBurger() {
@@ -175,78 +170,87 @@ function App() {
   }
 
   return (
-      <CurrentUserContext.Provider value={currentUser}>
-          <Routes>
-            <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
-            <Route
-              path="/sign-up"
-              element={
-                <Register
-                  handleRegister={handleRegister}
-                  serverError={serverError}
-                />
-              }
+    <CurrentUserContext.Provider value={currentUser}>
+      <Routes>
+        <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
+        <Route
+          path="/sign-up"
+          element={
+            <Register
+              isLoggedIn={isLoggedIn}
+              handleRegister={handleRegister}
+              serverError={serverError}
             />
-            <Route
-              path="/sign-in"
-              element={
-                <Login handleLogin={handleLogin} serverError={serverError} />
-              }
+          }
+        />
+        <Route
+          path="/sign-in"
+          element={
+            <Login
+              isLoggedIn={isLoggedIn}
+              handleLogin={handleLogin}
+              serverError={serverError}
             />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <Profile
-                    handleSignOut={handleSignOut}
-                    userEmail={userEmail}
-                    userName={userName}
-                    toggleBurger={toggleBurger}
-                  />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/movies"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <Movies
-                    movies={movies}
-                    toggleBurger={toggleBurger}
-                    searchError={searchError}
-                    isLoggedIn={isLoggedIn}
-                  />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/saved-movies"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <SavedMovies
-                    toggleBurger={toggleBurger}
-                    setSavedMovies={setSavedMovies}
-                  />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/edit"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}>
-                  <Edition serverError={serverError}
-                  handleEdition={handleEdition}
-                  userEmail={userEmail}
-                  userName={userName} />
-                  </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<Error />} />
-          </Routes>
-          <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
-          <PopupSuccess isOpen={isSuccessPopupOpen} onClose={() => setIsSuccessPopupOpen(false)} />
-      </CurrentUserContext.Provider>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Profile
+                handleSignOut={handleSignOut}
+                userEmail={userEmail}
+                userName={userName}
+                toggleBurger={toggleBurger}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/movies"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Movies
+                movies={movies}
+                toggleBurger={toggleBurger}
+                searchError={searchError}
+                isLoggedIn={isLoggedIn}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/saved-movies"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <SavedMovies
+                toggleBurger={toggleBurger}
+                setSavedMovies={setSavedMovies}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Edition
+                serverError={serverError}
+                handleEdition={handleEdition}
+                userEmail={userEmail}
+                userName={userName}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Error />} />
+      </Routes>
+      <BurgerMenu onClose={closeBurger} isOpen={isBurgerOpen} />
+      <PopupSuccess
+        isOpen={isSuccessPopupOpen}
+        onClose={() => setIsSuccessPopupOpen(false)}
+      />
+    </CurrentUserContext.Provider>
   );
 }
 
