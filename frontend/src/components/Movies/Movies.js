@@ -12,8 +12,7 @@ import useWindowSize from "../../hooks/resize";
 function Movies({
   movies,
   handleMovieSave,
-  toggleBurger, 
-  isLoggedIn
+  toggleBurger
 }) {
   const { searchResults, setSearchResults } = useSavedMovies();
   const [displayedRows, setDisplayedRows] = useState(1);
@@ -114,11 +113,6 @@ function Movies({
       {pageState === "loading" && <Preloader />}
       {pageState === "search_error" && (<p className="paragraph">{searchError}</p>)}
       {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
-        {/* <p className="paragraph">
-          {searchError
-            ? "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
-            : "Ничего не найдено"}
-        </p> */}
       {pageState === "movies" && (<MoviesCardList movies={displayedMovies} handleMovieSave={handleMovieSave} />)}
       {pageState === "movies" && searchResults.length > displayedMovies.length && ( <MoreFilms handleLoadMore={handleLoadMore} />)}
       <Footer />

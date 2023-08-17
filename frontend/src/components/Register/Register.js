@@ -1,17 +1,26 @@
 import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { REGEX_NAME_PATTERN, REGEX_EMAIL_PATTERN } from '../../utils/constants';
 
-function Register({ handleRegister, serverError, isLoggedIn }) {
+function Register({ handleRegister, serverError, isLoggedIn, setServerError }) {
 
-  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: '', email: '', password: '' });
+  const { values, handleInputChange, errors, isValid, setValues } = useFormValidation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setValues({
+      email:"",
+      password:""
+    });
+    setServerError("");
+  }, [setValues, setServerError]);
 
 function handleSubmit(evt) {
   evt.preventDefault();
   setIsSubmitting(true);
-  handleRegister(inputs.email, inputs.password, inputs.name)
+  handleRegister(values.email, values.password, values.name)
   .catch((error) => {
     console.log('Ошибка');
     }
@@ -46,8 +55,9 @@ return (
           minLength="6"
           maxLength="40"
           name="name"
-          value={inputs.name || ''}
+          value={values.name || ''}
           onChange={handleInputChange}
+          pattern={REGEX_NAME_PATTERN}
           required
         />
         <span className="span title-input-error">{errors.name}</span>
@@ -60,8 +70,9 @@ return (
           minLength="6"
           maxLength="40"
           name="email"
-          value={inputs.email || ''}
+          value={values.email || ''}
           onChange={handleInputChange}
+          pattern={REGEX_EMAIL_PATTERN}
           required
         />
         <span className="span title-input-error">{errors.email}</span>
@@ -73,7 +84,7 @@ return (
           id="subtitle-input"
           minLength="6"
           maxLength="200"
-          value={inputs.password || ''}
+          value={values.password || ''}
           onChange={handleInputChange}
           name="password"
           required
@@ -84,7 +95,7 @@ return (
           <button
             type="submit"
             className={`login__button-save ${!isSubmitting && isValid ? '' : 'login__button-save_disabled'}`}
-            disabled={isSubmitting && !isValid}
+            disabled={!isValid || isSubmitting}
           >
             Зарегистрироваться
           </button>

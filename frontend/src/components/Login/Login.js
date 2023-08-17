@@ -1,18 +1,27 @@
 import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { REGEX_NAME_PATTERN, REGEX_EMAIL_PATTERN } from '../../utils/constants';
 
-function Login({handleLogin, serverError, isLoggedIn}) {
+function Login({handleLogin, serverError, isLoggedIn, setServerError}) {
 
-  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ email: '', password: ''});
+  const { values, handleInputChange, errors, isValid, setValues } = useFormValidation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  
+  useEffect(() => {
+    setValues({
+      email:"",
+      password:""
+    });
+    setServerError("");
+  }, [setValues, setServerError]);
+
   function handleInSubmit(evt) {
     evt.preventDefault();
     setIsSubmitting(true);
-    handleLogin(inputs.email, inputs.password)
+   
+    handleLogin(values.email, values.password)
     .catch((error) => {
       console.log('Ошибка');
       }
@@ -44,11 +53,12 @@ function Login({handleLogin, serverError, isLoggedIn}) {
           onChange={handleInputChange}
           type="text"
           name="email"
-          value={inputs.email || ''}
+          value={values.email || ''}
           className="login__info login__info_form_title"
           id="title-input"
           minLength="6"
           maxLength="40"
+          pattern={REGEX_NAME_PATTERN}
           required
         />
         <span className="span title-input-error">{errors.email}</span>
@@ -58,11 +68,12 @@ function Login({handleLogin, serverError, isLoggedIn}) {
           onChange={handleInputChange}
           type="password"
           name="password"
-          value={inputs.password || ''}
+          value={values.password || ''}
           className="login__info login__info_form_subtitle"
           id="subtitle-input"
           minLength="6"
           maxLength="200"
+          pattern={REGEX_EMAIL_PATTERN}
           required
         />
         <span className="span subtitle-input-error">{errors.password}</span>
@@ -71,7 +82,7 @@ function Login({handleLogin, serverError, isLoggedIn}) {
         <button
             type="submit"
             className={`login__button-save ${!isSubmitting && isValid ? '' : 'login__button-save_disabled'}`}
-            disabled={!isValid && isSubmitting}
+            disabled={!isValid || isSubmitting}
           >
           Войти
         </button>

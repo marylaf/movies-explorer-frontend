@@ -32,11 +32,10 @@ function App() {
     return false;
   });
   const [serverError, setServerError] = useState(null);
-  const [userEmail, setUserEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  // const [userEmail, setUserEmail] = useState("");
+  // const [userName, setUserName] = useState("");
   const [currentUser, setCurrentUser] = useState({});
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const [searchError, setSearchError] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
 
   const toggleBurger = () => {
@@ -59,8 +58,9 @@ function App() {
         .getCurrentUser()
         .then((userData) => {
           setIsLoggedIn(true);
-          setUserEmail(userData.data.email);
-          setUserName(userData.data.name);
+          // setUserEmail(userData.data.email);
+          // setUserName(userData.data.name);
+          setCurrentUser(userData.data);
           navigate(location.pathname, { replace: true });
         })
         .catch(() => {
@@ -72,13 +72,15 @@ function App() {
   };
 
   useEffect(() => {
-    mainApi
+    if (isLoggedIn) {
+      mainApi
       .getMovies()
       .then((newMovies) => {
         console.log(newMovies);
         setSavedMovies(newMovies);
       })
       .catch((e) => console.log("Ошибка:", e));
+    }
   }, [setSavedMovies]);
 
   useEffect(() => {
@@ -109,8 +111,8 @@ function App() {
           Authorization: `Bearer ${res.token}`,
         });
         setCurrentUser(res.data);
-        setUserEmail(email);
-        setUserName(name);
+        // setUserEmail(email);
+        // setUserName(name);
         setIsLoggedIn(true);
         navigate("/movies", { replace: true });
       })
@@ -134,8 +136,8 @@ function App() {
           Authorization: `Bearer ${res.token}`,
         });
         setCurrentUser(res.data);
-        setUserEmail(res.data.email);
-        setUserName(res.data.name);
+        // setUserEmail(res.data.email);
+        // setUserName(res.data.name);
         setIsLoggedIn(true);
         navigate("/movies", { replace: true });
       })
@@ -153,10 +155,7 @@ function App() {
     return mainApi
       .updateProfile(name, email)
       .then((res) => {
-        setUserName(name);
-        setUserEmail(email);
-        setCurrentUser(res.data);
-        console.log(name, email);
+        setCurrentUser(res);
         setIsSuccessPopupOpen(true);
         navigate("/profile", { replace: true });
       })
@@ -169,8 +168,7 @@ function App() {
   function handleSignOut() {
     localStorage.clear();
     setIsLoggedIn(false);
-    setUserEmail("");
-    setUserName("");
+    setCurrentUser({});
     // setSavedMovies([]);
     // setSearchResults([]);
     setCurrentUser({});
@@ -192,6 +190,7 @@ function App() {
               isLoggedIn={isLoggedIn}
               handleRegister={handleRegister}
               serverError={serverError}
+              setServerError={setServerError}
             />
           }
         />
@@ -202,6 +201,7 @@ function App() {
               isLoggedIn={isLoggedIn}
               handleLogin={handleLogin}
               serverError={serverError}
+              setServerError={setServerError}
             />
           }
         />
@@ -211,8 +211,6 @@ function App() {
             <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Profile
                 handleSignOut={handleSignOut}
-                userEmail={userEmail}
-                userName={userName}
                 toggleBurger={toggleBurger}
               />
             </ProtectedRoute>
@@ -225,8 +223,6 @@ function App() {
               <Movies
                 movies={movies}
                 toggleBurger={toggleBurger}
-                searchError={searchError}
-                isLoggedIn={isLoggedIn}
               />
             </ProtectedRoute>
           }
@@ -249,8 +245,7 @@ function App() {
               <Edition
                 serverError={serverError}
                 handleEdition={handleEdition}
-                userEmail={userEmail}
-                userName={userName}
+                setServerError={setServerError}
               />
             </ProtectedRoute>
           }

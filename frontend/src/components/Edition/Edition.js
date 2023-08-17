@@ -1,12 +1,24 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
+import { REGEX_NAME_PATTERN, REGEX_EMAIL_PATTERN } from '../../utils/constants';
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function Edition({serverError, handleEdition, userEmail, userName}) {
-  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ name: userName, email: userEmail});
+function Edition({serverError, handleEdition, setServerError}) {
+  const { values, handleInputChange, errors, isValid, setValues } = useFormValidation();
   const [isFormUnchanged, setIsFormUnchanged] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const currentUser = useContext(CurrentUserContext);
+  console.log(currentUser);
+
+  useEffect(() => {
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+    setServerError("");
+  }, [currentUser, setValues, setServerError]);
 
   function handleChangeSubmit(evt) {
     evt.preventDefault();
@@ -16,7 +28,7 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
       setIsSubmitting(false);
       return;
     }
-    handleEdition(inputs.name, inputs.email)
+    handleEdition(values.name, values.email)
     .catch((error) => {
       console.log('Ошибка');
       }
@@ -28,10 +40,10 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
 
     useEffect(() => {
       checkFormChanges();
-    }, [inputs, userName, userEmail]);
+    }, [values, currentUser]);
 
     const checkFormChanges = () => {
-      if (inputs.name === userName && inputs.email === userEmail) {
+      if (currentUser.name === values.name && currentUser.email === values.email) {
         setIsFormUnchanged(true);
       } else {
         setIsFormUnchanged(false);
@@ -56,11 +68,12 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
               type="text"
               onChange={handleInputChange}
               name="name"
-              value={inputs.name}
+              value={values.name || ''}
               className="login__info login__info_form_title"
               id="title-input"
               minLength="6"
               maxLength="40"
+              pattern={REGEX_NAME_PATTERN}
               required
             />
             <span className="span title-input-error">{errors.name}</span>
@@ -70,11 +83,12 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
               type="email"
               onChange={handleInputChange}
               name="email"
-              value={inputs.email}
+              value={values.email || ''}
               className="login__info login__info_form_subtitle"
               id="subtitle-input"
               minLength="6"
               maxLength="200"
+              pattern={REGEX_EMAIL_PATTERN}
               required
             />
              <span className="span subtitle-input-error">{errors.email}</span>
@@ -83,7 +97,7 @@ function Edition({serverError, handleEdition, userEmail, userName}) {
             <button
               type="submit"
               className={`login__button-save ${!isSubmitting && !isFormUnchanged && isValid ? '' : 'login__button-save_disabled'}`}
-              disabled={isSubmitting && !isValid && isFormUnchanged}
+              disabled={isSubmitting || !isValid || isFormUnchanged}
             >
               Сохранить
             </button>
