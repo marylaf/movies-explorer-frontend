@@ -58,6 +58,7 @@ return (
           value={values.name || ''}
           onChange={handleInputChange}
           pattern={REGEX_NAME_PATTERN}
+          disabled={isSubmitting}
           required
         />
         <span className="span title-input-error">{errors.name}</span>
@@ -73,6 +74,7 @@ return (
           value={values.email || ''}
           onChange={handleInputChange}
           pattern={REGEX_EMAIL_PATTERN}
+          disabled={isSubmitting}
           required
         />
         <span className="span title-input-error">{errors.email}</span>
@@ -86,6 +88,7 @@ return (
           maxLength="200"
           value={values.password || ''}
           onChange={handleInputChange}
+          disabled={isSubmitting}
           name="password"
           required
         />

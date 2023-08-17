@@ -1,7 +1,10 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
+import { ADD_SHOW_MOVIES_0, ADD_SHOW_MOVIES_2, ADD_SHOW_MOVIES_3, ADD_SHOW_MOVIES_7 } from "../../utils/constants";
 
-function MoviesCardList({ movies }) {
+function MoviesCardList({ movies, renderSet, displayedRows }) {
+
+  const { startShow, addShow } = renderSet;
 
   const { savedMovies } = useSavedMovies();
 
@@ -11,7 +14,7 @@ function MoviesCardList({ movies }) {
     return(
         <section className="cards">
             <div className="cards__container">
-              {movies.map((movie) => 
+              {movies.slice(0, startShow + addShow * (displayedRows - 1)).map((movie) => 
               {
                 return (
                   <MoviesCard

@@ -74,6 +74,7 @@ function Edition({serverError, handleEdition, setServerError}) {
               minLength="6"
               maxLength="40"
               pattern={REGEX_NAME_PATTERN}
+              disabled={isSubmitting}
               required
             />
             <span className="span title-input-error">{errors.name}</span>
@@ -89,6 +90,7 @@ function Edition({serverError, handleEdition, setServerError}) {
               minLength="6"
               maxLength="200"
               pattern={REGEX_EMAIL_PATTERN}
+              disabled={isSubmitting}
               required
             />
              <span className="span subtitle-input-error">{errors.email}</span>

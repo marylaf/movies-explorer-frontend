@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import React from "react";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
+import { SHORT_FILM_DURATION } from '../../utils/constants';
 
 function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
   const [searchResults, setSearchResults] = useState([]);
@@ -23,7 +24,7 @@ function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
         return;
       }
       const filteredMovies = isFilter
-        ? savedMovies.filter((savedMovie) => savedMovie.duration <= 40)
+        ? savedMovies.filter((savedMovie) => savedMovie.duration <= SHORT_FILM_DURATION)
         : savedMovies;
       const results = filteredMovies.filter(
         (savedMovie) =>
