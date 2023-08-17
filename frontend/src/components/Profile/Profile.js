@@ -24,7 +24,7 @@ function Profile({handleSignOut, toggleBurger }) {
             Редактировать
             </Link>
             
-            <Link className="profile__exit" onClick={handleSignOut} to="/sign-in">
+            <Link className="profile__exit" onClick={handleSignOut} to="/">
                 Выйти из аккаунта
             </Link>
         </section>
