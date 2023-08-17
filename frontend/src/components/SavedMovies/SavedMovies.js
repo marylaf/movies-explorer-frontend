@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import SearchForm from "../SearchForm/SearchForm";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -8,8 +8,7 @@ import Preloader from "../Preloader/Preloader";
 import React from "react";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 
-function SavedMovies({ toggleBurger }) {
-  const [isLoading, setIsLoading] = useState(false);
+function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
   const [searchResults, setSearchResults] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchError, setSearchError] = useState(false);
@@ -30,12 +29,6 @@ function SavedMovies({ toggleBurger }) {
         (savedMovie) =>
         savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
         savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase())
-          // savedMovie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-          // savedMovie.description
-          //   .toLowerCase()
-          //   .includes(keyword.toLowerCase()) ||
-          // savedMovie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-          // savedMovie.year.toLowerCase().includes(keyword.toLowerCase())
       );
       setSearchResults(results);
       setSearchKeyword(keyword);

@@ -12,11 +12,11 @@ import useWindowSize from "../../hooks/resize";
 function Movies({
   movies,
   handleMovieSave,
-  toggleBurger
+  toggleBurger,
+  isLoading, setIsLoading,
 }) {
   const { searchResults, setSearchResults } = useSavedMovies();
   const [displayedRows, setDisplayedRows] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const { width } = useWindowSize();

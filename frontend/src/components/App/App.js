@@ -32,8 +32,7 @@ function App() {
     return false;
   });
   const [serverError, setServerError] = useState(null);
-  // const [userEmail, setUserEmail] = useState("");
-  // const [userName, setUserName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
@@ -58,8 +57,6 @@ function App() {
         .getCurrentUser()
         .then((userData) => {
           setIsLoggedIn(true);
-          // setUserEmail(userData.data.email);
-          // setUserName(userData.data.name);
           setCurrentUser(userData.data);
           navigate(location.pathname, { replace: true });
         })
@@ -73,22 +70,26 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
+      setIsLoading(true);
       mainApi
       .getMovies()
       .then((newMovies) => {
         console.log(newMovies);
         setSavedMovies(newMovies);
       })
-      .catch((e) => console.log("Ошибка:", e));
+      .catch((e) => console.log("Ошибка:", e))
+      .finally(() => {
+        setIsLoading(false);
+      });
     }
-  }, [setSavedMovies]);
+  }, [setSavedMovies, isLoggedIn]);
 
   useEffect(() => {
+    setIsLoading(true); 
     api
       .getInitialMovies()
       .then((res) => {
         setMovies(res);
-        console.log(res);
         if (searchResults && searchResults.length > 0) {
           setSearchResults(searchResults);
         } else {
@@ -97,6 +98,9 @@ function App() {
       })
       .catch(() => {
         console.log("Ошибка");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -111,8 +115,6 @@ function App() {
           Authorization: `Bearer ${res.token}`,
         });
         setCurrentUser(res.data);
-        // setUserEmail(email);
-        // setUserName(name);
         setIsLoggedIn(true);
         navigate("/movies", { replace: true });
       })
@@ -136,8 +138,6 @@ function App() {
           Authorization: `Bearer ${res.token}`,
         });
         setCurrentUser(res.data);
-        // setUserEmail(res.data.email);
-        // setUserName(res.data.name);
         setIsLoggedIn(true);
         navigate("/movies", { replace: true });
       })
@@ -168,9 +168,6 @@ function App() {
   function handleSignOut() {
     localStorage.clear();
     setIsLoggedIn(false);
-    setCurrentUser({});
-    // setSavedMovies([]);
-    // setSearchResults([]);
     setCurrentUser({});
     navigate("/", { replace: true });
   }
@@ -223,6 +220,8 @@ function App() {
               <Movies
                 movies={movies}
                 toggleBurger={toggleBurger}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
             </ProtectedRoute>
           }
@@ -234,6 +233,8 @@ function App() {
               <SavedMovies
                 toggleBurger={toggleBurger}
                 setSavedMovies={setSavedMovies}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
             </ProtectedRoute>
           }
