@@ -7,8 +7,7 @@ import Footer from "../Footer/Footer";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Preloader from "../Preloader/Preloader";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
-import { SHORT_FILM_DURATION, START_SHOW_MOVIES_0, START_SHOW_MOVIES_12, START_SHOW_MOVIES_8, START_SHOW_MOVIES_7, START_SHOW_MOVIES_5, ADD_SHOW_MOVIES_0,
-  ADD_SHOW_MOVIES_2, ADD_SHOW_MOVIES_3, ADD_SHOW_MOVIES_7, SCREENWIDTH_1280, SCREENWIDTH_889, SCREENWIDTH_769, SCREENWIDTH_768, SCREENWIDTH_493, SCREENWIDTH_492 } from '../../utils/constants';
+import { SHORT_FILM_DURATION, START_SHOW_MOVIES_0, ADD_SHOW_MOVIES_0 } from '../../utils/constants';
 
 function Movies({
   movies,
@@ -17,35 +16,9 @@ function Movies({
   isLoading, setIsLoading,
 }) {
   const { searchResults, setSearchResults } = useSavedMovies();
-  const [displayedRows, setDisplayedRows] = useState(1);
   const [searchError, setSearchError] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [renderSet, setRenderSet] = useState({startShow: START_SHOW_MOVIES_0, addShow: ADD_SHOW_MOVIES_0});
-  
-  const [screenWidth, setScreenWidth ] = useState(window.innerWidth);
-
-  useEffect(()=>{
-		window.onresize = () => {
-      setTimeout(() => {
-        setScreenWidth(window.innerWidth);
-      }, 1000);
-		};	
-
-		if (screenWidth >= SCREENWIDTH_1280) {
-			handleSetRender({startShow: START_SHOW_MOVIES_12, addShow: ADD_SHOW_MOVIES_3}); // записать в константу значения количества выводимых фильмов
-		} else if (screenWidth <= SCREENWIDTH_889 && screenWidth >= SCREENWIDTH_769 ) {
-			handleSetRender({startShow: START_SHOW_MOVIES_7, addShow: ADD_SHOW_MOVIES_7});
-		} else if ( screenWidth === SCREENWIDTH_768) {
-			handleSetRender({startShow: START_SHOW_MOVIES_8, addShow: ADD_SHOW_MOVIES_2});
-		} else if ( screenWidth < SCREENWIDTH_768 && screenWidth >= SCREENWIDTH_493 ) {
-			handleSetRender({startShow: START_SHOW_MOVIES_7, addShow: ADD_SHOW_MOVIES_7});
-		} else if ( screenWidth <= SCREENWIDTH_492) {
-			handleSetRender({startShow: START_SHOW_MOVIES_5, addShow: ADD_SHOW_MOVIES_2});	
-		} else {
-			handleSetRender({startShow: START_SHOW_MOVIES_5, addShow: ADD_SHOW_MOVIES_2});
-		}
-
-	}, [screenWidth]);
 
   function handleSetRender(setting){
     setRenderSet(setting);
@@ -89,7 +62,6 @@ function Movies({
     try {
       await handleSearch(keyword, isFilter)
       console.log("ФИЛЬМЫ ИЩУТСЯ");
-      setDisplayedRows(1);
     } catch (error) {
       setSearchError(true);
     } finally {
@@ -97,21 +69,15 @@ function Movies({
     }
   };
 
-  const displayedMovies = useMemo(() => {
-    const moviesPerPage = renderSet.startShow + renderSet.addShow * (displayedRows - 1);
-    return searchResults.slice(0, moviesPerPage);
-  }, [searchResults, renderSet, displayedRows]);
-
-
   const handleLoadMore = () => {
-    setDisplayedRows((prevRows) => prevRows + 1);
+    handleSetRender({startShow: renderSet.startShow + renderSet.addShow, addShow: renderSet.addShow } );
   };
 
   let pageState = (() => {
     if (isLoading) {
       return "loading";
     }
-    if (displayedMovies.length === 0) {
+    if (searchResults.length === 0) {
       if (searchError) {
         return "search_error";
       }
@@ -127,8 +93,8 @@ function Movies({
       {pageState === "loading" && <Preloader />}
       {pageState === "search_error" && (<p className="paragraph">{searchError}</p>)}
       {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
-      {pageState === "movies" && (<MoviesCardList displayedRows={displayedRows} renderSet={renderSet} movies={displayedMovies} handleMovieSave={handleMovieSave} />)}
-      {pageState === "movies" && searchResults.length > displayedMovies.length && ( <MoreFilms handleLoadMore={handleLoadMore} />)}
+      {pageState === "movies" && (<MoviesCardList renderSet={renderSet} handleSetRender={handleSetRender} movies={searchResults} handleMovieSave={handleMovieSave} />)}
+      {pageState === "movies" && searchResults.length > movies.slice(0, renderSet.startShow).length && ( <MoreFilms handleLoadMore={handleLoadMore} />)}
       <Footer />
       <BurgerMenu />
     </section>

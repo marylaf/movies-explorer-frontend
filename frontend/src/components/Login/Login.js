@@ -58,7 +58,7 @@ function Login({handleLogin, serverError, isLoggedIn, setServerError}) {
           id="title-input"
           minLength="6"
           maxLength="40"
-          pattern={REGEX_NAME_PATTERN}
+          pattern={REGEX_EMAIL_PATTERN}
           disabled={isSubmitting}
           required
         />
@@ -74,7 +74,6 @@ function Login({handleLogin, serverError, isLoggedIn, setServerError}) {
           id="subtitle-input"
           minLength="6"
           maxLength="200"
-          pattern={REGEX_EMAIL_PATTERN}
           disabled={isSubmitting}
           required
         />

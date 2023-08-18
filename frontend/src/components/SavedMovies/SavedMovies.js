@@ -7,12 +7,13 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import React from "react";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
-import { SHORT_FILM_DURATION } from '../../utils/constants';
+import { SHORT_FILM_DURATION, START_SHOW_MOVIES_0, ADD_SHOW_MOVIES_0 } from '../../utils/constants';
 
 function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
   const [searchResults, setSearchResults] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchError, setSearchError] = useState(false);
+  const [renderSet, setRenderSet] = useState({startShow: START_SHOW_MOVIES_0, addShow: ADD_SHOW_MOVIES_0});
   const { savedMovies } = useSavedMovies();
 
   const handleSearchSaved = useCallback(
@@ -58,6 +59,10 @@ function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
       return savedMovies;
     }, [searchKeyword, searchResults, savedMovies]);
 
+    function handleSetRender(setting){
+      setRenderSet(setting);
+    }
+
     let pageState = (() => {
       if (isLoading) {
         return "loading";
@@ -80,7 +85,7 @@ function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
             {pageState === "loading" &&  <Preloader />}
             {pageState === "search_error" &&  <p className="paragraph">{searchError}</p>}
             {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
-            {pageState === "movies" && <MoviesCardList movies={moviesToRender} />}
+            {pageState === "movies" && <MoviesCardList handleSetRender={handleSetRender} renderSet={renderSet} movies={moviesToRender} />}
             <Footer />
             <BurgerMenu />
         </section>
