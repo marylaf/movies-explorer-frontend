@@ -1,8 +1,8 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
 import React, { useState, useEffect } from "react";
-import { START_SHOW_MOVIES_12, START_SHOW_MOVIES_8, START_SHOW_MOVIES_7, START_SHOW_MOVIES_5,
-  ADD_SHOW_MOVIES_2, ADD_SHOW_MOVIES_3, ADD_SHOW_MOVIES_7, SCREENWIDTH_1280, SCREENWIDTH_889, SCREENWIDTH_769, SCREENWIDTH_768, SCREENWIDTH_493, SCREENWIDTH_492 } from '../../utils/constants';
+import { START_SHOW_MOVIES_12, START_SHOW_MOVIES_8, SCREENWIDTH_730, START_SHOW_MOVIES_5,
+  ADD_SHOW_MOVIES_2, ADD_SHOW_MOVIES_3, SCREENWIDTH_731, SCREENWIDTH_1280, SCREENWIDTH_1171 } from '../../utils/constants';
 
 function MoviesCardList({ movies, renderSet, handleSetRender }) {
 
@@ -21,17 +21,11 @@ function MoviesCardList({ movies, renderSet, handleSetRender }) {
       }, 1000);
 		};	
 
-		if (screenWidth >= SCREENWIDTH_1280) {
-			handleSetRender({startShow: START_SHOW_MOVIES_12, addShow: ADD_SHOW_MOVIES_3}); // записать в константу значения количества выводимых фильмов
-		} else if (screenWidth <= SCREENWIDTH_889 && screenWidth >= SCREENWIDTH_769 ) {
-			handleSetRender({startShow: START_SHOW_MOVIES_7, addShow: ADD_SHOW_MOVIES_7});
-		} else if ( screenWidth === SCREENWIDTH_768) {
+		if (screenWidth >= SCREENWIDTH_1280 || screenWidth >= SCREENWIDTH_1171 ) {
+			handleSetRender({startShow: START_SHOW_MOVIES_12, addShow: ADD_SHOW_MOVIES_3});
+		} else if (screenWidth >= SCREENWIDTH_731) {
 			handleSetRender({startShow: START_SHOW_MOVIES_8, addShow: ADD_SHOW_MOVIES_2});
-		} else if ( screenWidth < SCREENWIDTH_768 && screenWidth >= SCREENWIDTH_493 ) {
-			handleSetRender({startShow: START_SHOW_MOVIES_7, addShow: ADD_SHOW_MOVIES_7});
-		} else if ( screenWidth <= SCREENWIDTH_492) {
-			handleSetRender({startShow: START_SHOW_MOVIES_5, addShow: ADD_SHOW_MOVIES_2});	
-		} else {
+		} else if ( screenWidth <= SCREENWIDTH_730) {
 			handleSetRender({startShow: START_SHOW_MOVIES_5, addShow: ADD_SHOW_MOVIES_2});
 		}
 

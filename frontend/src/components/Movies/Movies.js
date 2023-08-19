@@ -70,6 +70,7 @@ function Movies({
   };
 
   const handleLoadMore = () => {
+    console.log(renderSet);
     handleSetRender({startShow: renderSet.startShow + renderSet.addShow, addShow: renderSet.addShow } );
   };
 
