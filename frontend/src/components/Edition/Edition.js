@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
-import { REGEX_NAME_PATTERN, REGEX_EMAIL_PATTERN } from '../../utils/constants';
+import { REGEX_EMAIL_PATTERN } from '../../utils/constants';
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Edition({serverError, handleEdition, setServerError}) {
@@ -73,7 +73,6 @@ function Edition({serverError, handleEdition, setServerError}) {
               id="title-input"
               minLength="6"
               maxLength="40"
-              pattern={REGEX_NAME_PATTERN}
               disabled={isSubmitting}
               required
             />

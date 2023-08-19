@@ -2,7 +2,7 @@ import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
 import { useState, useEffect } from "react";
-import { REGEX_NAME_PATTERN, REGEX_EMAIL_PATTERN } from '../../utils/constants';
+import { REGEX_EMAIL_PATTERN } from '../../utils/constants';
 
 function Register({ handleRegister, serverError, isLoggedIn, setServerError }) {
 
@@ -57,7 +57,6 @@ return (
           name="name"
           value={values.name || ''}
           onChange={handleInputChange}
-          pattern={REGEX_NAME_PATTERN}
           disabled={isSubmitting}
           required
         />

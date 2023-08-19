@@ -2,7 +2,7 @@ import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
 import { useState, useEffect } from "react";
-import { REGEX_NAME_PATTERN, REGEX_EMAIL_PATTERN } from '../../utils/constants';
+import { REGEX_EMAIL_PATTERN } from '../../utils/constants';
 
 function Login({handleLogin, serverError, isLoggedIn, setServerError}) {
 
@@ -51,7 +51,7 @@ function Login({handleLogin, serverError, isLoggedIn, setServerError}) {
         <span className="login__name">E-mail</span>
         <input
           onChange={handleInputChange}
-          type="text"
+          type="email"
           name="email"
           value={values.email || ''}
           className="login__info login__info_form_title"
