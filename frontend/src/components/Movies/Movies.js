@@ -59,14 +59,16 @@ function Movies({
     setIsLoading(true);
     setSearchError(false);
 
-    try {
-      await handleSearch(keyword, isFilter)
-      console.log("ФИЛЬМЫ ИЩУТСЯ");
-    } catch (error) {
-      setSearchError(true);
-    } finally {
-      setIsLoading(false);
-    }
+    setTimeout(async () => {
+      try {
+        await handleSearch(keyword, isFilter);
+        console.log("ФИЛЬМЫ ИЩУТСЯ");
+      } catch (error) {
+        setSearchError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 500);
   };
 
   const handleLoadMore = () => {

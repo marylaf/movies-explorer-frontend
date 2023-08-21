@@ -41,15 +41,16 @@ function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
   const savedSearch = async (keyword, isFilter) => {
     setIsLoading(true);
     setSearchError(false);
-
+    setTimeout(async () => {
     try {
       await handleSearchSaved(keyword, isFilter)
       console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
     } catch (error) {
       setSearchError(true);
     } finally {
-      setIsLoading(false); // Скрываем прелоадер при завершении поиска (успешном или неуспешном)
+      setIsLoading(false);
     }
+    }, 500);
   };
 
     const moviesToRender = useMemo(() => {
