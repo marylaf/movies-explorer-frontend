@@ -1,0 +1,20 @@
+.popup__correct {
+  min-width: 100px;
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  padding-top: 34px;
+  padding-bottom: 34px;
+  padding-left: 10px;
+  text-align: center;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__correct {
+    min-width: 100px;
+    font-size: 20px;
+    padding-top: 25px;
+    padding-bottom: 20px;
+  }
+}

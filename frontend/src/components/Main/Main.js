@@ -6,13 +6,14 @@ import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import HeaderMain from "../HeaderMain/HeaderMain";
 import Footer from "../Footer/Footer";
+import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import React from "react";
 
-function Main() {
+function Main({ isLoggedIn }) {
   
   return (
     <>
-      <HeaderMain />
+    {isLoggedIn ? <HeaderAuth isLoggedIn={isLoggedIn} /> : <HeaderMain />}
       <main>
         <Promo />
         <NavTab />

@@ -17,6 +17,12 @@ class MainApi {
         method: 'GET',
         headers: this._headers,
       }).then(this._getResponseData)
+        .then((movies) => {
+          return movies.map((movie) => ({
+            ...movie,
+            // duration: this._convertToHoursAndMinutes(movie.duration),
+          }));
+        });
     }
 
     deleteMovie(id) {
@@ -99,6 +105,12 @@ class MainApi {
           return Promise.reject(resJson.message);
         }
         return resJson;
+      }
+
+      _convertToHoursAndMinutes(durationInMinutes) {
+        const hours = Math.floor(durationInMinutes / 60);
+        const minutes = durationInMinutes % 60;
+        return `${hours}ч ${minutes}м`;
       }
   }
   

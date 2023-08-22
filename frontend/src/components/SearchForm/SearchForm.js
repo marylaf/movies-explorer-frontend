@@ -2,15 +2,21 @@ import find from "../../images/find.svg";
 import icon from "../../images/icon-find.svg";
 import turnin from "../../images/smalltumb.svg";
 import turnoff from "../../images/turnoff.svg";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 function SearchForm({ searchFilms }) {
     const [keyword, setKeyword] = useState('');
-    const [isFilter, setIsFilter] = useState(() => {
-        const savedIsFilter = JSON.parse(localStorage.getItem('isFilter'))
-        return savedIsFilter;
-    });
+    // const [isFilter, setIsFilter] = useState(() => {
+    //     const savedIsFilter = JSON.parse(localStorage.getItem('isFilter'))
+    //     return savedIsFilter;
+    // });
+    const [isFilter, setIsFilter] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const location = useLocation();
+  	const isMoviesActive = location.pathname === '/movies';
 
     const handleInputChange = (evt) => {
         setKeyword(evt.target.value);
@@ -23,8 +29,9 @@ function SearchForm({ searchFilms }) {
         } else {        
             try {
                     searchFilms(keyword, isFilter);
-                    console.log(keyword);
-                    localStorage.setItem('request', keyword);
+                    if (isMoviesActive) {
+                        localStorage.setItem('request', keyword);
+                    }
                     setErrorMessage('');
 
                 } catch {
@@ -36,19 +43,29 @@ function SearchForm({ searchFilms }) {
     useEffect(() => {
         const savedRequest = localStorage.getItem('request');
 
-        if (savedRequest) {
+        if (isMoviesActive && savedRequest) {
             setKeyword(savedRequest);
         }
-    }, []);
+    }, [isMoviesActive]);
 
-    const toggleFilter = useCallback(() => {
-        setIsFilter(!isFilter);
-        localStorage.setItem('request', keyword);
-        const newKeyword = localStorage.getItem('request');
-        setKeyword(newKeyword);
-        searchFilms(newKeyword, !isFilter);
-        localStorage.setItem('isFilter', JSON.stringify(!isFilter));
-    }, [keyword, isFilter]);
+    useEffect(() => {
+        const savedFilter = JSON.parse(localStorage.getItem('isFilter'));
+
+        if (isMoviesActive && savedFilter) {
+            setIsFilter(savedFilter);
+        }
+    }, [isMoviesActive]);
+
+     const toggleFilter = useCallback(() => {
+        if (keyword === '') {
+            setErrorMessage("Нужно ввести ключевое слово");
+        }
+        setIsFilter((prevIsFilter) => !prevIsFilter);
+        if (isMoviesActive) {
+            localStorage.setItem('isFilter', JSON.stringify(!isFilter));
+        }
+        searchFilms(keyword, !isFilter);
+    }, [keyword, !isFilter, searchFilms, isMoviesActive]);
        
 
     return(

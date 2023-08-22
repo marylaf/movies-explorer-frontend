@@ -1,72 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useState } from "react";
+import { REGEX_EMAIL_PATTERN } from './../utils/constants';
 
-function useFormValidation(initialState) {
-    const [inputs, setInputs] = useState(initialState);
-    const [isTouched, setIsTouched] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [isValid, setIsValid] = useState(false);
-    
-    useEffect(() => {
-        setInputs(initialState);
-    }, [...Object.values(initialState)]);
-      
-    // console.log("WHAT ARE THE NAMES", inputs);
-    const handleInputChange = evt => {
-        const { name, value } = evt.target;
-        setInputs(prevInputs => ({
-            ...prevInputs,
-            [name]: value,
-          }));
-        setIsTouched(true);
-        };
+export function useFormValidation() {
+  const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
-        const validationRules = {
-            name: value => { 
-                if (!value) {
-                    return "Поле обязательно для заполнения";
-                  }
-                if (!/^[a-zA-Zа-яА-Я\s-]+$/.test(value)) {
-                    return "Имя должно содержать только латинские или кириллические символы, пробелы или дефисы";
-                }
-                return null;
-            },
-            email: value => { 
-                if (!value) {
-                    return "Поле обязательно для заполнения";
-                  }
-                if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
-                    return "Введите действительный адрес электронной почты";
-                }
-                return null;
-            },
-            password: value => { 
-                if (!value) {
-                    return "Поле обязательно для заполнения";
-                  }
-                if (!(value.length >= 6)) {
-                    return "Пароль должен содержать не менее 6 символов";
-                }
-                return null;
-            },
-          };
+  const handleInputChange = (evt) => {
 
-       useEffect(() => {
-        if(isTouched) {
-            const newErrors = Object.entries(inputs).reduce((acc, [name, value]) => {
-                const errorMessage = validationRules[name] ? validationRules[name](value) : null;
-                return {
-                ...acc,
-                [name]: errorMessage,
-                };
-            }, {});
-            
-            setErrors(newErrors);
-            setIsValid(!Object.values(newErrors).some(Boolean));
-        }
-        }, [inputs, isTouched]);
+    const target = evt.target;
+    const name = target.name;
+    const value = target.value;
 
-        return { inputs, handleInputChange, errors, isValid };
+    if (name === 'email') {  
+      if (!value.match(REGEX_EMAIL_PATTERN)) {
+        setValues({...values, [name]: value});
+        setErrors({ ...errors, [name]: 'Пожалуйста, введите корректный адрес электронной почты.' });
+        setIsValid(false);
+      }
+      else {
+        setValues({...values, [name]: value});
+        setErrors({ ...errors, [name]: '' }); // Очищаем сообщение об ошибке
+        setIsValid(target.closest('form').checkValidity()); // Проверяем валидность всей формы
+      }
+    }
+    else {
+      setValues({...values, [name]: value});
+      setErrors({...errors, [name]: target.validationMessage });
+      setIsValid(target.closest("form").checkValidity());
     }
 
+    evt.preventDefault();
+  };
+
+  const resetForm = useCallback(
+    (newValues = {}, newErrors = {}, newIsValid = false) => {
+      setValues(newValues);
+      setErrors(newErrors);
+      setIsValid(newIsValid);
+    },
+    [setValues, setErrors, setIsValid]
+  );
+
+  return { values, handleInputChange, errors, isValid, resetForm, setValues, setIsValid };
+}
 
 export default useFormValidation;

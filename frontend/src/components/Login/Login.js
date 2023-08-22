@@ -1,19 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import useFormValidation from "../../hooks/useFormValidation";
+import { useState, useEffect } from "react";
+import { REGEX_EMAIL_PATTERN } from '../../utils/constants';
 
-function Login({handleLogin, serverError}) {
+function Login({handleLogin, serverError, isLoggedIn, setServerError}) {
 
-  const { inputs, handleInputChange, errors, isValid } = useFormValidation({ email: '', password: ''});
+  const { values, handleInputChange, errors, isValid, setValues } = useFormValidation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  
+  useEffect(() => {
+    setValues({
+      email:"",
+      password:""
+    });
+    setServerError("");
+  }, [setValues, setServerError]);
+
   function handleInSubmit(evt) {
     evt.preventDefault();
-    handleLogin(inputs.email, inputs.password)
+    setIsSubmitting(true);
+   
+    handleLogin(values.email, values.password)
     .catch((error) => {
       console.log('Ошибка');
       }
-  );
+  )
+    .finally(() => {
+      setIsSubmitting(false);
+    });
+  }
+
+  if (isLoggedIn) {
+    // Если пользователь авторизован, перенаправляем на страницу фильмов
+    return <Navigate to="/movies" replace />;
   }
 
   return (
@@ -31,13 +51,15 @@ function Login({handleLogin, serverError}) {
         <span className="login__name">E-mail</span>
         <input
           onChange={handleInputChange}
-          type="text"
+          type="email"
           name="email"
-          value={inputs.email || ''}
+          value={values.email || ''}
           className="login__info login__info_form_title"
           id="title-input"
           minLength="6"
           maxLength="40"
+          pattern={REGEX_EMAIL_PATTERN}
+          disabled={isSubmitting}
           required
         />
         <span className="span title-input-error">{errors.email}</span>
@@ -47,11 +69,12 @@ function Login({handleLogin, serverError}) {
           onChange={handleInputChange}
           type="password"
           name="password"
-          value={inputs.password || ''}
+          value={values.password || ''}
           className="login__info login__info_form_subtitle"
           id="subtitle-input"
           minLength="6"
           maxLength="200"
+          disabled={isSubmitting}
           required
         />
         <span className="span subtitle-input-error">{errors.password}</span>
@@ -59,8 +82,8 @@ function Login({handleLogin, serverError}) {
         {serverError && <span className="error">{serverError}</span>}
         <button
             type="submit"
-            className={`login__button-save ${isValid ? '' : 'login__button-save_disabled'}`}
-            disabled={!isValid}
+            className={`login__button-save ${!isSubmitting && isValid ? '' : 'login__button-save_disabled'}`}
+            disabled={!isValid || isSubmitting}
           >
           Войти
         </button>

@@ -6,21 +6,21 @@
     text-align: center;
     color: #000000;
     margin: 0;
-    padding-top: 204px;
-    padding-bottom: 16px;
+    margin-top: 204px;
+    margin-bottom: 16px;
     display: block;
     text-decoration: none;
 }
 
 @media screen and (max-width: 768px) {
     .profile__paragraph {
-        padding-top: 210px;
+       margin-top: 210px;
     }
   }
 
   @media screen and (max-width: 450px) {
     .profile__paragraph {
-        padding-top: 379px;
+        margin-top: 379px;
         font-size: 12px;
         line-height: 15px;
     }

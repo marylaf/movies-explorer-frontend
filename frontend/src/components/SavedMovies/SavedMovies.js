@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import SearchForm from "../SearchForm/SearchForm";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -7,15 +7,15 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import React from "react";
 import { useSavedMovies } from "../../contexts/SavedMoviesContext";
+import { SHORT_FILM_DURATION, START_SHOW_MOVIES_0, ADD_SHOW_MOVIES_0 } from '../../utils/constants';
 
-function SavedMovies({ toggleBurger }) {
-  const [isLoading, setIsLoading] = useState(false);
+function SavedMovies({ toggleBurger, isLoading, setIsLoading }) {
   const [searchResults, setSearchResults] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchError, setSearchError] = useState(false);
+  const [renderSet, setRenderSet] = useState({startShow: START_SHOW_MOVIES_0, addShow: ADD_SHOW_MOVIES_0});
   const { savedMovies } = useSavedMovies();
 
-  console.log(savedMovies);
   const handleSearchSaved = useCallback(
     async (keyword, isFilter) => {
       if (!keyword.trim()) {
@@ -25,19 +25,12 @@ function SavedMovies({ toggleBurger }) {
         return;
       }
       const filteredMovies = isFilter
-        ? savedMovies.filter((savedMovie) => savedMovie.duration <= 40)
+        ? savedMovies.filter((savedMovie) => savedMovie.duration <= SHORT_FILM_DURATION)
         : savedMovies;
-      filteredMovies.forEach((savedMovie) => console.log(savedMovie.year));
       const results = filteredMovies.filter(
         (savedMovie) =>
-          savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.country.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.description
-            .toLowerCase()
-            .includes(keyword.toLowerCase()) ||
-          savedMovie.director.toLowerCase().includes(keyword.toLowerCase()) ||
-          savedMovie.year.toLowerCase().includes(keyword.toLowerCase())
+        savedMovie.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
+        savedMovie.nameEN.toLowerCase().includes(keyword.toLowerCase())
       );
       setSearchResults(results);
       setSearchKeyword(keyword);
@@ -45,19 +38,19 @@ function SavedMovies({ toggleBurger }) {
     [savedMovies]
   );
 
-  const savedSearch = (keyword, isFilter) => {
+  const savedSearch = async (keyword, isFilter) => {
     setIsLoading(true);
     setSearchError(false);
-    handleSearchSaved(keyword, isFilter)
-      .then(() => {
-        console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
-        setIsLoading(false);
-        // setSavedMovies(searchResults);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setSearchError(true);
-      });
+    setTimeout(async () => {
+    try {
+      await handleSearchSaved(keyword, isFilter)
+      console.log("СОХРАНЕННЫЕ ИЩУТСЯ");
+    } catch (error) {
+      setSearchError(true);
+    } finally {
+      setIsLoading(false);
+    }
+    }, 500);
   };
 
     const moviesToRender = useMemo(() => {
@@ -66,6 +59,10 @@ function SavedMovies({ toggleBurger }) {
       }
       return savedMovies;
     }, [searchKeyword, searchResults, savedMovies]);
+
+    function handleSetRender(setting){
+      setRenderSet(setting);
+    }
 
     let pageState = (() => {
       if (isLoading) {
@@ -89,7 +86,7 @@ function SavedMovies({ toggleBurger }) {
             {pageState === "loading" &&  <Preloader />}
             {pageState === "search_error" &&  <p className="paragraph">{searchError}</p>}
             {pageState === "no_results" &&  <p className="paragraph">Ничего не найдено</p>}
-            {pageState === "movies" && <MoviesCardList movies={moviesToRender} />}
+            {pageState === "movies" && <MoviesCardList handleSetRender={handleSetRender} renderSet={renderSet} movies={moviesToRender} />}
             <Footer />
             <BurgerMenu />
         </section>
